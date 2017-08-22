@@ -1,0 +1,14 @@
+page-staff-manager {
+    .NEW{
+        background-color: lightseagreen;
+    }
+
+    .EXISTING{
+        background-color: orange;
+    }
+
+    ion-input.ng-invalid { 
+        border-bottom: 2px solid red;
+    }
+
+}

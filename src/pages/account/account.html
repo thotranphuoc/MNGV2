@@ -1,0 +1,71 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>ACCOUNT...</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div *ngIf="action==='sign-in'">
+    <form #myForm="ngForm">
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="email" [(ngModel)]="signIn.email" name="email" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="signIn.password" name="password" required></ion-input>
+      </ion-item>
+    </form>
+    <button ion-button block (click)="onSignIn(myForm)" [disabled]="!myForm.valid">Sign In</button>
+    <p (click)="go2SignUp()">Don't have account? Register <span style="color:blue">HERE</span></p>
+    <p (click)="go2ResetPassword()">Forgot your password? Reset account <span style="color:orange">HERE</span></p>
+  </div>
+  <div *ngIf="action==='request-login'">
+    <form #myForm="ngForm">
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="email" [(ngModel)]="signIn.email" name="email" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="signIn.password" name="password" required></ion-input>
+      </ion-item>
+    </form>
+    <button ion-button block (click)="onSignInOnRequest(myForm)" [disabled]="!myForm.valid">Sign In</button>
+    <p (click)="go2SignUp()">Don't have account? Register <span style="color:blue">HERE</span></p>
+    <p (click)="go2ResetPassword()">Forgot your password? Reset account <span style="color:orange">HERE</span></p>
+  </div>
+  <div *ngIf="action==='sign-up'">
+    <form #myForm1="ngForm">
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="email" [(ngModel)]="signUp.email" name="email" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="signUp.password1" name="password1" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Re-type Password</ion-label>
+        <ion-input type="password" [(ngModel)]="signUp.password2" name="password2" required></ion-input>
+      </ion-item>
+    </form>
+    <button ion-button block (click)="onSignUp(myForm1)" [disabled]="!myForm1.valid">Sign Up</button>
+  </div>
+  <div *ngIf="action==='reset-account'">
+  <form #myForm2 = "ngForm">
+    <ion-item>
+      <ion-label floating>Email to reset account:</ion-label>
+      <ion-input type="email" [(ngModel)]="resetAccount.email" name="email" required></ion-input>
+    </ion-item>
+  </form>
+  <button ion-button block (click)="onResetAccount(myForm2)" [disabled]="!myForm2.valid">Reset Account</button>
+</div>
+</ion-content>

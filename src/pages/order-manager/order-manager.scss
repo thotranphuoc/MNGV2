@@ -1,0 +1,32 @@
+page-order-manager {
+    .total-price {
+        width: 100%;
+        text-align: right;
+    }
+
+    .SENDING {
+        color: blue;
+    }
+
+    .ACCEPTED {
+        color: green;
+    }
+    .DELIVERED {
+        color: yellowgreen;
+    }
+    .PAID {
+        color: orange;
+    }
+
+    .CLOSED {
+        color: greenyellow;
+    }
+
+    .CANCEL {
+        color: red;
+    }
+
+    .UPDATED {
+        color: purple;
+    }
+}

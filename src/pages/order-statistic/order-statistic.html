@@ -1,0 +1,62 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>order-statistic</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-grid style="padding: 12px; text-align: center">
+    <ion-row>
+      <ion-col>
+        <input type="date" [(ngModel)]="selectedDate" name="selectedDate">
+      </ion-col>
+      <ion-col>
+        <button small ion-button outline (click)="selectDate()">Select</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+<hr>
+  
+<ion-grid>
+  <ion-row>
+    <ion-col col-7>Name</ion-col>
+    <ion-col col-3>Amount</ion-col>
+    <ion-col>Total</ion-col>
+  </ion-row>
+  <ion-row *ngFor="let item of finalSUM">
+    <ion-col col-7>
+      <ion-row class="name_local1">{{item.NAME_EN}}</ion-row>
+    </ion-col>
+    <ion-col col-2>
+      <ion-row><div class="total-price">{{item.AMOUNT}}<span style="font-size:10px">x {{item.PRICE}}</span></div></ion-row>
+    </ion-col>
+    <ion-col>
+      <ion-row><div class="total-price">{{item.AMOUNT* item.PRICE}}</div></ion-row>
+    </ion-col>
+  </ion-row>
+  <hr>
+  <ion-row>
+    <ion-col col-7></ion-col>
+    <ion-col col-3>TOTAL</ion-col>
+    <ion-col><div class="total-price-final">{{TOTAL_PRICE}}</div></ion-col>
+  </ion-row>
+</ion-grid>
+
+<hr>
+<div id="chart_div2"></div>
+<hr>
+<div id="chart_div3"></div>
+<hr>
+<div id="chart_div4"></div>
+<hr>
+<div id="chart_div5"></div>
+<hr>
+<div id="chart_div6"></div>
+</ion-content>
+

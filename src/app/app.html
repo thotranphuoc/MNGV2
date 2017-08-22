@@ -1,0 +1,40 @@
+<ion-menu [content]="content" (ionOpen)="ionOpen()">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>MenuGo</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+
+    <ion-list>
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon [name]="p.icon" item-left></ion-icon>
+        {{p.title}}
+      </button>
+      <div *ngIf="USER">
+        <button menuClose ion-item *ngFor="let p of pages1" (click)="openPage(p)">
+          <ion-icon [name]="p.icon" item-left></ion-icon>
+            {{p.title}}
+        </button>
+      </div>
+
+    </ion-list>
+    <ion-item *ngIf="PROFILE">
+      <ion-avatar item-start>
+        <img src="{{PROFILE.PROFILE_AVATAR_URL}}" alt="">
+      </ion-avatar>
+      <h2>{{PROFILE.PROFILE_NAME}}</h2>
+    </ion-item>
+    <ion-list *ngIf="isAdminOfApp">
+      <button menuClose ion-item *ngFor="let p of pages2" (click)="openPage(p)" style="background-color: lightgrey">
+        <ion-icon [name]="p.icon" item-left></ion-icon>
+        {{ p.title }}
+      </button>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

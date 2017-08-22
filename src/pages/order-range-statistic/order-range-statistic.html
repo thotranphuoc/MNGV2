@@ -1,0 +1,46 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Range Stat</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <ion-grid style="padding: 12px; text-align: center">
+    <ion-row>
+      <ion-col text-right>
+        <div style="padding-top: 5px">FROM:</div>
+      </ion-col>
+      <ion-col>
+        <input type="date" [(ngModel)]="selectedDate1" name="selectedDate1">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-right>
+        <div style="padding-top: 5px">TO:</div>
+      </ion-col>
+      <ion-col>
+        <input type="date" [(ngModel)]="selectedDate2" name="selectedDate2">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col text-left>
+        <button small ion-button outline (click)="selectDates()">Get Data</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+<hr>
+<div id="chart_div"></div>
+<hr>
+<div style="padding: 10px">
+  <p>the TOTAL of revenue from {{selectedDate1}} to {{selectedDate2}}: <span style="font-weight: bold">{{TOTAL_OF_RANGE}}</span></p>
+</div>
+</ion-content>

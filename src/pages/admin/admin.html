@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>ADMIN</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div padding>
+    Hello <span *ngIf="PROFILE">{{PROFILE.PROFILE_NAME}}</span>
+    <p>Select one of following shops to start managing</p>
+  </div>
+
+  <ion-item *ngFor="let SHOP of SHOPs" (click)="go2ShopBoard(SHOP)">
+    <div *ngIf="SHOP">{{SHOP.SHOP_NAME}}</div>
+  </ion-item>
+</ion-content>

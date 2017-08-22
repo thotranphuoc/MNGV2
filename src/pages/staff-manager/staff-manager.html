@@ -1,0 +1,97 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>staff-manager</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div padding>
+    <div>Hello, <span *ngIf="PROFILE">{{PROFILE.PROFILE_NAME}}</span> </div>
+    <div>Shop: <span *ngIf="SHOP">{{SHOP.SHOP_NAME}}</span> </div>
+  </div>
+  <hr>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let PROFILE of PROFILES; let i = index">
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="{{PROFILE.profile.PROFILE_AVATAR_URL}}" alt="">
+        </ion-avatar>
+        <h2>{{PROFILE.profile.PROFILE_NAME}}</h2>
+        <p>{{PROFILE.role}} | {{PROFILE.profile.PROFILE_EMAIL}}</p>
+      </ion-item>
+      <ion-item-options *ngIf="isManager">
+        <button ion-button color="danger" ion-start (click)="deleteStaff(PROFILE, i)">
+          <ion-icon name="ios-trash-outline"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <div *ngIf="isManager">
+    <hr>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-row>
+            <button [ngClass]="{'NEW': isNEWSelected}" ion-button color="light" small (click)="toggle()">NEW ACCOUNT</button>
+          </ion-row>
+        </ion-col>
+        <ion-col>
+          <ion-row>
+            <button [ngClass]="{'EXISTING': !isNEWSelected}" ion-button color="light" small (click)="toggle()">EXISTING ACCOUNT</button>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-card *ngIf="action==='add-new'">
+      <form #myForm="ngForm" autocomplete="off" novalidate id="myForm1">
+        <ion-item>
+          <ion-label fixed>Email</ion-label>
+          <ion-input type="email" [(ngModel)]="newStaff.EMAIL" name="EMAIL" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label fixed>Password</ion-label>
+          <ion-input type="text" [(ngModel)]="newStaff.PW1" name="PW1" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Role</ion-label>
+          <!-- <ion-input type="text" [(ngModel)]="newStaff.ROLE" name="ROLE" required></ion-input> -->
+          <ion-select required [(ngModel)]="newStaff.ROLE" name="ROLE">
+            <ion-option value="staff" selected="true">Staff</ion-option>
+            <ion-option value="accountant">Accountant</ion-option>
+            <ion-option value="team-lead">Team Lead</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Name</ion-label>
+          <ion-input type="text" [(ngModel)]="newStaff.NAME" name="NAME" required></ion-input>
+        </ion-item>
+      </form>
+      <button [ngClass]="{'NEW': isNEWSelected}" ion-button block (click)="createNewStaff(myForm1)" [disabled]="!myForm.valid">NEW ACCOUNT</button>
+    </ion-card>
+    <ion-card *ngIf="action==='add-existing'">
+      <form #myForm="ngForm" autocomplete="off" novalidate id="myForm2">
+        <ion-item>
+          <ion-label fixed>Email</ion-label>
+          <ion-input type="email" [(ngModel)]="existingStaff.EMAIL" name="EMAIL" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Role</ion-label>
+          <!-- <ion-input type="text" [(ngModel)]="existingStaff.ROLE" name="ROLE" required></ion-input> -->
+          <ion-select required [(ngModel)]="existingStaff.ROLE" name="ROLE">
+            <ion-option value="staff" selected="true">Staff</ion-option>
+            <ion-option value="accountant">Accountant</ion-option>
+            <ion-option value="team-lead">Team Lead</ion-option>
+          </ion-select>
+        </ion-item>
+      </form>
+      <button [ngClass]="{'EXISTING': !isNEWSelected}" ion-button block (click)="createNewStaffWithExisting(myForm2)" [disabled]="!myForm.valid">EXISTING ACCOUNT</button>
+    </ion-card>
+  </div>
+</ion-content>

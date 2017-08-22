@@ -1,0 +1,16 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Choose Location</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<div #map id="map"></div>
+<div class="button-confirm">
+  <button ion-button block (click)="setLocation()">OK</button>
+  <button ion-button block color="danger" (click)="cancelLocation()">Cancel</button>
+</div>
+</ion-content>

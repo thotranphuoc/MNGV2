@@ -1,0 +1,52 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>update-item</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+  <div *ngIf="SHOP_ITEM">
+    <ion-card>
+      <div>
+        <ion-slides pager>
+          <ion-slide *ngFor="let ITEM_IMAGE of SHOP_ITEM.ITEM_IMAGES; let i = index">
+            <img src="{{ITEM_IMAGE}}" alt="" (click)="clickImage(ITEM_IMAGE, i)">
+          </ion-slide>
+        </ion-slides>
+      </div>
+      <div padding *ngIf="!SHOP_ITEM.ITEM_IMAGES" text-center>
+        <ion-icon name="md-images" style="font-size: 5em"></ion-icon>
+      </div>
+    </ion-card>
+    <form #myForm="ngForm" autocomplete="off" novalidate id="myForm">
+
+      <ion-item>
+        <ion-icon name="logo-angular" item-left></ion-icon>
+        <ion-input required [(ngModel)]="SHOP_ITEM.ITEM_NAME_LOCAL" name="NAME_LOCAL" type="text" id="name" placeholder="Enter the local name of recipe"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-icon name="logo-angular" item-left></ion-icon>
+        <ion-input required [(ngModel)]="SHOP_ITEM.ITEM_NAME_EN" name="NAME_EN" type="text" id="name" placeholder="Enter the english name of recipe"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-icon name="logo-usd" item-left></ion-icon>
+        <ion-input required [(ngModel)]="SHOP_ITEM.ITEM_PRICE" name="PRICE" type="number" id="name" placeholder="Enter the price of recipe"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-icon name="md-restaurant" item-left></ion-icon>
+        <ion-input required [(ngModel)]="SHOP_ITEM.ITEM_SIZE" name="SIZE" type="text" id="name" placeholder="Enter the size of recipe"></ion-input>
+      </ion-item>
+      <button ion-button block (click)="update()" [disabled]="!myForm.valid">Update</button>
+    </form>
+  </div>
+
+  <input type="file" (change)="takePictureAndResizeByBrowser($event)" hidden accept="image/*" id="inputFile">
+
+</ion-content>

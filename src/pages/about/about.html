@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Version</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-row>Version</ion-row>
+      </ion-col>
+      <ion-col>
+        <ion-row>Date</ion-row>
+      </ion-col>
+      <ion-col>
+        <ion-row>Location</ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let version of versions">
+      <ion-col>
+        <ion-row>{{version.VERSION}}</ion-row>
+      </ion-col>
+      <ion-col>
+        <ion-row>{{version.DATE}}</ion-row>
+      </ion-col>
+      <ion-col>
+        <ion-row>{{version.LOCATION}}</ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

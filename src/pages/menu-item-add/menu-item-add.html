@@ -1,0 +1,53 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>+Recipe</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form #myForm="ngForm" autocomplete="off" novalidate id="myForm">
+
+    <ion-item>
+      <ion-icon name="logo-angular" item-left></ion-icon>
+      <ion-input required [(ngModel)]="item.ITEM_NAME_LOCAL" name="NAME_LOCAL" type="text" id="name" placeholder="Enter the name of recipe"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-icon name="logo-angular" item-left></ion-icon>
+      <ion-input required [(ngModel)]="item.ITEM_NAME_EN" name="NAME_EN" type="text" id="name" placeholder="Enter the english name of recipe"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-icon name="logo-yen" item-left></ion-icon>
+      <ion-input required [(ngModel)]="item.ITEM_PRICE" name="PRICE" type="number" id="name" placeholder="Enter the price of recipe"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-icon name="md-restaurant" item-left></ion-icon>
+      <ion-input required [(ngModel)]="item.ITEM_SIZE" name="SIZE" type="text" id="name" placeholder="Enter the size of recipe"></ion-input>
+    </ion-item>
+
+  </form>
+  <ion-item>
+    <div text-center>
+      <ion-icon name="ios-camera-outline" (click)="takePhoto()"></ion-icon>
+    </div>
+  </ion-item>
+  <div *ngFor="let base64Image of base64Images">
+    <img src="{{base64Image}}" alt="">
+  </div>
+  <input type="file" (change)="takePictureAndResizeByBrowser($event)" hidden accept="image/*" id="inputFile" multiple>
+  <button ion-button block (click)="createItem()" [disabled]="hasPosted">Create</button>
+  
+  <!--<button (click)="test()">Test</button>-->
+
+</ion-content>

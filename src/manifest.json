@@ -1,0 +1,46 @@
+{
+  "name": "Menugo",
+  "short_name": "Menugo",
+  "start_url": "index.html",
+  "display": "standalone",
+  "gcm_sender_id": "103953800507",
+  "icons": [
+    {
+      "src": "assets/imgs/menugo_512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/imgs/menugo_36x36.png",
+      "sizes": "36x36",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/imgs/menugo_48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/imgs/menugo_72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/imgs/menugo_96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/imgs/menugo_144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/imgs/menugo_192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "background_color": "#4e8ef7",
+  "theme_color": "#4e8ef7"
+}

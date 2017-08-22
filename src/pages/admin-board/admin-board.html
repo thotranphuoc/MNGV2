@@ -1,0 +1,56 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Admin Board</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div padding>
+    <div>Hello <span *ngIf="PROFILE">{{PROFILE.PROFILE_NAME}}</span> - {{USER_ROLE}} </div>
+    <div>Shop Name: <span *ngIf="SHOP">{{SHOP.SHOP_NAME}}</span> </div>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-icon class="icon-big" name="restaurant" (click)="go2OrderManager()"></ion-icon>
+        <div class="icon-name">Order Manager</div>
+        <!-- <button ion-button (click)="go2OrderManager()">Order Manager</button> -->
+      </ion-col>
+      <ion-col *ngIf="USER_ROLE==='manager'">
+        <ion-icon class="icon-big" name="contacts" (click)="go2StaffManager()"></ion-icon>
+        <div class="icon-name">Staff Manager</div>
+      </ion-col>
+    </ion-row>
+    
+    <ion-row style="padding-top: 40px">
+      <ion-col>
+        <ion-icon class="icon-big" ios="ios-pie" md="md-pie" (click)="go2DailyStatistic()"></ion-icon>
+        <div class="icon-name">Daily Statistic</div>
+        <!-- <button ion-button (click)="go2RangeStatistic()">Range Statistic</button> -->
+      </ion-col>
+      <ion-col>
+        <!-- <button ion-button (click)="go2DailyStatistic()"> Daily Statistic</button> -->
+        <ion-icon class="icon-big" name="stats" (click)="go2RangeStatistic()"></ion-icon>
+        <div class="icon-name">Range Statistic</div>
+      </ion-col>
+    </ion-row>
+    <ion-row style="padding-top: 40px">
+      <ion-col *ngIf="USER_ROLE==='manager'">
+        <!-- <button ion-button (click)="go2DailyStatistic()"> Daily Statistic</button> -->
+        <ion-icon class="icon-big" name="create" (click)="go2UpdateShop()"></ion-icon>
+        <div class="icon-name">Update Shop</div>
+      </ion-col>
+      <ion-col *ngIf="USER_ROLE==='manager'">
+        <ion-icon class="icon-big" name="ios-construct-outline" (click)="go2UpdateItems()"></ion-icon>
+        <div class="icon-name">Update Items</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

@@ -1,0 +1,130 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <!-- <ion-title>ORDER</ion-title> -->
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div *ngIf="isItemNEW">
+    <div class="text-center">
+      NEW ORDER
+    </div>
+    <ion-card>
+      <ion-grid>
+        <ion-row *ngFor="let item of SHOP_ITEMS; let i = index" class="row_main">
+          <ion-col *ngIf="SHOP_ITEMS_INDEX[i].count>0">
+            <ion-row class="name_local">{{item.ITEM_NAME_LOCAL}}</ion-row>
+            <ion-row class="name_en">{{item.ITEM_NAME_EN}}</ion-row>
+          </ion-col>
+          <ion-col class="adjust" *ngIf="SHOP_ITEMS_INDEX[i].count>0">
+            <ion-row>
+              <ion-col class="subtract" (click)="subtract(i)">
+                <ion-icon name="md-remove"></ion-icon>
+              </ion-col>
+              <ion-col class="number">{{SHOP_ITEMS_INDEX[i].count}}</ion-col>
+              <ion-col class="add" (click)="add(i)">
+                <ion-icon name="md-add"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>
+        <ion-row>
+          <ion-col *ngIf="isItemNEW">
+            <button ion-button secondary (click)="sendORDER()" [disabled]="!isItemNEW">Send Order</button>
+          </ion-col>
+          <ion-col *ngIf="isItemUPDATE">
+            <button ion-button secondary (click)="updateORDER()" [disabled]="!isItemUPDATE">Update Order</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </div>
+
+  <div *ngIf="isItemUPDATE">
+    <div class="text-center">
+      EDIT ORDER
+    </div>
+    <ion-card>
+      <ion-grid>
+        <ion-row *ngFor="let item of SHOP_ITEMS; let i = index" class="row_main">
+          <ion-col *ngIf="SHOP_ITEMS_INDEX[i].count>0">
+            <ion-row class="name_local">{{item.ITEM_NAME_LOCAL}}</ion-row>
+            <ion-row class="name_en">{{item.ITEM_NAME_EN}}</ion-row>
+          </ion-col>
+          <ion-col class="adjust" *ngIf="SHOP_ITEMS_INDEX[i].count>0">
+            <ion-row>
+              <ion-col class="subtract" (click)="subtract(i)">
+                <ion-icon name="md-remove"></ion-icon>
+              </ion-col>
+              <ion-col class="number">{{SHOP_ITEMS_INDEX[i].count}}</ion-col>
+              <ion-col class="add" (click)="add(i)">
+                <ion-icon name="md-add"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>
+        <ion-row>
+          <ion-col *ngIf="isItemNEW">
+            <button ion-button secondary (click)="sendORDER()" [disabled]="!isItemNEW">Send Order</button>
+          </ion-col>
+          <ion-col *ngIf="isItemUPDATE">
+            <button ion-button secondary (click)="updateORDER()" [disabled]="!isItemUPDATE">Update Order</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+
+  </div>
+
+
+
+  <div>
+    <div class="text-center">
+      ACTIVE ORDER
+    </div>
+    <ion-card *ngFor="let order of ORDERs_NEW; let ind = index" (click)="updateSelectedORDER(order,ind)">
+      <ion-grid>
+        <ion-row style="background-color: lightgrey">
+          <ion-col>{{order.ORDER_DATE_CREATE}}</ion-col>
+          <ion-col [ngClass]="order.ORDER_STATUS">{{order.ORDER_STATUS}}</ion-col>
+        </ion-row>
+        <ion-row *ngFor="let orderz of order.ORDER_LIST_NEW; let i = index" class="row_main">
+          <ion-col col-7>
+            <ion-row class="name_local" *ngIf="orderz.item !='undefined'">{{orderz.item.ITEM_NAME_LOCAL}}</ion-row>
+
+          </ion-col>
+          <ion-col col-2>
+            <ion-row><div class="total-price">{{orderz.amount}}<span style="font-size:10px"> x{{orderz.item.ITEM_PRICE}}</span></div></ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-row><div class="total-price">{{orderz.amount*orderz.item.ITEM_PRICE}}</div></ion-row>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-7>
+            <ion-row></ion-row>
+          </ion-col>
+          <ion-col col-2>
+            <ion-row><div class="total-price">Total</div></ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-row><div class="total-price">{{order.TOTAL_PRICE}}</div></ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card>
+  </div>
+
+
+</ion-content>

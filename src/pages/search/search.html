@@ -1,0 +1,28 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>search</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-item *ngFor="let item of itemList" (click)="go2Shop(item)">
+    <p>{{item.ITEM_NAME_LOCAL}}</p>
+    <p>{{item.ITEM_NAME_EN}}</p>
+  </ion-item>
+  <!-- <ion-card *ngFor="let item of itemList" (click)="go2Shop(item)">
+    <img src="{{item.ITEM_IMAGES[0]}}" />
+    <div class="info"></div>
+    <div class="card-title">{{item.ITEM_NAME_EN}}</div>
+    <div class="card-subtitle">{{item.ITEM_NAME_LOCAL}}</div>
+    <div class="card-price">Price: {{item.ITEM_PRICE}} - size: {{item.ITEM_SIZE}}</div>
+  </ion-card> -->
+
+
+</ion-content>

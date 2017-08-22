@@ -1,0 +1,15 @@
+<ion-card>
+  <img src="{{shop.SHOP_IMAGES[0]}}" alt="">
+  <ion-fab right top (click)="closePopover()" small>
+    <button ion-fab color="danger" small style="height: 20px; width: 20px">
+      <ion-icon name="close-outline" ></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-item>{{shop.SHOP_NAME}}</ion-item>
+  <ion-item>
+    <button ion-button icon-left clear item-right (click)="go2Shop()">
+      <ion-icon name="navigate"></ion-icon>
+      More ...
+    </button>
+  </ion-item>
+</ion-card>

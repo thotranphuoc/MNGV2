@@ -1,0 +1,180 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>SETTING</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding id="content">
+
+  <!-- <ion-list>
+    <ion-item>
+      <ion-icon name='logo-angular' item-left></ion-icon>
+      <ion-label>Language</ion-label>
+      <ion-select [(ngModel)]="mySettings.language">
+        <ion-option value="English">English</ion-option>
+        <ion-option value="Vietnamese">Tiếng Việt</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-list no-border>
+
+    <ion-list-header>
+      INTERESTING
+    </ion-list-header>
+
+    <ion-item>
+      <ion-icon name='ios-home-outline' item-left></ion-icon>
+      <ion-label>
+        Coffee
+      </ion-label>
+      <ion-toggle checked="false" [(ngModel)]="mySettings.setCafe"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-icon name='ios-cloud-outline' item-left></ion-icon>
+      <ion-label>
+        Restaurant
+      </ion-label>
+      <ion-toggle checked="true" [(ngModel)]="mySettings.setRestaurant"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-icon name='ios-car-outline' item-left></ion-icon>
+      <ion-label>
+        Take Away
+      </ion-label>
+      <ion-toggle checked="true" [(ngModel)]="mySettings.setTakeAway"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-toggle checked="true" [(ngModel)]="mySettings.setOther"></ion-toggle>
+      <ion-label>
+        Others
+      </ion-label>
+      <ion-icon name='body' item-left></ion-icon>
+    </ion-item>
+  </ion-list> -->
+
+  <!--<ion-list>
+    <ion-list-header>RANGE 
+      <button ion-button color="secondary" item-right>{{mySettings.numOfItems}}</button>
+    </ion-list-header>
+    <ion-item>
+    <ion-range min="10" max="200" [(ngModel)]="mySettings.numOfItems" color="secondary">
+      <ion-label range-left>10</ion-label>
+      <ion-label range-right>200</ion-label>
+    </ion-range>
+  </ion-item>
+  </ion-list>-->
+
+
+  <ion-list>
+
+    <ion-list-header>
+      ACCOUNT
+    </ion-list-header>
+    <div *ngIf="!isSigned">
+      <ion-item (click)="go2AccountPage('sign-in')">
+        <ion-label>
+          Sign In
+        </ion-label>
+        <ion-icon name='ios-log-in-outline' item-left></ion-icon>
+      </ion-item>
+      <ion-item (click)="go2AccountPage('sign-up')">
+        <ion-label>
+          Sign Up
+        </ion-label>
+        <ion-icon name='ios-checkbox-outline' item-left></ion-icon>
+      </ion-item>
+      <ion-item (click)="go2AccountPage('reset-account')">
+        <ion-label>
+          Reset Account
+        </ion-label>
+        <ion-icon name='ios-checkbox-outline' item-left></ion-icon>
+      </ion-item>
+    </div>
+    <div *ngIf="isSigned">
+      <ion-item (click)="onSignOut()">
+        <ion-label>
+          Sign Out
+        </ion-label>
+        <ion-icon name='ios-log-out-outline' item-left></ion-icon>
+      </ion-item>
+    </div>
+    <div *ngIf="isSigned">
+      <ion-item (click)="go2ProfilePage()">
+        <ion-label>
+          Update Profile
+        </ion-label>
+        <ion-icon name='ios-create-outline' item-left></ion-icon>
+      </ion-item>
+      <ion-item (click)="go2OrdersHistory()">
+        <ion-label>
+          History
+        </ion-label>
+        <ion-icon name='ios-cart-outline' item-left></ion-icon>
+      </ion-item>
+      <ion-item (click)="go2FavoriteViewPage()">
+        <ion-label>
+          Favorites
+        </ion-label>
+        <ion-icon name='ios-heart-outline' item-left></ion-icon>
+      </ion-item>
+    </div>
+  </ion-list>
+
+  <div *ngIf="!isAdminOfApp">
+    <ion-list>
+      <ion-list-header>
+        HELP & FEEDBACK
+      </ion-list-header>
+      <ion-item (click)="go2SupportPage()">
+        <ion-icon name='flash' item-left></ion-icon>
+        <ion-label>Contact support</ion-label>
+      </ion-item>
+      <ion-item (click)="go2SuggestionPage()">
+        <ion-icon name='ios-bulb-outline' item-left></ion-icon>
+        <ion-label>Suggest feature</ion-label>
+      </ion-item>
+      <ion-item (click)="go2MsgBoxPage()">
+        <ion-icon name='ios-mail-outline' item-left></ion-icon>
+        <ion-label>Message box</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+  <div *ngIf="isAdminOfApp">
+    <ion-list>
+      <ion-list-header>
+        ADMIN OF APP
+      </ion-list-header>
+
+      <ion-item (click)="go2UserManagement()">
+        <ion-icon name='flash' item-left></ion-icon>
+        <ion-label>Users Management</ion-label>
+      </ion-item>
+      <ion-item (click)="go2ItemManagement()">
+        <ion-icon name='ios-bulb-outline' item-left></ion-icon>
+        <ion-label>Items Management</ion-label>
+      </ion-item>
+      <ion-item (click)="go2FeedbackManagement()">
+        <ion-icon name='ios-bulb-outline' item-left></ion-icon>
+        <ion-label>Feedback Management</ion-label>
+      </ion-item>
+
+      <!--<ion-item (click)="go2SuggestionManager()">
+      <ion-icon name='ios-bulb-outline' item-left></ion-icon>
+      <ion-label>Suggestion Manager</ion-label>
+    </ion-item>-->
+
+      <ion-item (click)="go2SupportManager()">
+        <ion-icon name='ios-bulb-outline' item-left></ion-icon>
+        <ion-label>Support Manager</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+</ion-content>

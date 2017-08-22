@@ -1,0 +1,55 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>ORDER DETAIL</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <ion-card>
+    <img src="{{SHOP.SHOP_IMAGES[0]}}" alt="">
+    <h3>{{SHOP.SHOP_NAME}}</h3>
+    <p>{{SHOP.SHOP_ADDRESS}}</p>
+    <p>{{SHOP.SHOP_PHONE}}</p>
+  </ion-card>
+ 
+  <ion-card>
+    <ion-grid>
+      <ion-row style="background-color: lightgrey">
+        <ion-col>{{ORDER.ORDER_DATE_CREATE}}</ion-col>
+        <ion-col>{{ORDER.ORDER_STATUS}}</ion-col>
+      </ion-row>
+      <ion-row *ngFor="let orderz of ORDER.ORDER_LIST_NEW; let i = index" class="row_main">
+        <ion-col col-7>
+          <ion-row class="name_local">{{orderz.item.ITEM_NAME_LOCAL}}</ion-row>
+          <ion-row class="name_local">{{orderz.item.ITEM_NAME_EN}}</ion-row>
+        </ion-col>
+        <ion-col col-2>
+          <ion-row>{{orderz.amount}}x {{orderz.item.ITEM_PRICE}}</ion-row>
+        </ion-col>
+        <ion-col>
+          <ion-row><div class="total-price">{{orderz.amount*orderz.item.ITEM_PRICE}}</div></ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </ion-card> 
+
+
+ 
+  <div style="padding: 12px; text-align: center" *ngIf="SENDER ==='ADMIN'">
+    <button ion-button color="primary" small (click)="setOrderStatus('ACCEPTED')">ACCEPTED</button>
+    <button ion-button color="dark" small (click)="setOrderStatus('DELIVERED')">DELIVERED</button>
+    <button ion-button color="secondary" small (click)="setOrderStatus('PAID')">PAID</button>
+    <button ion-button color="light" small (click)="setOrderStatus('CLOSED')">CLOSED</button>
+    <button ion-button color="danger" small (click)="setOrderStatus('CANCELED')">CANCELED</button>
+  </div> 
+  <hr>
+  <p>TABLE: {{ORDER.ORDER_TABLE}}</p>
+  <p>USER: {{ORDER.ORDER_USER_ID}}</p>
+
+
+</ion-content>

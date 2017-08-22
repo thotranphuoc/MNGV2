@@ -1,0 +1,29 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>favorite-add</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-card *ngFor="let item of SHOP_ITEMS; let i = index" (click)="addFav(item,i)">
+    <div>
+      <img src="{{item.ITEM_IMAGES[0]}}" alt="">
+    </div>
+    <div class="info"></div>
+    <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
+    <div class="name_en">{{item.ITEM_NAME_EN}}</div>
+    <div class="price">{{item.ITEM_PRICE}} {{shop.SHOP_CURRENCY}}</div>
+    <div class="count">
+    </div>
+    <div class="number" *ngIf="item.isLiked">
+      <ion-icon name="ios-heart" color="danger"></ion-icon>
+    </div>
+    <div class="number" *ngIf="!item.isLiked">
+      <ion-icon name="ios-heart-outline" color="light"></ion-icon>
+    </div>
+  </ion-card>
+
+</ion-content>

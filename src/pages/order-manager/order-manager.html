@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>ORDERS</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-grid style="padding: 12px; text-align: center">
+    <ion-row>
+      <ion-col text-right style="padding-top: 10px">
+        <input type="date" [(ngModel)]="selectedDate" name="selectedDate">
+      </ion-col>
+      <ion-col text-left>
+        <button small ion-button outline (click)="selectDate()">Select</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <hr>
+
+  <ion-card *ngFor="let order of ORDERs_NEW; let ind = index" (click)="go2OrderDetail(order,ind)">
+    <ion-grid>
+      <ion-row style="background-color: lightgrey">
+        <ion-col>{{order.ORDER_DATE_CREATE}}</ion-col>
+        <ion-col [ngClass]="order.ORDER_STATUS">{{order.ORDER_STATUS}}</ion-col>
+      </ion-row>
+      <ion-row *ngFor="let orderz of order.ORDER_LIST_NEW; let i = index" class="row_main">
+        <ion-col col-7>
+          <ion-row class="name_local" *ngIf="orderz.item !=='undefined'">{{orderz.item.ITEM_NAME_LOCAL}}</ion-row>
+
+        </ion-col>
+        <ion-col col-2>
+          <ion-row>
+            <div class="total-price">{{orderz.amount}}<span style="font-size:10px">x {{orderz.item.ITEM_PRICE}}</span></div>
+          </ion-row>
+        </ion-col>
+        <ion-col text-right>
+          <ion-row>
+            <div class="total-price">{{orderz.amount*orderz.item.ITEM_PRICE}}</div>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-7>
+          <ion-row></ion-row>
+        </ion-col>
+        <ion-col col-2>
+          <ion-row>
+            <div class="total-price">Total</div>
+          </ion-row>
+        </ion-col>
+        <ion-col>
+          <ion-row>
+            <div class="total-price">{{order.TOTAL_PRICE}}</div>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </ion-card>
+  <div padding *ngIf="ORDERs_NEW.length==0">
+    <p>There is no record</p>
+  </div>
+</ion-content>

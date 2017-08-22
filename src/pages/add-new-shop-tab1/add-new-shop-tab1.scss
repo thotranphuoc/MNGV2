@@ -1,0 +1,13 @@
+page-add-new-shop-tab1 {
+    ion-icon{
+        font-size: 2.5em;
+    }
+
+    ion-select {
+        max-width: 100%
+    }
+
+    ion-input .ng-invalid { 
+        border-left: 2px solid red;
+    }
+}
