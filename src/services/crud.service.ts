@@ -58,7 +58,7 @@ export class CrudService {
         })
     }
     // 2. Read Account
-
+    
     // 3. Update Account
 
     // 4. delete Account
@@ -360,5 +360,31 @@ export class CrudService {
     deleteItem(ITEM: iItem){
         
     }
+
+
+    // ISSUE
+    createIssue(issue){
+        return this.dbService.insertOneNewItemReturnPromise(issue, 'Issues/')
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    readIssues(){
+        return this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data('Issues/')
+    }
+
+    updateIssue(KEY, ISSUE){
+        return this.dbService.updateAnObjectAtNode('Issues/'+KEY, ISSUE)
+    }
+
+    deleteIssue(ISSUE_key){
+        this.dbService.removeAnObjectAtNode('Issues/'+ ISSUE_key);
+    }
+
+
 
 }

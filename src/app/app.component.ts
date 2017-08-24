@@ -36,7 +36,6 @@ export class MyApp {
       { title: 'Setting', component: 'SettingPage', icon:'cog' },
       { title: 'Search', component: 'SearchPage', icon:'search' },
       { title: 'About', component: 'AboutPage', icon:'information-circle' },
-      // { title: 'AngularFire2', component: 'Angularfire2Page' },
     ];
 
     this.pages1 = [
@@ -45,6 +44,7 @@ export class MyApp {
 
     this.pages2 = [
       { title: 'Admin', component: 'AdminPage', icon:'paw' },
+      { title: 'Issue', component: 'TrackPage', icon: 'bug' },
     ]
   }
 

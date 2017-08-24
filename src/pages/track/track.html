@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    <ion-title>+Issue</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <form #myForm="ngForm" autocomplete="off" novalidate id="myForm">
+
+    <ion-item>
+      <ion-icon name="logo-angular" item-left></ion-icon>
+      <ion-input required [(ngModel)]="issue.ISSUE_TITLE" name="ISSUE_TITLE" type="text" id="name" placeholder="Title"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-icon name="info" item-left></ion-icon>
+      <ion-input required [(ngModel)]="issue.ISSUE_DES" name="ISSUE_DES" type="text" id="name" placeholder="Description in detail"></ion-input>
+    </ion-item>
+  </form>
+  <button *ngIf="!isUpdate" ion-button block (click)="createIssue()">Create</button>
+  <button *ngIf="isUpdate" ion-button block color="secondary" (click)="updateIssue()">Update</button>
+  <hr>
+  <ion-card *ngFor="let item of issuesData" (click)="setIssueStatus(item)">
+    <h4>{{item.data.ISSUE_TITLE}} - {{item.data.ISSUE_STATE}}</h4>
+    <p>{{item.data.ISSUE_DES}}</p>
+  </ion-card>
+</ion-content>
