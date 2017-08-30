@@ -70,6 +70,7 @@ export class HomePage {
   }
 
   getShopsNearby(LAT: number, LNG: number) {
+    console.log(LAT, LNG);
     let latArray: any[] = [];
     let lngArray: any[] = [];
     let itemArray: any[] = [];

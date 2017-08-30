@@ -29,6 +29,9 @@ export class ShopPage {
   ) {
     this.shop = navParams.data.shop;
     console.log(this.shop);
+    if (typeof (this.shop) === 'undefined') {
+      this.navCtrl.setRoot('HomePage');
+    }
     this.localService.SHOP = this.shop;
   }
 

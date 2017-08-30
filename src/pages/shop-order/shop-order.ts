@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
 
 import { LocalService } from '../../services/local.service';
 import { AngularFireService } from '../../services/af.service';
@@ -32,6 +32,7 @@ export class ShopOrderPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
+    private actionSheetCtrl: ActionSheetController,
     private localService: LocalService,
     private appService: AppService,
     private dbService: DbService,
@@ -251,5 +252,48 @@ export class ShopOrderPage {
       this.navCtrl.push('AccountPage', { action: 'request-login' });
     }
     this.appService.showConfirmationWith2Button('Alert', 'Please login to continue...', 'Cancel', HANDLER1, 'OK', HANDLER2);
+  }
+
+  onClickORDER(order, ind){
+    console.log(order, ind);
+    let actionSheet = this.actionSheetCtrl.create({
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            // console.log('Destructive clicked');
+            // this.crudService.deleteIssue(ISSUE.key);
+            // let index = this.issuesData.indexOf(ISSUE);
+            // this.issuesData.splice(index, 1);
+          }
+        }, {
+          text: 'Modify',
+          handler: () => {
+            // console.log('Archive clicked');
+            // this.issue = ISSUE.data;
+            // this.isUpdate = true;
+            // this.IssueUpdateKey = ISSUE.key;
+            // this.issue.ISSUE_STATE = 'Open';
+          }
+        }, {
+          text: 'Closed',
+          handler: () => {
+            console.log('Archive clicked');
+            // this.issue = ISSUE.data;
+            // this.issue.ISSUE_STATE = 'Closed';
+            // this.IssueUpdateKey = ISSUE.key;
+            // this.updateIssue();
+          }
+        }, {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 }

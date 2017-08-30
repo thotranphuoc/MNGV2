@@ -36,6 +36,7 @@ export class MyApp {
       { title: 'Setting', component: 'SettingPage', icon:'cog' },
       { title: 'Search', component: 'SearchPage', icon:'search' },
       { title: 'About', component: 'AboutPage', icon:'information-circle' },
+      { title: 'Shop2', component: 'Shop2Page', icon:'information-circle' },
     ];
 
     this.pages1 = [

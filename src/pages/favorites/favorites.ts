@@ -49,8 +49,27 @@ export class FavoritesPage {
   }
 
   go2Shop(shop: iShop) {
-    console.log(shop);
-    this.navCtrl.push('ShopPage', {shop: shop})
+    console.log(shop.SHOP_OTHER);
+    if('SHOP_OTHER' in shop){
+      console.log(shop.SHOP_OTHER);
+
+      // if isVERIFIED exist
+      if('isVERIFIED' in shop.SHOP_OTHER){
+        if(shop.SHOP_OTHER.isVERIFIED){
+          console.log('isVERIFIED TRUE');
+          this.navCtrl.setRoot('ShopPage', { shop: shop });
+        }else{
+          console.log('isVERIFIED FALSE');
+          this.navCtrl.setRoot('Shop1Page', { shop: shop });
+        }
+      }else{
+        console.log('isVERIFIED not exist');
+        this.navCtrl.setRoot('Shop1Page', { shop: shop });
+      }
+    }else{
+      console.log('no SHOP_OTHER')
+      this.navCtrl.setRoot('Shop1Page', { shop: shop });
+    }
   }
 
 }

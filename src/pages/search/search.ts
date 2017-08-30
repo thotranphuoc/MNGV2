@@ -14,6 +14,7 @@ export class SearchPage {
   countryList: any[] = [];
   itemList: iItem[] = [];
   itemListObservable: any;
+  isThumbnailShown: boolean = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -46,40 +47,69 @@ export class SearchPage {
   searchString(searchStr: string) {
     this.itemList = [];
     this.afDB.list('Items/').forEach((items: iItem[]) => {
-      this.itemList = items.filter(item => item.ITEM_NAME_EN.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase()) >= 0 || item.ITEM_NAME_LOCAL.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase()) >= 0)
+      this.itemList = items.filter(item => item.ITEM_NAME_EN.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase()) >= 0 || item.ITEM_NAME_LOCAL.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase()) >= 0);
+      console.log(this.itemList);
+    })
+    .then(()=>{
+      console.log(this.itemList);
+    })
+    .catch((err)=>{
+      console.log(err);
     })
   }
 
-  getItems2(event) {
-    console.log(event.srcElement.value);
-    let srcStr = null;
-    if (typeof (event.srcElement.value) != 'undefined') {
-      let srcStr = event.srcElement.value.trim();
-      if (srcStr) {
-        this.searchString2(srcStr);
-      } else {
-        console.log('no string')
-        this.itemList = [];
-      }
-    }else{
-      this.itemList = [];
-    }
-  }
+  // getItems2(event) {
+  //   console.log(event.srcElement.value);
+  //   let srcStr = null;
+  //   if (typeof (event.srcElement.value) != 'undefined') {
+  //     let srcStr = event.srcElement.value.trim();
+  //     if (srcStr) {
+  //       this.searchString2(srcStr);
+  //     } else {
+  //       console.log('no string')
+  //       this.itemList = [];
+  //     }
+  //   }else{
+  //     this.itemList = [];
+  //   }
+  // }
 
-  searchString2(searchStr: string){
-    this.itemListObservable = this.afDB.list('Items',{
-      query: {
-        orderByChild: 'ITEM_NAME_EN',
-        equalTo: searchStr
-      }
-    })
-  }
+  // searchString2(searchStr: string){
+  //   this.itemListObservable = this.afDB.list('Items',{
+  //     query: {
+  //       orderByChild: 'ITEM_NAME_EN',
+  //       equalTo: searchStr
+  //     }
+  //   })
+  // }
 
   go2Shop(item: iItem) {
     console.log(item);
     this.afDB.object('Shops/' + item.ITEM_SHOP_ID).forEach((shop) => {
       console.log(shop);
-      this.navCtrl.push('ShopPage', {shop: shop});
+      // this.navCtrl.push('ShopPage', {shop: shop});
+      console.log(shop.SHOP_OTHER);
+      if('SHOP_OTHER' in shop){
+        console.log(shop.SHOP_OTHER);
+  
+        // if isVERIFIED exist
+        if('isVERIFIED' in shop.SHOP_OTHER){
+          if(shop.SHOP_OTHER.isVERIFIED){
+            console.log('isVERIFIED TRUE');
+            this.navCtrl.setRoot('ShopPage', { shop: shop });
+          }else{
+            console.log('isVERIFIED FALSE');
+            this.navCtrl.setRoot('Shop1Page', { shop: shop });
+          }
+        }else{
+          console.log('isVERIFIED not exist');
+          this.navCtrl.setRoot('Shop1Page', { shop: shop });
+        }
+      }else{
+        console.log('no SHOP_OTHER')
+        this.navCtrl.setRoot('Shop1Page', { shop: shop });
+      }
+
     })
   }
 

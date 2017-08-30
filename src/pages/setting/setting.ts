@@ -56,7 +56,7 @@ export class SettingPage {
         this.localService.PROFILE = this.localService.PROFILE_DEFAULT;
         this.localService.PROFILE_OLD = this.localService.PROFILE_DEFAULT;
       })
-    this.navCtrl.setRoot('MapPage');
+    this.navCtrl.setRoot('HomePage');
   }
 
   go2ProfilePage() {

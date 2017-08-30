@@ -58,7 +58,7 @@ export class CrudService {
         })
     }
     // 2. Read Account
-    
+
     // 3. Update Account
 
     // 4. delete Account
@@ -340,9 +340,9 @@ export class CrudService {
                     Promise.all([pro1, pro2, pro3]).then(() => {
                         resolve();
                     })
-                    .catch((err)=>{ reject(err)});
+                        .catch((err) => { reject(err) });
                 })
-                .catch((err)=>{reject(err)})
+                .catch((err) => { reject(err) })
         })
     }
 
@@ -357,33 +357,92 @@ export class CrudService {
             })
     }
 
-    deleteItem(ITEM: iItem){
-        
+    deleteItem(ITEM: iItem) {
+
     }
 
 
     // ISSUE
-    createIssue(issue){
+    createIssue(issue) {
         return this.dbService.insertOneNewItemReturnPromise(issue, 'Issues/')
-        .then((res)=>{
-            console.log(res);
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
-    readIssues(){
+    readIssues() {
         return this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data('Issues/')
     }
 
-    updateIssue(KEY, ISSUE){
-        return this.dbService.updateAnObjectAtNode('Issues/'+KEY, ISSUE)
+    updateIssue(KEY, ISSUE) {
+        return this.dbService.updateAnObjectAtNode('Issues/' + KEY, ISSUE)
     }
 
-    deleteIssue(ISSUE_key){
-        this.dbService.removeAnObjectAtNode('Issues/'+ ISSUE_key);
+    deleteIssue(ISSUE_key) {
+        this.dbService.removeAnObjectAtNode('Issues/' + ISSUE_key);
     }
+
+    // ORDER
+    createOrder(ORDER: iOrder, SHOP_ID, USER_ID, DATE) {
+        return new Promise((resolve, reject) => {
+            // 1. Insert item to OrdersOfShop
+            this.afService.addItem2List('OrdersOfShop/' + SHOP_ID + '/' + DATE, ORDER)
+                .then((res) => {
+                    // 2. update ITEM_ID into OrdersOfShop/SHOP_ID/ITEM_ID
+                    let ORDER_ID = res.key;
+                    let pro1 = this.afService.updateObjectData('OrdersOfShop/' + SHOP_ID + '/' + DATE + '/' + ORDER_ID + '/ORDER_ID', ORDER_ID)
+                        .then((resp) => {
+                            console.log('Order sending success');
+                        })
+                    // 3. add to array of Orders of user
+                    let pro2 = this.dbService.insertElementIntoArray('OrdersOfUser/' + USER_ID + '/' + DATE, 'OrdersOfShop/' + SHOP_ID + '/' + DATE + '/' + ORDER_ID)
+                        .then((res) => {
+                            console.log('add to array of Orders of user', res);
+                        })
+                    //4. insert ActiveOrdersOfUser/USER_ID/SHOP_ID
+                    let ActiveORDER = ORDER
+                    ActiveORDER['ORDER_ID'] = ORDER_ID;
+                    let pro3 = this.dbService.insertAnObjectAtNode('ActiveOrdersOfUser/' + USER_ID + '/' + SHOP_ID + '/' + ORDER_ID, ActiveORDER)
+                        .then((res) => console.log('active orders of user updated'));
+
+                    Promise.all([pro1, pro2, pro3])
+                        .then((res) => {
+                            console.log('done', res);
+                            resolve({created_ORDER_ID: ORDER_ID});
+                        })
+                        .catch((err) => {
+                            console.log('error:', err)
+                            reject(err);
+                        })
+                })
+        })
+    }
+
+    updateOrder(ORDER_LIST, Order2Update) {
+        return new Promise((resolve, reject)=>{
+            console.log(ORDER_LIST);
+            console.log(Order2Update);
+            Order2Update.ORDER_LIST = ORDER_LIST;
+            Order2Update.ORDER_STATUS = 'UPDATED';
+            let DATE = Order2Update.ORDER_DATE_CREATE.substr(0, 10);
+            // update OrdersOfShop
+            let pro1 = this.afService.updateObjectData('OrdersOfShop/' + Order2Update.ORDER_SHOP_ID + '/' + DATE + '/' + Order2Update.ORDER_ID, Order2Update);
+            // update ActiveOrdersOfUser
+            let pro2 = this.afService.updateObjectData('ActiveOrdersOfUser/' + Order2Update.ORDER_USER_ID + '/' + Order2Update.ORDER_SHOP_ID + '/' + Order2Update.ORDER_ID, Order2Update);
+            Promise.all([pro1, pro2]).then((res)=>{
+                resolve({result: 'OK'});
+            })
+            .catch((err)=>{reject(err)});
+        })
+    }
+
+    deleteOrder() {
+
+    }
+
 
 
 

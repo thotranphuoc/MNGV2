@@ -37,7 +37,7 @@ export class AccountPage {
     this.authService.signIn(this.signIn.email, this.signIn.password)
       .then(() => {
         console.log('Login success');
-        this.navCtrl.setRoot('MapPage');
+        this.navCtrl.setRoot('HomePage');
       })
       .catch((err) => {
         console.log('Error when loggin');
@@ -85,7 +85,7 @@ export class AccountPage {
         this.authService.isSigned = false;
         // this.isSigned = this.authService.isSigned;
         this.appService.alertMsg('Success', 'Please check email and reset your account: ' + this.resetAccount.email);
-        this.navCtrl.push('MapPage');
+        this.navCtrl.push('HomePage');
       })
       .catch((err) => {
         console.log('account registered failed');

@@ -104,18 +104,19 @@ export class AddNewShopTab4Page {
   }
 
   addNewShop(SHOP: iShop, images: string[]) {
-    this.crudService.createNewShop(SHOP, images)
-      .then((res) => {
-        console.log(res);
-        this.hideLoading();
-        this.resetShop();
-        this.go2Page('MapPage');
-      })
-      .catch((err) => {
-        console.log(err);
-        this.appService.alertError('Error', err.toString())
-        this.hasPosted = false;
-      })
+    console.log(SHOP);
+    // this.crudService.createNewShop(SHOP, images)
+    //   .then((res) => {
+    //     console.log(res);
+    //     this.hideLoading();
+    //     this.resetShop();
+    //     this.go2Page('HomePage');
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     this.appService.alertError('Error', err.toString())
+    //     this.hasPosted = false;
+    //   })
   }
 
   alertMsgWithConfirmationToGoToPage() {
@@ -178,7 +179,7 @@ export class AddNewShopTab4Page {
   private hideLoadingWithMessage(message: string) {
     this.loading.dismiss();
     this.appService.alertMsg('Alert', message);
-    this.go2Page('MapPage')
+    this.go2Page('HomePage')
   }
 
   go2Page(page: string) {

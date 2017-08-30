@@ -150,7 +150,7 @@ export class MenuItemAddPage {
   // private hideLoadingWithMessage(message: string) {
   //   this.loading.dismiss();
   //   this.appService.alertMsg('Alert', message);
-  //   // this.go2Page('MapPage')
+  //   // this.go2Page('HomePage')
   //   this.navCtrl.pop();
   // }
 

@@ -41,7 +41,7 @@ export class AdminPage {
         })
       })
     }else{
-      this.navCtrl.setRoot('MapPage');
+      this.navCtrl.setRoot('HomePage');
       this.appService.alertMsg('Notice:', 'Login to use this function');
       
     }

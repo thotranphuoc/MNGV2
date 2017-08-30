@@ -76,7 +76,7 @@ export class StaffManagerPage {
         console.log(this.PROFILES);
       })
     } else {
-      this.navCtrl.setRoot('MapPage');
+      this.navCtrl.setRoot('HomePage');
     }
   }
 

@@ -21,10 +21,16 @@ export class FavoriteAddPage {
     private dbService: DbService) {
     this.data = this.navParams.data;
     this.SHOP_ITEMS = this.data.SHOP_ITEMS;
-    let l = this.SHOP_ITEMS.length;
-    this.SHOP_ITEMS.forEach(item => {
-      item['isLiked'] = false;
-    })
+    console.log(this.SHOP_ITEMS);
+    if (typeof (this.SHOP_ITEMS) == 'undefined') {
+      this.navCtrl.setRoot('HomePage');
+    } else {
+      // let l = this.SHOP_ITEMS.length;
+      this.SHOP_ITEMS.forEach(item => {
+        item['isLiked'] = false;
+      })
+    }
+
     this.shop = this.data.SHOP;
     console.log(this.data);
   }
@@ -40,39 +46,44 @@ export class FavoriteAddPage {
 
   ionViewWillEnter() {
     // get current favorite of shop
-    let USER_ID = this.afAuth.auth.currentUser.uid;
-    let SHOP_ID = this.shop.SHOP_ID;
-    this.dbService.getListReturnPromise_ArrayOfData('Favorites/' + USER_ID + '/' + SHOP_ID).then((res: string[]) => {
-      console.log(res);
-      this.SHOP_ITEMS.forEach(item => {
-        let i = res.indexOf(item.ITEM_ID)
-        if (i < 0) {
-          item['isLiked'] = false;
-        } else {
-          item['isLiked'] = true;
-        }
+    if(this.afAuth.auth.currentUser && typeof(this.shop) !=='undefined'){
+      let USER_ID = this.afAuth.auth.currentUser.uid;
+      let SHOP_ID = this.shop.SHOP_ID;
+      this.dbService.getListReturnPromise_ArrayOfData('Favorites/' + USER_ID + '/' + SHOP_ID).then((res: string[]) => {
+        console.log(res);
+        this.SHOP_ITEMS.forEach(item => {
+          let i = res.indexOf(item.ITEM_ID)
+          if (i < 0) {
+            item['isLiked'] = false;
+          } else {
+            item['isLiked'] = true;
+          }
+        })
       })
-    })
+    }
+    
   }
 
   ionViewWillLeave() {
     console.log('ionViewWillLeave called')
     // update favorite of user
-    let Likes = [];
-    this.SHOP_ITEMS.forEach(item => {
-      if (item.isLiked) {
-        Likes.push(item.ITEM_ID);
-      }
-    })
-    console.log(Likes);
-    let USER_ID = this.afAuth.auth.currentUser.uid;
-    let SHOP_ID = this.shop.SHOP_ID;
-    this.dbService.insertAnObjectAtNode('Favorites/' + USER_ID + '/' + SHOP_ID, Likes).then((res) => {
-      console.log('insert done')
-    })
-      .catch((err) => {
-        console.log(err);
+    if(typeof(this.SHOP_ITEMS) !=='undefined'){
+      let Likes = [];
+      this.SHOP_ITEMS.forEach(item => {
+        if (item.isLiked) {
+          Likes.push(item.ITEM_ID);
+        }
       })
+      console.log(Likes);
+      let USER_ID = this.afAuth.auth.currentUser.uid;
+      let SHOP_ID = this.shop.SHOP_ID;
+      this.dbService.insertAnObjectAtNode('Favorites/' + USER_ID + '/' + SHOP_ID, Likes).then((res) => {
+        console.log('insert done')
+      })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
   }
 
 }

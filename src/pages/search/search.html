@@ -4,17 +4,21 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>search</ion-title>
+    <ion-title>SEARCH</ion-title>
+    <ion-buttons end><ion-toggle end checked="{{isThumbnailShown}}" [(ngModel)]="isThumbnailShown"></ion-toggle></ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-  <ion-item *ngFor="let item of itemList" (click)="go2Shop(item)">
+  <ion-item *ngFor="let item of itemList; let i = index" (click)="go2Shop(item)">
+    <h3 item-start>{{i}}</h3>
     <p>{{item.ITEM_NAME_LOCAL}}</p>
     <p>{{item.ITEM_NAME_EN}}</p>
+    <ion-thumbnail item-end *ngIf="isThumbnailShown">
+      <img src="{{item.ITEM_IMAGES[0]}}" alt="">
+    </ion-thumbnail>
   </ion-item>
   <!-- <ion-card *ngFor="let item of itemList" (click)="go2Shop(item)">
     <img src="{{item.ITEM_IMAGES[0]}}" />

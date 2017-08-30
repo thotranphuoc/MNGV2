@@ -1,0 +1,95 @@
+page-shop2-order {
+        ion-row.row_main.row{
+            // padding-top: 2px;
+            // margin-left: 12px;
+            // margin-right: 12px;
+        }
+        .row_main{
+            background-color: lightgray;
+            // margin: 1px;
+            // border-bottom: solid 0.5px white;
+            border-top: solid 0.5px white;
+            // border-bottom-color: white;
+            
+        }
+    
+        .adjust{
+            text-align: center
+        }
+    
+        .name_local{
+            font-size: 1em;
+            // font-style: italic;
+            color: black;
+        }
+        .name_en {
+            font-size: 0.8em;
+            font-style: italic;
+            color: black;
+        }
+    
+        .number {
+            font-size: 1em;
+            // font-style: italic;
+            color: white;
+            background-color: grey;
+            margin: 1px;
+        }
+    
+        .add {
+            font-size: 1em;
+            // font-style: italic;
+            color: white;
+            background-color: green;
+            margin: 1px;
+        }
+    
+        .subtract {
+            font-size: 1em;
+            // font-style: italic;
+            color: white;
+            background-color: orangered;
+            margin: 1px;
+        }
+    
+        .text-center {
+            text-align: center;
+            font-size: 1.3em;
+            background-color: #12d1a4;
+            padding: 2.5px;
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+    
+        .total-price {
+            width: 100%;
+            text-align: right;
+        }
+    
+        .SENDING {
+            color: blue;
+        }
+    
+        .ACCEPTED {
+            color: green;
+        }
+        .DELIVERED {
+            color: yellowgreen;
+        }
+        .PAID {
+            color: orange;
+        }
+    
+        .CLOSED {
+            color: greenyellow;
+        }
+    
+        .CANCEL {
+            color: red;
+        }
+    
+        .UPDATED {
+            color: purple;
+        }
+
+}

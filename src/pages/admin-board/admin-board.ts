@@ -21,13 +21,12 @@ export class AdminBoardPage {
     private dbService: DbService
   ) {
     this.data = this.navParams.data;
-    console.log(this.data);
     this.USER_ID = this.data.USER_ID;
     this.SHOP = this.data.SHOP;
     if (typeof (this.SHOP) == 'undefined') {
-      this.SHOP = null;
-      this.navCtrl.setRoot('MapPage');
+      this.navCtrl.setRoot('HomePage');
     }
+    console.log(this.data.SHOP);
     this.PROFILE = this.data.PROFILE;
     if(this.SHOP){
       this.getRoleOfUserFromShop(this.SHOP.SHOP_ID, this.USER_ID).then((res: any)=>{

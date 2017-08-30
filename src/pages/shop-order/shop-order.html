@@ -92,7 +92,7 @@
     <div class="text-center">
       ACTIVE ORDER
     </div>
-    <ion-card *ngFor="let order of ORDERs_NEW; let ind = index" (click)="updateSelectedORDER(order,ind)">
+    <ion-card *ngFor="let order of ORDERs_NEW; let ind = index" (click)="onClickORDER(order,ind)">
       <ion-grid>
         <ion-row style="background-color: lightgrey">
           <ion-col>{{order.ORDER_DATE_CREATE}}</ion-col>
