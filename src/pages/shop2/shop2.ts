@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, ActionSheetCont
 
 import { LocalService } from '../../services/local.service';
 import { AngularFireService } from '../../services/af.service';
+import { DbService } from '../../services/db.service';
 
 import { iOrder } from '../../interfaces/order.interface';
 import { iShop } from '../../interfaces/shop.interface';
@@ -31,37 +32,32 @@ export class Shop2Page {
     private modalCtrl: ModalController,
     private localService: LocalService,
     private afService: AngularFireService,
+    private dbService: DbService,
   ) {
     this.loading = this.loadingCtrl.create({
       content: 'Please wait....',
       spinner: 'crescent'
     });
     this.shop = navParams.data.shop;
-    if (typeof (this.shop) == 'undefined') {
-      this.navCtrl.setRoot('HomePage');
-    }
 
     this.localService.SHOP = this.shop;
     console.log(this.shop);
     this.startLoading();
 
-    if (this.afService.getAuth().auth.currentUser) {
-      this.USER_ID = this.afService.getAuth().auth.currentUser.uid;
-    } else {
-      this.USER_ID = null;
-    }
-
     if (typeof (this.shop) !== 'undefined') {
-      this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.shop.SHOP_ID).then((res: any) => {
-        this.SHOP_ITEMS = res.SHOP_ITEMS;
-        this.SHOP_ITEMS_ID = res.SHOP_ITEMS_ID;
-        this.SHOP_ITEMS_INDEX = [];
-        let l = this.SHOP_ITEMS_ID.length
-        for (let index = 0; index < l; index++) {
-          this.SHOP_ITEMS_INDEX.push({ count: 0 });
-        }
-        this.hideLoading();
-      })
+      this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.shop.SHOP_ID)
+        .then((res: any) => {
+          this.SHOP_ITEMS = res.SHOP_ITEMS;
+          this.SHOP_ITEMS_ID = res.SHOP_ITEMS_ID;
+          this.SHOP_ITEMS_INDEX = [];
+          let l = this.SHOP_ITEMS_ID.length
+          for (let index = 0; index < l; index++) {
+            this.SHOP_ITEMS_INDEX.push({ count: 0 });
+          }
+          this.hideLoading();
+          this.getActiveOrder();
+
+        })
         .catch((err) => {
           console.log(err);
           this.hideLoading();
@@ -80,7 +76,6 @@ export class Shop2Page {
     this.loading.present();
     setTimeout(() => {
       this.hideLoading();
-      // alert('Please turn on internet and location permission. Then open app again')
     }, 15000)
   }
 
@@ -178,5 +173,36 @@ export class Shop2Page {
       this.isOrderUPDATE = false;
     }
   }
+
+  getActiveOrder() {
+    if (this.afService.getAuth().auth.currentUser) {
+      this.USER_ID = this.afService.getAuth().auth.currentUser.uid;
+      let URL = 'ActiveOrdersOfUser/' + this.USER_ID + '/' + this.shop.SHOP_ID;
+      this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data(URL)
+        .then((res: any[]) => {
+          console.log(res);
+          if (res.length > 0) {
+            alert('You have order from this shop. Would you like to continue?');
+            this.ORDER = res[0].data;
+            this.COUNT = 0;
+            this.ORDER.ORDER_LIST.forEach(order => {
+              let index = this.SHOP_ITEMS_ID.indexOf(order.item);
+              if (index >= 0) {
+                this.SHOP_ITEMS_INDEX[index].count = order.amount;
+                this.COUNT += order.amount;
+              }
+            });
+            this.isOrderNEW = false;
+          } else {
+            console.log('there is no active order');
+          }
+        })
+        .catch((err) => { console.log(err) })
+    } else {
+      this.USER_ID = null;
+    }
+  }
+
+
 
 }

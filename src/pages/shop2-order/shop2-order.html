@@ -2,9 +2,9 @@
 
   <ion-navbar>
     <ion-buttons start>
-          <button ion-button (click)="closeModal()">Close</button>
-        </ion-buttons> 
-    <ion-title>{{ACTION}}</ion-title>
+      <button ion-button (click)="closeModal()">Close</button>
+    </ion-buttons>
+    <ion-title>{{ACTION | uppercase}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -12,92 +12,66 @@
 
 <ion-content>
 
-    <div *ngIf="ACTION==='ordering'">
-      <ion-card>
-        <ion-grid>
-          <ion-row *ngFor="let item of SHOP_ITEMS; let i = index" class="row_main">
-            <ion-col *ngIf="SHOP_ITEMS_INDEX[i].count>0">
-              <ion-row class="name_local">{{item.ITEM_NAME_LOCAL}}</ion-row>
-              <ion-row class="name_en">{{item.ITEM_NAME_EN}}</ion-row>
-            </ion-col>
-            <ion-col class="adjust" *ngIf="SHOP_ITEMS_INDEX[i].count>0">
-              <ion-row>
-                <ion-col class="subtract" (click)="subtract(i)">
-                  <ion-icon name="md-remove"></ion-icon>
-                </ion-col>
-                <ion-col class="number">{{SHOP_ITEMS_INDEX[i].count}}</ion-col>
-                <ion-col class="add" (click)="add(i)">
-                  <ion-icon name="md-add"></ion-icon>
-                </ion-col>
-              </ion-row>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card>
+  <div *ngIf="ACTION==='ordering'">
+    <ion-card>
       <ion-grid>
-        <ion-row>
-          <ion-col *ngIf="isOrderNEW">
-            <button ion-button color="primary" (click)="sendORDER()" [disabled]="!isOrderNEW">Send Order</button>
+        <div *ngIf="AsyncOrder">
+          <ion-row style="background-color: lightgrey">
+            <ion-col>{{AsyncOrder.ORDER_DATE_CREATE}}</ion-col>
+            <ion-col [ngClass]="AsyncOrder.ORDER_STATUS">{{AsyncOrder.ORDER_STATUS}}</ion-col>
+          </ion-row>
+        </div>
+        <ion-row *ngFor="let item of SHOP_ITEMS; let i = index" class="row_main">
+          <ion-col *ngIf="SHOP_ITEMS_INDEX[i].count>0">
+            <ion-row class="name_local">{{item.ITEM_NAME_LOCAL}}</ion-row>
+            <ion-row class="name_en">{{item.ITEM_NAME_EN}}</ion-row>
           </ion-col>
-          <ion-col *ngIf="isOrderNEW">
-            <button ion-button color="secondary" (click)="cancel()" [disabled]="!isOrderNEW">Cancel</button>
-          </ion-col>
-          <ion-col *ngIf="!isOrderNEW">
-            <button ion-button color="primary" (click)="updateOrder()" [disabled]="!isOrderUPDATE">Update Order</button>
-          </ion-col>
-          <ion-col *ngIf="!isOrderNEW">
-            <button ion-button color="secondary" (click)="cancel()" [disabled]="!isOrderUPDATE">Cancel</button>
+          <ion-col class="adjust" *ngIf="SHOP_ITEMS_INDEX[i].count>0">
+            <ion-row>
+              <ion-col class="subtract" (click)="subtract(i)">
+                <ion-icon name="md-remove"></ion-icon>
+              </ion-col>
+              <ion-col class="number">{{SHOP_ITEMS_INDEX[i].count}}</ion-col>
+              <ion-col class="add" (click)="add(i)">
+                <ion-icon name="md-add"></ion-icon>
+              </ion-col>
+            </ion-row>
           </ion-col>
         </ion-row>
-
-        
-        <!-- <ion-row>
-          <ion-col>
-            <button ion-button color="primary" (click)="checkBill()">Check Bill</button>
-          </ion-col>
-          <ion-col>
-            <button ion-button color="secondary" (click)="cancel()">Cancel</button>
-          </ion-col>
-        </ion-row> -->
       </ion-grid>
-    </div>
-    <div *ngIf="ACTION==='billing' && !isOrderNEW">
-        <ion-grid>
-      <!-- <ion-card>
-        <ion-grid>
-          <ion-row *ngFor="let item of SHOP_ITEMS; let i = index" class="row_main">
-            <ion-col *ngIf="SHOP_ITEMS_INDEX[i].count>0">
-              <ion-row class="name_local">{{item.ITEM_NAME_LOCAL}}</ion-row>
-              <ion-row class="name_en">{{item.ITEM_NAME_EN}}</ion-row>
-            </ion-col>
-            <ion-col class="adjust" *ngIf="SHOP_ITEMS_INDEX[i].count>0">
-              <ion-row>
-                <ion-col class="subtract" (click)="subtract(i)">
-                  <ion-icon name="md-remove"></ion-icon>
-                </ion-col>
-                <ion-col class="number">{{SHOP_ITEMS_INDEX[i].count}}</ion-col>
-                <ion-col class="add" (click)="add(i)">
-                  <ion-icon name="md-add"></ion-icon>
-                </ion-col>
-              </ion-row>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card> -->
-<!-- new display -->
-      <!-- <ion-row style="background-color: lightgrey">
-        <ion-col>{{order.ORDER_DATE_CREATE}}</ion-col>
-        <ion-col [ngClass]="order.ORDER_STATUS">{{order.ORDER_STATUS}}</ion-col>
-      </ion-row> -->
+    </ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngIf="isOrderNEW">
+          <button ion-button color="primary" (click)="sendORDER()" [disabled]="!isOrderNEW">Send Order</button>
+        </ion-col>
+        <ion-col *ngIf="isOrderNEW">
+          <button ion-button color="secondary" (click)="cancel()" [disabled]="!isOrderNEW">Cancel</button>
+        </ion-col>
+        <ion-col *ngIf="!isOrderNEW">
+          <button ion-button color="primary" (click)="updateOrder()" [disabled]="!isOrderUPDATE">Update Order</button>
+        </ion-col>
+        <ion-col *ngIf="!isOrderNEW">
+          <button ion-button color="secondary" (click)="cancel()" [disabled]="!isOrderUPDATE">Cancel</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div *ngIf="ACTION==='billing' && !isOrderNEW">
+    <ion-grid>
       <ion-row *ngFor="let item of SHOP_ITEMS; let i = index" class="row_main">
         <ion-col col-7>
           <ion-row class="name_local" *ngIf="item !='undefined'">{{item.ITEM_NAME_LOCAL}}</ion-row>
         </ion-col>
         <ion-col col-2>
-          <ion-row><div class="total-price">{{SHOP_ITEMS_INDEX[i].count}}<span style="font-size:10px"> x{{item.ITEM_PRICE}}</span></div></ion-row>
+          <ion-row>
+            <div class="total-price">{{SHOP_ITEMS_INDEX[i].count}}<span style="font-size:10px"> x{{item.ITEM_PRICE}}</span></div>
+          </ion-row>
         </ion-col>
         <ion-col>
-          <ion-row><div class="total-price">{{SHOP_ITEMS_INDEX[i].count*item.ITEM_PRICE}}</div></ion-row>
+          <ion-row>
+            <div class="total-price">{{SHOP_ITEMS_INDEX[i].count*item.ITEM_PRICE}}</div>
+          </ion-row>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -105,38 +79,25 @@
           <ion-row></ion-row>
         </ion-col>
         <ion-col col-2>
-          <ion-row><div class="total-price">Total</div></ion-row>
+          <ion-row>
+            <div class="total-price">Total</div>
+          </ion-row>
         </ion-col>
         <ion-col>
-          <ion-row><div class="total-price">{{TOTAL}}</div></ion-row>
+          <ion-row>
+            <div class="total-price">{{TOTAL}}</div>
+          </ion-row>
         </ion-col>
       </ion-row>
-      
-        <!-- <ion-row *ngIf="ACTION==='ordering'">
-          <ion-col *ngIf="isOrderNEW">
-            <button ion-button color="primary" (click)="sendORDER()" [disabled]="!isItemNEW">Send Order</button>
-          </ion-col>
-          <ion-col *ngIf="isOrderNEW">
-            <button ion-button color="secondary" (click)="cancel()" [disabled]="!isItemNEW">Cancel</button>
-          </ion-col>
-          <ion-col *ngIf="!isOrderNEW">
-            <button ion-button color="primary" (click)="updateOrder()" [disabled]="!isOrderUPDATE">Update Order</button>
-          </ion-col>
-          <ion-col *ngIf="!isOrderNEW">
-            <button ion-button color="secondary" (click)="cancel()" [disabled]="!isOrderUPDATE">Cancel</button>
-          </ion-col>
-        </ion-row> -->
-
-        
-        <ion-row *ngIf="ACTION==='billing' && !isOrderNEW">
-          <ion-col>
-            <button ion-button color="primary" (click)="checkBill()">Check Bill</button>
-          </ion-col>
-          <ion-col>
-            <button ion-button color="secondary" (click)="cancel()">Cancel</button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
+      <ion-row *ngIf="ACTION==='billing' && !isOrderNEW">
+        <ion-col>
+          <button ion-button color="primary" (click)="checkBill()">Check Bill</button>
+        </ion-col>
+        <ion-col>
+          <button ion-button color="secondary" (click)="cancel()">Cancel</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 
 </ion-content>

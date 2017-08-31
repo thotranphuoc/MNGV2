@@ -47,7 +47,7 @@ export class PopOverPage {
         if(shop.SHOP_OTHER.isVERIFIED){
           console.log('isVERIFIED TRUE');
           // this.navCtrl.setRoot('ShopPage', { shop: shop });
-          this.app.getRootNav().setRoot('ShopPage', {shop: this.shop});
+          this.app.getRootNav().setRoot('Shop2Page', {shop: this.shop});
         }else{
           console.log('isVERIFIED FALSE');
           // this.navCtrl.setRoot('Shop1Page', { shop: shop });

@@ -19,15 +19,13 @@ export class Shop2OrderPage {
   SHOP_ITEMS: iItem[] = [];
   SHOP_ITEMS_ID: string[] = [];
   SHOP_ITEMS_INDEX: any[] = [];
-  // SHOP_ITEMS_INDEX_TEMP: any[] =[];
   isOrderNEW: boolean = true;
   isOrderUPDATE: boolean = false;
-  // isItemNEW: boolean = true;
-  // isItemUPDATE: boolean = false;
   data: any;
   ACTION: string = null;
   TOTAL: number = 0;
   COUNT: number = 0;
+  AsyncOrder: any = null;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -41,7 +39,6 @@ export class Shop2OrderPage {
     this.SHOP_ITEMS = this.data.SHOP_ITEMS
     this.SHOP_ITEMS_ID = this.data.SHOP_ITEMS_ID;
     this.SHOP_ITEMS_INDEX = this.data.SHOP_ITEMS_INDEX;
-    // this.SHOP_ITEMS_INDEX_TEMP = this.data.SHOP_ITEMS_INDEX;
     this.isOrderNEW = this.data.isOrderNEW;
     this.isOrderUPDATE = this.data.isOrderUPDATE;
     this.ORDER = this.data.ORDER;
@@ -49,6 +46,7 @@ export class Shop2OrderPage {
     this.COUNT = this.data.COUNT;
     console.log(this.data);
     this.calTotal();
+    this.syncOrderStatus()
   }
 
   calTotal(){
@@ -57,6 +55,7 @@ export class Shop2OrderPage {
       this.TOTAL += element.ITEM_PRICE*this.SHOP_ITEMS_INDEX[index].count
     });
   }
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Shop2OrderPage');
@@ -114,9 +113,6 @@ export class Shop2OrderPage {
         .catch((err) => {
           console.log(err);
         })
-      // this.localService.sendNewOrder(ORDER, SHOP_ID, USER_ID, DATE);
-      // this.Order2Update = ORDER;
-      // this.resetIndex();
     } else {
       alert('Please sign in to continue');
       this.navCtrl.push('AccountPage', { action: 'request-login' });
@@ -157,23 +153,27 @@ export class Shop2OrderPage {
   }
 
   cancel() {
-    // this.SHOP_ITEMS_INDEX = this.SHOP_ITEMS_INDEX_TEMP;
-    console.log(this.SHOP_ITEMS_INDEX);
-    this.closeModal();
+    if(this.ORDER){
+      let URL = 'ActiveOrdersOfUser/' + this.ORDER.ORDER_USER_ID + '/' + this.ORDER.ORDER_SHOP_ID;
+      this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data(URL)
+      .then((res: any[])=>{
+        let ORDER_LIST = res[0].data.ORDER_LIST;
+        this.COUNT = 0;
+        ORDER_LIST.forEach(order=>{
+          let index = this.SHOP_ITEMS_ID.indexOf(order.item);
+          if(index>=0){
+            this.SHOP_ITEMS_INDEX[index].count = order.amount;
+            this.COUNT +=order.amount;
+          }
+        });
+        this.isOrderUPDATE = false;
+        this.closeModal();
+      })
+    }else{
+      this.closeModal();
+    }
+    
   }
-
-  // checkItemNEWorUPDATE() {
-  //   let count: number = 0;
-  //   this.SHOP_ITEMS_INDEX.forEach(item => {
-  //     count += item.count;
-  //   })
-  //   if (count > 0 && !this.isItemUPDATE) {
-  //     this.isItemNEW = true;
-  //   } else if (count > 0 && this.isItemUPDATE) {
-  //     this.isItemNEW = false;
-  //   }
-  //   console.log(this.isItemNEW, this.isItemUPDATE);
-  // }
 
   checkOrderIfUpdated() {
     let count: number = 0;
@@ -190,6 +190,16 @@ export class Shop2OrderPage {
   checkBill(){
     console.log('check bill');
     this.closeModal();
+  }
+
+  syncOrderStatus(){
+    if(this.ORDER){
+      this.afService.getObject('ActiveOrdersOfUser/' + this.ORDER.ORDER_USER_ID + '/' + this.ORDER.ORDER_SHOP_ID+'/'+this.ORDER.ORDER_ID)
+      .subscribe((snap)=>{
+        console.log(snap);
+        this.AsyncOrder = snap;
+      })
+    }
   }
 
 }
