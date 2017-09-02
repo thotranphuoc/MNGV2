@@ -24,6 +24,7 @@ export class Shop2Page {
   isOrderNEW: boolean = true;
   isOrderUPDATE: boolean = false;
   COUNT: number = 0;
+  TABLE: string;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -108,7 +109,11 @@ export class Shop2Page {
           role: 'destructive',
           handler: () => {
             console.log('Destructive clicked');
-            this.go2Shop2Order('ordering');
+            if(this.COUNT>0){
+              this.go2Shop2Order('ordering');
+            }else{
+              alert('Choose your favorite items first. Thanks')
+            }
           }
         }, {
           text: 'Check Bill',
@@ -147,7 +152,8 @@ export class Shop2Page {
       isOrderUPDATE: this.isOrderUPDATE,
       ORDER: this.ORDER,
       ACTION: ACTION,
-      COUNT: this.COUNT
+      COUNT: this.COUNT,
+      TABLE: this.TABLE
     };
     let orderModal = this.modalCtrl.create('Shop2OrderPage', data);
     orderModal.onDidDismiss(data => {
@@ -158,6 +164,7 @@ export class Shop2Page {
       this.isOrderUPDATE = data.isOrderUPDATE;
       this.ORDER = data.ORDER;
       this.COUNT = data.COUNT;
+      this.TABLE = data.TABLE;
     })
     orderModal.present();
   }
@@ -193,6 +200,7 @@ export class Shop2Page {
               }
             });
             this.isOrderNEW = false;
+            this.TABLE = this.ORDER.ORDER_TABLE;
           } else {
             console.log('there is no active order');
           }

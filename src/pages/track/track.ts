@@ -47,6 +47,7 @@ export class TrackPage {
     console.log(this.issue);
     this.crudService.createIssue(this.issue).then((res) => {
       console.log(res);
+      this.navCtrl.setRoot('TrackPage');
     })
       .catch((err) => {
         console.log(err);

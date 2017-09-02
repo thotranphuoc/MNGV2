@@ -33,15 +33,15 @@
           <input type="text" [(ngModel)]="SHOP.SHOP_PHONE" name="SHOP_PHONE" required>
         </ion-item>
         <ion-item>
-            <ion-icon name="md-apps" item-start></ion-icon>
-            <ion-select required [(ngModel)]="SHOP.SHOP_KIND" name="SHOP_KIND" placeholder="Choose kind of shop">
-              <ion-option value="cafe" selected="true">Cafe</ion-option>
-              <ion-option value="restaurant">Restaurant</ion-option>
-              <ion-option value="takeaway">Take Away</ion-option>
-              <ion-option value="homemade">Home made</ion-option>
-              <ion-option value="other">Other</ion-option>
-            </ion-select>
-          </ion-item>
+          <ion-icon name="md-apps" item-start></ion-icon>
+          <ion-select required [(ngModel)]="SHOP.SHOP_KIND" name="SHOP_KIND" placeholder="Choose kind of shop">
+            <ion-option value="cafe" selected="true">Cafe</ion-option>
+            <ion-option value="restaurant">Restaurant</ion-option>
+            <ion-option value="takeaway">Take Away</ion-option>
+            <ion-option value="homemade">Home made</ion-option>
+            <ion-option value="other">Other</ion-option>
+          </ion-select>
+        </ion-item>
         <ion-item>
           <ion-icon name="logo-usd" item-start></ion-icon>
           <input type="text" [(ngModel)]="SHOP.SHOP_CURRENCY" name="SHOP_CURRENCY" required>
@@ -51,13 +51,13 @@
           <input type="text" [(ngModel)]="SHOP.SHOP_ADDRESS" name="SHOP_ADDRESS" required>
         </ion-item>
         <ion-item (click)="updateLocation()">
-            <ion-icon name="ios-locate-outline" item-start></ion-icon>
-            <!-- <input type="text" [(ngModel)]="SHOP.SHOP_LOCATION" name="SHOP_LOCATION" required> -->
-            <p>Latitute: {{SHOP.SHOP_LOCATION.lat}}</p>
-            <p>Longitute: {{SHOP.SHOP_LOCATION.lng}}</p>
-          </ion-item>
+          <ion-icon name="ios-locate-outline" item-start></ion-icon>
+          <!-- <input type="text" [(ngModel)]="SHOP.SHOP_LOCATION" name="SHOP_LOCATION" required> -->
+          <p>Latitute: {{SHOP.SHOP_LOCATION.lat}}</p>
+          <p>Longitute: {{SHOP.SHOP_LOCATION.lng}}</p>
+        </ion-item>
       </ion-list>
-      
+
       <button ion-button block (click)="update()" [disabled]="!myForm.valid">Update</button>
     </form>
 

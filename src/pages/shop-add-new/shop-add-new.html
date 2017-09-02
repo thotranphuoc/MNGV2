@@ -1,0 +1,60 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>ADD NEW</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <div>
+      <ion-slides pager>
+        <ion-slide *ngFor="let SHOP_IMAGE of base64Images; let i = index">
+          <img src="{{SHOP_IMAGE}}" alt="" (click)="clickImage(SHOP_IMAGE, i)">
+        </ion-slide>
+      </ion-slides>
+    </div>
+    <div padding *ngIf="!base64Images[0]" text-center (click)="takePhotos()">
+      <ion-icon name="ios-camera-outline" style="font-size: 5em"></ion-icon>
+    </div>
+  </ion-card>
+  <form #myForm="ngForm" autocomplete="off" novalidate id="myForm">
+    <ion-item>
+      <ion-icon name="md-restaurant" item-left></ion-icon>
+      <ion-input required [(ngModel)]="SHOP.SHOP_NAME" name="SHOP_NAME" type="text" id="name" placeholder="Name of shop"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="ios-call-outline" item-left></ion-icon>
+      <ion-input required [(ngModel)]="SHOP.SHOP_PHONE" name="SHOP_PHONE" type="text" id="name" placeholder="Phone number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="md-apps" item-left></ion-icon>
+      <ion-select required [(ngModel)]="SHOP.SHOP_KIND" name="SHOP_KIND" placeholder="Choose kind of shop">
+        <ion-option value="cafe" selected="true">Cafe</ion-option>
+        <ion-option value="restaurant">Restaurant</ion-option>
+        <ion-option value="takeaway">Take Away</ion-option>
+        <ion-option value="homemade">Home made</ion-option>
+        <ion-option value="other">Other</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="ios-home-outline" item-left></ion-icon>
+      <ion-input required [(ngModel)]="SHOP.SHOP_ADDRESS" name="SHOP_ADDRESS" type="text" id="name" placeholder="Enter address"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="logo-usd" item-left></ion-icon>
+      <ion-input required [(ngModel)]="SHOP.SHOP_CURRENCY" name="SHOP_CURRENCY" type="text" id="name" placeholder="Example USD or KVND"></ion-input>
+    </ion-item>
+    <ion-item (click)="updateLocation()">
+      <ion-icon name="ios-locate-outline" item-start></ion-icon>
+      <!-- <input type="text" [(ngModel)]="SHOP.SHOP_LOCATION" name="SHOP_LOCATION" required> -->
+      <p>Latitute: <span *ngIf="SHOP.SHOP_LOCATION">{{SHOP.SHOP_LOCATION.lat}}</span></p>
+      <p>Longitute: <span *ngIf="SHOP.SHOP_LOCATION">{{SHOP.SHOP_LOCATION.lng}}</span></p>
+    </ion-item>
+
+    <button ion-button block (click)="createShop()" [disabled]="hasPosted">Create</button>
+  </form>
+  <input type="file" (change)="takePictureAndResizeByBrowser($event)" hidden accept="image/*" id="inputFile" multiple>
+
+</ion-content>

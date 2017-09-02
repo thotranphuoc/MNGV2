@@ -421,12 +421,13 @@ export class CrudService {
         })
     }
 
-    updateOrder(ORDER_LIST, Order2Update) {
+    updateOrder(ORDER_LIST, TABLE, Order2Update) {
         return new Promise((resolve, reject)=>{
             console.log(ORDER_LIST);
             console.log(Order2Update);
             Order2Update.ORDER_LIST = ORDER_LIST;
             Order2Update.ORDER_STATUS = 'UPDATED';
+            Order2Update.ORDER_TABLE = TABLE;
             let DATE = Order2Update.ORDER_DATE_CREATE.substr(0, 10);
             // update OrdersOfShop
             let pro1 = this.afService.updateObjectData('OrdersOfShop/' + Order2Update.ORDER_SHOP_ID + '/' + DATE + '/' + Order2Update.ORDER_ID, Order2Update);

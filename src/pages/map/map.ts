@@ -181,7 +181,7 @@ export class MapPage {
   }
 
   go2AddNewShop() {
-    this.navCtrl.push('AddNewShopPage');
+    this.navCtrl.push('ShopAddNewPage');
   }
 
 }

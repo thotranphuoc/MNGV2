@@ -1,0 +1,18 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="closeModal()">Close</button>
+    </ion-buttons>
+    <ion-title>Select ...</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <span *ngFor="let table of TABLES" text-wrap>
+      <button ion-button  (click)="selectTable(table)">{{table}}</button>
+  </span>
+
+</ion-content>

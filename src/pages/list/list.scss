@@ -1,3 +1,27 @@
 page-list {
+    
 
+    .item-ios ion-thumbnail ion-img,
+    .item-ios ion-thumbnail img {
+      width: 56*1.3px;
+      height: 56px;
+    }
+
+    .item-md ion-thumbnail ion-img, 
+    .item-md ion-thumbnail img {
+        width: 80*1.3px;
+        height: 80px;
+    }
+
+
+
+    .toolbar-title-ios {
+        text-align: center;
+        font-size: 1.7rem;
+        font-weight: 600;
+        color: #000;
+        pointer-events: auto;
+    }
 }
+
+

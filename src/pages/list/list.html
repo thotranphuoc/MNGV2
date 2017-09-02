@@ -10,20 +10,15 @@
 </ion-header>
 
 
-<ion-content padding>
-
-  <ion-list>
-
-    <ion-item *ngFor="let shop of shopList" (click)="go2Shop(shop)">
-      <ion-thumbnail item-start *ngIf="shop.SHOP_IMAGES">
-        <img src="{{shop.SHOP_IMAGES[0]}}">
-      </ion-thumbnail>
-      <h2>{{shop.SHOP_NAME}}</h2>
-      <p>{{shop.SHOP_KIND}}</p>
-      <ion-note item-end>{{shop.distance.disStr}}</ion-note>
-    </ion-item>
-  </ion-list>
-
+<ion-content>
+  <ion-item *ngFor="let shop of shopList" (click)="go2Shop(shop)" >
+    <ion-thumbnail item-start *ngIf="shop.SHOP_IMAGES">
+      <img src="{{shop.SHOP_IMAGES[0]}}">
+    </ion-thumbnail>
+    <h2>{{shop.SHOP_NAME}}</h2>
+    <p>{{shop.SHOP_KIND}}</p>
+    <ion-note item-end>{{shop.distance.disStr}}</ion-note>
+  </ion-item>
   <ion-fab left bottom>
     <button ion-fab color="danger" mini (click)="go2Map()"><ion-icon name="md-swap"></ion-icon></button>
   </ion-fab>

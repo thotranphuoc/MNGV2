@@ -40,23 +40,31 @@
         </ion-row>
       </ion-grid>
     </ion-card>
+    <div>
+      <button ion-button clear (click)="selectTable()">TABLE<span *ngIf="TABLE">: - {{TABLE}}</span></button>
+    </div>
     <ion-grid>
       <ion-row>
-        <ion-col *ngIf="isOrderNEW">
-          <button ion-button color="primary" (click)="sendORDER()" [disabled]="!isOrderNEW">Send Order</button>
-        </ion-col>
-        <ion-col *ngIf="isOrderNEW">
-          <button ion-button color="secondary" (click)="cancel()" [disabled]="!isOrderNEW">Cancel</button>
-        </ion-col>
-        <ion-col *ngIf="!isOrderNEW">
-          <button ion-button color="primary" (click)="updateOrder()" [disabled]="!isOrderUPDATE">Update Order</button>
-        </ion-col>
-        <ion-col *ngIf="!isOrderNEW">
-          <button ion-button color="secondary" (click)="cancel()" [disabled]="!isOrderUPDATE">Cancel</button>
-        </ion-col>
+        <div *ngIf="isOrderNEW">
+          <ion-col>
+            <button ion-button color="primary" (click)="sendORDER()" [disabled]="!isOrderNEW">Send Order</button>
+          </ion-col>
+          <ion-col>
+            <button ion-button color="secondary" (click)="cancel()" [disabled]="!isOrderNEW">Cancel</button>
+          </ion-col>
+        </div>
+        <div *ngIf="!isOrderNEW">
+          <ion-col>
+            <button ion-button color="primary" (click)="updateOrder()" [disabled]="!isOrderUPDATE">Update Order</button>
+          </ion-col>
+          <ion-col>
+            <button ion-button color="secondary" (click)="cancel()" [disabled]="!isOrderUPDATE">Cancel</button>
+          </ion-col>
+        </div>
       </ion-row>
     </ion-grid>
   </div>
+
   <div *ngIf="ACTION==='billing' && !isOrderNEW">
     <ion-grid>
       <ion-row *ngFor="let item of SHOP_ITEMS; let i = index" class="row_main">
