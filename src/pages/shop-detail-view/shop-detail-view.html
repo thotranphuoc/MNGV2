@@ -1,0 +1,49 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title *ngIf="SHOP">{{SHOP.SHOP_NAME}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div *ngIf="SHOP">
+    <div text-center>
+      <ion-slides pager>
+        <ion-slide *ngFor="let SHOP_IMAGE of SHOP.SHOP_IMAGES; let i = index">
+          <img src="{{SHOP_IMAGE}}">
+        </ion-slide>
+      </ion-slides>
+      <p>{{SHOP.SHOP_ADDRESS}}</p>
+      <p>{{SHOP.SHOP_PHONE}}</p>
+    </div>
+    <ion-list>
+      <ion-item>
+        <ion-icon name="md-bicycle" item-start></ion-icon>
+        Parking free for Motobike
+        <ion-icon *ngIf="SHOP.SHOP_isMOTO_PARK_FREE" name="md-checkmark" item-end color="primary"></ion-icon>
+        <ion-icon *ngIf="!SHOP.SHOP_isMOTO_PARK_FREE" name="md-close" item-end color="danger"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="md-car" item-start></ion-icon>
+        Parking free for Car
+        <ion-icon *ngIf="SHOP.SHOP_isCAR_PARK_FREE" name="md-checkmark" item-end color="primary"></ion-icon>
+        <ion-icon *ngIf="!SHOP.SHOP_isCAR_PARK_FREE" name="md-close" item-end color="danger"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="md-card" item-start></ion-icon>
+        Credit/ Debit accepted
+        <ion-icon *ngIf="SHOP.SHOP_isCREDIT" name="md-checkmark" item-end color="primary"></ion-icon>
+        <ion-icon *ngIf="!SHOP.SHOP_isCREDIT" name="md-close" item-end color="danger"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="md-trophy" item-start></ion-icon>
+        Membership available
+        <ion-icon *ngIf="SHOP.SHOP_isMEMBERSHIP" name="md-checkmark" item-end color="primary"></ion-icon>
+        <ion-icon *ngIf="!SHOP.SHOP_isMEMBERSHIP" name="md-close" item-end color="danger"></ion-icon>
+      </ion-item>
+    </ion-list>
+
+  </div>
+</ion-content>

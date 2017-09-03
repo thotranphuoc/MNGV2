@@ -445,6 +445,10 @@ export class CrudService {
     }
 
 
+    // FAVORITE CREATE, READ, UPDATE, DELETE
+    
+
+
 
 
 }
