@@ -18,7 +18,9 @@ export class MyApp {
   pages: Array<{title: string, component: string, icon: string}>;
   pages1: Array<{title: string, component: string, icon: string}>;
   pages2: Array<{title: string, component: string, icon: string}>;
+  pages3: Array<{title: string, component: string, icon: string}>;
   isAdminOfApp: boolean = false;
+  isAdminOfShop: boolean = false;
   PROFILE: iProfile;
   USER = null;
   constructor(
@@ -35,20 +37,21 @@ export class MyApp {
       { title: 'Home', component: 'HomePage', icon:'home' },
       { title: 'Setting', component: 'SettingPage', icon:'cog' },
       { title: 'Search', component: 'SearchPage', icon:'search' },
-      { title: 'About', component: 'AboutPage', icon:'information-circle' },
-      // { title: 'Shop2', component: 'Shop2Page', icon:'information-circle' },
-      // { title: 'Shop+', component: 'ShopAddNewPage', icon: 'bug' },
+      { title: 'About', component: 'AboutPage', icon:'information-circle' }
     ];
 
     this.pages1 = [
       { title: 'Order', component: 'OrderPage', icon:'cart' },
-    ]
+    ];
 
     this.pages2 = [
       { title: 'Admin', component: 'AdminPage', icon:'paw' },
+    ];
+
+    this.pages3 = [
       { title: 'Issue', component: 'TrackPage', icon: 'bug' },
-      
-    ]
+      { title: 'Image', component: 'ImageSamplePage', icon: 'image' },
+    ];
   }
 
   initializeApp() {
@@ -77,10 +80,14 @@ export class MyApp {
             this.PROFILE = profile;
             this.localService.PROFILE = profile;
             console.log(this.PROFILE);
-          })
+          });
           this.dbService.checkIfUserIsAdmin(USER_ID).then((res:boolean)=>{
+            this.isAdminOfShop = res;
+          });
+
+          this.dbService.checkIfUserIsAdminOfApp(USER_ID).then((res:boolean)=>{
             this.isAdminOfApp = res;
-          })
+          });
         }else{
           this.PROFILE = null;
         }

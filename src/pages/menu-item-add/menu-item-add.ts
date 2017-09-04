@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, App, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, App, AlertController, ModalController } from 'ionic-angular';
 
 import { LocalService } from '../../services/local.service';
 import { ImageService } from '../../services/image.service';
@@ -8,13 +8,15 @@ import { DbService } from '../../services/db.service';
 import { AppService } from '../../services/app.service';
 import { CrudService } from '../../services/crud.service';
 import { iItem } from '../../interfaces/item.interface';
-
+import { iShop } from '../../interfaces/shop.interface';
 @IonicPage()
 @Component({
   selector: 'page-menu-item-add',
   templateUrl: 'menu-item-add.html',
 })
 export class MenuItemAddPage {
+  data: any;
+  SHOP: iShop;
   loading: any;
   item: iItem = null;
   SHOP_ID: string = null;
@@ -29,6 +31,7 @@ export class MenuItemAddPage {
     public navParams: NavParams,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
+    private modalCtrl: ModalController,
     private app: App,
     private afService: AngularFireService,
     private dbService: DbService,
@@ -36,12 +39,19 @@ export class MenuItemAddPage {
     private localService: LocalService,
     private crudService: CrudService,
     private imageService: ImageService) {
-    this.SHOP_ID = this.navParams.get('SHOP_ID');
-    this.item = this.localService.ITEM_DEFAULT;
-    this.loading = this.loadingCtrl.create({
-      content: 'Please wait....',
-      spinner: 'crescent'
-    });
+    this.data = this.navParams.data;
+    this.SHOP = this.data.SHOP;
+    if(typeof(this.SHOP) === 'undefined'){
+      this.navCtrl.setRoot('HomePage');
+    }else{
+      this.SHOP_ID = this.SHOP.SHOP_ID;
+      this.item = this.localService.ITEM_DEFAULT;
+      this.loading = this.loadingCtrl.create({
+        content: 'Please wait....',
+        spinner: 'crescent'
+      });
+    }
+    
   }
 
   ionViewDidLoad() {
@@ -49,22 +59,36 @@ export class MenuItemAddPage {
   }
 
   takePhoto() {
-    this.selectPhotoByBrowser();
+    console.log('takePhoto');
+    let photosModal = this.modalCtrl.create('PhotosTakePage', { PHOTOS: this.base64Images });
+    photosModal.onDidDismiss((data) => {
+      console.log(data);
+      this.base64Images = data.PHOTOS;
+      this.item.ITEM_IMG_SHARED = false;
+      // if(this.base64Images){
+      //   this.base64Images = this.base64Images.concat(data.PHOTOS)
+      // }else{
+      //   this.base64Images = data.PHOTOS;
+      // }
+    });
+    photosModal.present();
   }
 
-  selectPhotoByBrowser() {
-    console.log('select photo')
-    document.getElementById('inputFile').click();
-  }
-
-  takePictureAndResizeByBrowser(event) {
-    this.imageService.resizeImagesFromChoosenFilesReturnPromiseWithArrayOfImageDataUrls(event)
-      .then((imgDataUrls: string[]) => {
-        setTimeout(() => {
-          console.log(imgDataUrls);
-          this.base64Images = imgDataUrls
-        }, 2000)
-      })
+  selectPhoto() {
+    console.log('selectPhoto');
+    let photosModal = this.modalCtrl.create('PhotosSelectPage', { KEY: this.item.ITEM_NAME_EN ,PHOTOS: this.base64Images });
+    photosModal.onDidDismiss((data) => {
+      console.log(data);
+      this.base64Images = data.PHOTOS;
+      this.item.ITEM_IMG_SHARED = true;
+      this.item.ITEM_IMAGES = data.PHOTOS;
+      // if(this.base64Images){
+      //   this.base64Images = this.base64Images.concat(data.PHOTOS)
+      // }else{
+      //   this.base64Images = data.PHOTOS;
+      // }
+    });
+    photosModal.present();
   }
 
   createItem() {
@@ -120,17 +144,6 @@ export class MenuItemAddPage {
       this.isInfoFullFilled = false;
       console.log(this.item.ITEM_SIZE, 'size is missed');
     }
-
-    // DONT KNOW WHY BELOW SET this.base64Images = null
-    // if (this.base64Images == null) {
-    //   this.isInfoFullFilled = false;
-    //   console.log(this.base64Image, 'image is missed');
-    // } else {
-    //   if (this.base64Images.length = 0) {
-    //     this.isInfoFullFilled = false;
-    //     console.log(this.base64Image, 'image is missed');
-    //   }
-    // }
     console.log(this.isInfoFullFilled, '<--isInfoFullfilled?');
   }
 
@@ -139,7 +152,6 @@ export class MenuItemAddPage {
     this.loading.present();
     setTimeout(() => {
       this.hideLoading();
-      // alert('Please turn on internet and location permission. Then open app again')
     }, 20000)
   }
 
@@ -147,17 +159,6 @@ export class MenuItemAddPage {
     this.loading.dismiss();
   }
 
-  // private hideLoadingWithMessage(message: string) {
-  //   this.loading.dismiss();
-  //   this.appService.alertMsg('Alert', message);
-  //   // this.go2Page('HomePage')
-  //   this.navCtrl.pop();
-  // }
-
-  go2Page(page: string) {
-    const root = this.app.getRootNav();
-    root.setRoot(page);
-  }
 
   alertMsgWithConfirmationToGoToAccountPage() {
     this.alertCtrl.create({
@@ -174,49 +175,18 @@ export class MenuItemAddPage {
           text: 'OK',
           handler: () => {
             console.log('go to Account page to login ');
-            // this.navCtrl.popToRoot();
-            this.navCtrl.push('AccountPage', { action: 'sign-in' });
+            this.navCtrl.push('AccountPage', { action: 'request-login' });
           }
         }
       ]
     }).present();
   }
 
+  // check again required or not
   resetItem() {
     this.localService.ITEM = this.localService.ITEM_DEFAULT;
     this.localService.ITEM_IMG64s = this.localService.ITEM_IMG64s_DEFAULT;
   }
-
-  ionViewWillEnter() {
-    this.base64Images = this.localService.ITEM_IMG64s;
-    this.item = this.localService.ITEM;
-  }
-
-  // ionViewWillLeave() {
-  //   this.localService.ITEM = this.item;
-  //   this.localService.ITEM_IMG64s = this.base64Images;
-  // }
-
-  // test() {
-  //   // console.log(this.base64Images)
-  //   let res: any;
-  //   // res = this.afService.getObject('Items/-Kp5VaG76oBUeHsGftNC/IMAGES');
-  //   this.dbService.getListReturnPromise_ArrayOfData('Items/-Kp5VaG76oBUeHsGftNC/IMAGES')
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-
-  //   this.dbService.getListReturnPromise_ArrayOfKey('Items/-Kp5VaG76oBUeHsGftNC/IMAGES')
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-
-  //   this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data('Items/-Kp5VaG76oBUeHsGftNC/IMAGES')
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-
-  // }
 
   // ERROR HANDLING
   showErr(err) {

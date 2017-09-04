@@ -316,34 +316,56 @@ export class CrudService {
     //----- ITEMS CREATE - READ - UPDATE - DELETE -----
 
     createItem(SHOP_ID: string, ITEM: iItem, imagesData: any[]) {
-        return new Promise((resolve, reject) => {
-            // 1. Create new item
-            this.dbService.insertOneNewItemReturnPromise(ITEM, 'Items/')
-                .then((res: any) => {
-                    console.log(res);
-                    let ITEM_ID = res.key;
-                    //2. update Key
-                    let pro1 = this.dbService.updateAnObjectAtNode('Items/' + ITEM_ID + '/ITEM_ID', ITEM_ID);
+        let isIMGShared = ITEM.ITEM_IMG_SHARED;
+        if (isIMGShared) {
+            return new Promise((resolve, reject) => {
+                // 1. Create new item
+                this.dbService.insertOneNewItemReturnPromise(ITEM, 'Items/')
+                    .then((res: any) => {
+                        console.log(res);
+                        let ITEM_ID = res.key;
+                        //2. update Key
+                        let pro1 = this.dbService.updateAnObjectAtNode('Items/' + ITEM_ID + '/ITEM_ID', ITEM_ID);
 
-                    //3. update shop's item_ID
-                    let pro2 = this.dbService.insertElementIntoArray('Shop_Items/' + SHOP_ID, ITEM_ID);
-
-                    //4. upload image
-                    let name = new Date().getTime().toString();
-                    console.log(imagesData);
-                    let pro3 = this.dbService.uploadBase64Images2FBReturnPromiseWithArrayOfURL('ItemImages/' + ITEM_ID, imagesData, name)
-                        .then((urls) => {
-                            console.log('upload item images --> done');
-                            console.log(urls);
-                            return this.dbService.updateAnObjectAtNode('Items/' + ITEM_ID + '/ITEM_IMAGES', urls);
+                        //3. update shop's item_ID
+                        let pro2 = this.dbService.insertElementIntoArray('Shop_Items/' + SHOP_ID, ITEM_ID);
+                        Promise.all([pro1, pro2]).then(() => {
+                            resolve();
                         })
-                    Promise.all([pro1, pro2, pro3]).then(() => {
-                        resolve();
+                            .catch((err) => { reject(err) });
                     })
-                        .catch((err) => { reject(err) });
-                })
-                .catch((err) => { reject(err) })
-        })
+                    .catch((err) => { reject(err) })
+            })
+        } else {
+            return new Promise((resolve, reject) => {
+                // 1. Create new item
+                this.dbService.insertOneNewItemReturnPromise(ITEM, 'Items/')
+                    .then((res: any) => {
+                        console.log(res);
+                        let ITEM_ID = res.key;
+                        //2. update Key
+                        let pro1 = this.dbService.updateAnObjectAtNode('Items/' + ITEM_ID + '/ITEM_ID', ITEM_ID);
+
+                        //3. update shop's item_ID
+                        let pro2 = this.dbService.insertElementIntoArray('Shop_Items/' + SHOP_ID, ITEM_ID);
+
+                        //4. upload image
+                        let name = new Date().getTime().toString();
+                        console.log(imagesData);
+                        let pro3 = this.dbService.uploadBase64Images2FBReturnPromiseWithArrayOfURL('ItemImages/' + ITEM_ID, imagesData, name)
+                            .then((urls) => {
+                                console.log('upload item images --> done');
+                                console.log(urls);
+                                return this.dbService.updateAnObjectAtNode('Items/' + ITEM_ID + '/ITEM_IMAGES', urls);
+                            })
+                        Promise.all([pro1, pro2, pro3]).then(() => {
+                            resolve();
+                        })
+                            .catch((err) => { reject(err) });
+                    })
+                    .catch((err) => { reject(err) })
+            })
+        }
     }
 
     updateItem(ITEM: iItem) {
@@ -411,7 +433,7 @@ export class CrudService {
                     Promise.all([pro1, pro2, pro3])
                         .then((res) => {
                             console.log('done', res);
-                            resolve({created_ORDER_ID: ORDER_ID});
+                            resolve({ created_ORDER_ID: ORDER_ID });
                         })
                         .catch((err) => {
                             console.log('error:', err)
@@ -422,7 +444,7 @@ export class CrudService {
     }
 
     updateOrder(ORDER_LIST, TABLE, Order2Update) {
-        return new Promise((resolve, reject)=>{
+        return new Promise((resolve, reject) => {
             console.log(ORDER_LIST);
             console.log(Order2Update);
             Order2Update.ORDER_LIST = ORDER_LIST;
@@ -433,10 +455,10 @@ export class CrudService {
             let pro1 = this.afService.updateObjectData('OrdersOfShop/' + Order2Update.ORDER_SHOP_ID + '/' + DATE + '/' + Order2Update.ORDER_ID, Order2Update);
             // update ActiveOrdersOfUser
             let pro2 = this.afService.updateObjectData('ActiveOrdersOfUser/' + Order2Update.ORDER_USER_ID + '/' + Order2Update.ORDER_SHOP_ID + '/' + Order2Update.ORDER_ID, Order2Update);
-            Promise.all([pro1, pro2]).then((res)=>{
-                resolve({result: 'OK'});
+            Promise.all([pro1, pro2]).then((res) => {
+                resolve({ result: 'OK' });
             })
-            .catch((err)=>{reject(err)});
+                .catch((err) => { reject(err) });
         })
     }
 
@@ -446,9 +468,31 @@ export class CrudService {
 
 
     // FAVORITE CREATE, READ, UPDATE, DELETE
-    
 
 
+    // SAMPLE-IMAGE 
+    // Create
+    createImage(IMAGE){
+        return this.dbService.insertOneNewItemReturnPromise(IMAGE, 'Images/')
+    }
+
+    // Read
+    getImages(){
+       return  this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data('Images');
+    }
+
+    // Update
+    updateImage(IMAGE, IMGID){
+        let IMG_ID = IMGID;
+        let DATA = {
+            IMG_URL: IMAGE.IMG_URL, 
+            IMG_NAME: IMAGE.IMG_NAME,
+            // IMG_CODE: IMAGE.IMG_CODE
+        }
+        return this.dbService.updateAnObjectAtNode('Images/'+IMG_ID, DATA)
+    }
+
+    // Delete
 
 
 }

@@ -26,8 +26,15 @@
       </ion-avatar>
       <h2>{{PROFILE.PROFILE_NAME}}</h2>
     </ion-item>
-    <ion-list *ngIf="isAdminOfApp">
+    <ion-list *ngIf="isAdminOfShop">
       <button menuClose ion-item *ngFor="let p of pages2" (click)="openPage(p)" style="background-color: lightgrey">
+        <ion-icon [name]="p.icon" item-left></ion-icon>
+        {{ p.title }}
+      </button>
+    </ion-list>
+
+    <ion-list *ngIf="isAdminOfApp">
+      <button menuClose ion-item *ngFor="let p of pages3" (click)="openPage(p)" style="background-color: lightgray">
         <ion-icon [name]="p.icon" item-left></ion-icon>
         {{ p.title }}
       </button>

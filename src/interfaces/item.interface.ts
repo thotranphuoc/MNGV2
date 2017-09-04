@@ -9,5 +9,7 @@ export interface iItem {
     ITEM_SHOP_ID: string,
     ITEM_ON_SALE: boolean,
     ITEM_NEW: boolean,
-    ITEM_VISIBLE: boolean
+    ITEM_VISIBLE: boolean,
+    ITEM_IMG_SHARED: boolean,
+    ITEM_OTHER: any
 }

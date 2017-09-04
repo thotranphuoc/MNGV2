@@ -1,0 +1,17 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>SEARCH PHOTO</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+
+
+  <ion-item *ngFor="let image of images; let i = index">
+      <img src="{{image.IMG_URL}}" alt="" (click)="selectPhoto(image)">
+    </ion-item>
+</ion-content>

@@ -65,7 +65,9 @@ export class LocalService {
         ITEM_SHOP_ID: null,
         ITEM_ON_SALE: false,
         ITEM_NEW: true,
-        ITEM_VISIBLE: true
+        ITEM_VISIBLE: true,
+        ITEM_IMG_SHARED: false,
+        ITEM_OTHER: null
     }
 
     ITEM: iItem = {
@@ -79,7 +81,9 @@ export class LocalService {
         ITEM_SHOP_ID: null,
         ITEM_ON_SALE: false,
         ITEM_NEW: true,
-        ITEM_VISIBLE: true
+        ITEM_VISIBLE: true,
+        ITEM_IMG_SHARED: false,
+        ITEM_OTHER: null
     }
 
     ITEM_IMG64s_DEFAULT: string[] = null;

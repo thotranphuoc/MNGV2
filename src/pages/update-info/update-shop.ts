@@ -117,7 +117,7 @@ export class UpdateShopPage {
     mapModal.onDidDismiss(data=>{
       console.log(data);
       this.SHOP.SHOP_LOCATION = data.NEW_LOCATION;
-    })
+    });
     mapModal.present();
   }
 
