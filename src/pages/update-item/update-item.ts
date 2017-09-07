@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
-import { ImageService } from '../../services/image.service';
+// import { ImageService } from '../../services/image.service';
 import { DbService } from '../../services/db.service';
-import { AppService } from '../../services/app.service';
+// import { AppService } from '../../services/app.service';
 import { CrudService } from '../../services/crud.service';
 import { iItem } from '../../interfaces/item.interface';
 @IonicPage()
@@ -21,10 +21,10 @@ export class UpdateItemPage {
     public navParams: NavParams,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
-    private imageService: ImageService,
+    // private imageService: ImageService,
     private dbService: DbService,
     private crudService: CrudService,
-    private appService: AppService
+    // private appService: AppService
   ) {
     this.data = this.navParams.data;
     this.SHOP_ITEM = this.data.SHOP_ITEM;
@@ -34,6 +34,7 @@ export class UpdateItemPage {
     } else {
       console.log(this.SHOP_ITEM);
       this.checkIfImageShare(this.SHOP_ITEM.ITEM_IMAGES[0]);
+      this.base64Images = this.SHOP_ITEM.ITEM_IMAGES;
     }
   }
 
@@ -77,10 +78,14 @@ export class UpdateItemPage {
     let photosModal = this.modalCtrl.create('PhotosTakePage', { PHOTOS: this.base64Images });
     photosModal.onDidDismiss((data) => {
       console.log(data);
-      this.base64Images = data.PHOTOS;
-      this.SHOP_ITEM.ITEM_IMG_SHARED = false;
-      this.willIMGBeUploaded = true;
-      this.updatePhoto(data.PHOTOS);
+      if (!data.isCancel) {
+        this.base64Images = data.PHOTOS;
+        this.SHOP_ITEM.ITEM_IMG_SHARED = false;
+        this.willIMGBeUploaded = true;
+        this.updatePhoto(data.PHOTOS);
+      } else {
+        console.log('cancel: do nothing');
+      }
 
     });
     photosModal.present();
@@ -88,16 +93,20 @@ export class UpdateItemPage {
 
   selectPhoto() {
     console.log('selectPhoto');
-    let photosModal = this.modalCtrl.create('PhotosSelectPage', { KEY: this.SHOP_ITEM.ITEM_NAME_EN, PHOTOS: this.base64Images });
-    photosModal.onDidDismiss((data) => {
-      console.log(data);
-      this.base64Images = data.PHOTOS;
-      this.SHOP_ITEM.ITEM_IMG_SHARED = true;
-      this.willIMGBeUploaded = false;
-      this.updatePhoto(data.PHOTOS);
- 
+    let photosModal1 = this.modalCtrl.create('PhotosSelectPage', { KEY: this.SHOP_ITEM.ITEM_NAME_EN, PHOTOS: this.base64Images });
+    photosModal1.onDidDismiss((data1) => {
+      console.log(data1);
+      if (!data1.isCancel) {
+        this.base64Images = data1.PHOTOS;
+        this.SHOP_ITEM.ITEM_IMG_SHARED = true;
+        this.willIMGBeUploaded = false;
+        this.updatePhoto(data1.PHOTOS);
+      } else {
+        console.log('do nothing')
+      }
+
     });
-    photosModal.present();
+    photosModal1.present();
   }
 
   updatePhoto(PHOTOS: string[]) {
@@ -109,13 +118,14 @@ export class UpdateItemPage {
           // update ITEM_IMAGES then delete the old ITEM_IMAGE
           this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', urls);
           if (this.isIMGShared) {
-              this.SHOP_ITEM.ITEM_IMAGES = urls;
+            this.SHOP_ITEM.ITEM_IMAGES = urls;
           } else {
             // delete exist images in firebase storage
             this.dbService.deleteFileFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES[0])
               .then((res) => {
                 this.SHOP_ITEM.ITEM_IMAGES = urls;
               })
+              .catch((err) => { console.log(err) });
           }
         })
     } else {
@@ -123,18 +133,19 @@ export class UpdateItemPage {
         this.SHOP_ITEM.ITEM_IMAGES = PHOTOS;
         // update ITEM_IMAGES then delete the old ITEM_IMAGE
         this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', PHOTOS)
-        .then((res)=>{
-          console.log(res);
-        })
-        .catch((err)=>{ console.log(err)})
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => { console.log(err) })
       } else {
         // delete exist images in firebase storage
         this.dbService.deleteFileFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES[0])
-        .then((res) => {
-          this.SHOP_ITEM.ITEM_IMAGES = PHOTOS;
-          // update ITEM_IMAGES then delete the old ITEM_IMAGE
-          this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', PHOTOS);
-        })
+          .then((res) => {
+            this.SHOP_ITEM.ITEM_IMAGES = PHOTOS;
+            // update ITEM_IMAGES then delete the old ITEM_IMAGE
+            this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', PHOTOS);
+          })
+          .catch((err) => { console.log(err) });
       }
     }
     let NAME = new Date().getTime().toString();
@@ -161,7 +172,7 @@ export class UpdateItemPage {
   checkIfImageShare(IMG_URL) {
     let searchStr = 'menugo'
     let index = this.SHOP_ITEM.ITEM_IMAGES[0].toLocaleLowerCase().indexOf(searchStr);
-    if (index>=0) {
+    if (index >= 0) {
       this.isIMGShared = false;
     } else {
       this.isIMGShared = true;

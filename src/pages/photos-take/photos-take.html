@@ -24,5 +24,16 @@
     </div>
   </div>
 
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button ion-button block color="danger" (click)="doCancel()">Cancel</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button block color="secondary" (click)="setPhotos()">OK</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <input type="file" (change)="takePictureAndResizeByBrowser($event)" hidden accept="image/*" id="inputFile" multiple>
 </ion-content>

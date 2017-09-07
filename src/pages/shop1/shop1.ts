@@ -79,8 +79,8 @@ export class Shop1Page {
   }
 
   go2MenuItemAdd() {
-    console.log(this.shop.SHOP_ID);
-    this.navCtrl.push('MenuItemAddPage', { SHOP_ID: this.shop.SHOP_ID });
+    console.log(this.shop);
+    this.navCtrl.push('MenuItemAddPage', { SHOP: this.shop });
   }
 
 }

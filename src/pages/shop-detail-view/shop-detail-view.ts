@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { iShop } from '../../interfaces/shop.interface';
+import { AppService } from '../../services/app.service';
 
 @IonicPage()
 @Component({
@@ -11,7 +12,11 @@ import { iShop } from '../../interfaces/shop.interface';
 export class ShopDetailViewPage {
   data: any;
   SHOP: iShop = null;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    private appService: AppService
+  ) {
     this.data = this.navParams.data;
     this.SHOP = this.data.SHOP;
     console.log(this.data);
@@ -25,5 +30,10 @@ export class ShopDetailViewPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShopDetailViewPage');
   }
+
+  onClick(){
+    this.appService.toastMsg('This function will be available soon. Thanks', 5000);
+  }
+
 
 }

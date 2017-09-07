@@ -44,11 +44,12 @@ export class PhotosTakePage {
       .then((imgDataUrls: string[]) => {
         setTimeout(() => {
           console.log(imgDataUrls);
-          if(this.base64Images){
-            this.base64Images = this.base64Images.concat(imgDataUrls)
-          }else{
-            this.base64Images = imgDataUrls;
-          }
+          this.base64Images = imgDataUrls;
+          // if(this.base64Images){
+          //   this.base64Images = this.base64Images.concat(imgDataUrls)
+          // }else{
+          //   this.base64Images = imgDataUrls;
+          // }
         }, 2000)
       })
   }
@@ -80,8 +81,12 @@ export class PhotosTakePage {
   }
 
   setPhotos(){
-    this.viewCtrl.dismiss({ PHOTOS: this.base64Images });
+    this.viewCtrl.dismiss({ isCancel: false, PHOTOS: this.base64Images });
 
+  }
+
+  doCancel(){
+    this.viewCtrl.dismiss({ isCancel: true, PHOTOS: this.base64Images });
   }
 
 }

@@ -52,16 +52,6 @@ export class PhotosSelectPage {
       this.images = images.filter(image => image.IMG_NAME.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase())>=0);
       console.log(this.images);
     })
-    // this.afDB.list('Items/').forEach((images: string[]) => {
-    //   this.images = images.filter(item => item.ITEM_NAME_EN.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase()) >= 0 || item.ITEM_NAME_LOCAL.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase()) >= 0);
-    //   console.log(this.images);
-    // })
-    //   .then(() => {
-    //     console.log(this.images);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   })
   }
 
   selectPhoto(image){
@@ -70,7 +60,7 @@ export class PhotosSelectPage {
         {
           text: 'Select',
           handler: () => {
-            this.viewCtrl.dismiss({ PHOTOS: [image.IMG_URL]});
+            this.viewCtrl.dismiss({ isCancel: false, PHOTOS: [image.IMG_URL]});
           }
         }, {
           text: 'Cancel',
@@ -82,6 +72,10 @@ export class PhotosSelectPage {
       ]
     });
     actionSheet.present();
+  }
+
+  closeModal(){
+    this.viewCtrl.dismiss({ isCancel: true, PHOTOS: this.base64Images});
   }
 
 }

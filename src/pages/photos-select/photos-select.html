@@ -2,6 +2,9 @@
 
   <ion-navbar>
     <ion-title>SEARCH PHOTO</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="closeModal()">Cancel</button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -12,6 +15,6 @@
 
 
   <ion-item *ngFor="let image of images; let i = index">
-      <img src="{{image.IMG_URL}}" alt="" (click)="selectPhoto(image)">
-    </ion-item>
+    <img src="{{image.IMG_URL}}" alt="" (click)="selectPhoto(image)">
+  </ion-item>
 </ion-content>
