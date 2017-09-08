@@ -438,8 +438,13 @@ export class GmapService {
 
     initMap(mapElement, mapOptions) {
         return new Promise((resolve, reject) => {
-            let map = new google.maps.Map(mapElement, mapOptions);
-            resolve(map);
+            let map: any;
+            if( typeof(google) !== 'undefined'){
+                map = new google.maps.Map(mapElement, mapOptions);
+                resolve(map);
+            }else{
+                reject({message: 'google is undefined'});
+            }
         })
     }
 

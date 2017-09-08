@@ -292,7 +292,7 @@ export class CrudService {
             lng: SHOP.SHOP_LOCATION.lng
         }
         let pro2 = this.dbService.updateAnObjectAtNode('ShopsLOCATION/' + SHOP.SHOP_ID, data);
-        Promise.all([pro1, pro2])
+        return Promise.all([pro1, pro2])
             .then(() => {
                 this.appService.toastMsg('Update successfully', 3000);
             })

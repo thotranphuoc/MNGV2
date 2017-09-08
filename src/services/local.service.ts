@@ -32,6 +32,7 @@ export class LocalService {
         SHOP_isMEMBERSHIP: false,
         SHOP_isVISIBLE: true,
         SHOP_CURRENCY: null,
+        SHOP_TABLES: ['TB0','TB1','TB2','TB3','TB4','TB5','TB6','TB7','TB8','TB9'],
         SHOP_OTHER: null
     }
 
@@ -51,6 +52,7 @@ export class LocalService {
         SHOP_isMEMBERSHIP: false,
         SHOP_isVISIBLE: true,
         SHOP_CURRENCY: null,
+        SHOP_TABLES: ['TB0','TB1','TB2','TB3','TB4','TB5','TB6','TB7','TB8','TB9'],
         SHOP_OTHER: null
     }
 

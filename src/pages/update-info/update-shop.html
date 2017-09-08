@@ -56,7 +56,15 @@
           <p>Latitute: {{SHOP.SHOP_LOCATION.lat}}</p>
           <p>Longitute: {{SHOP.SHOP_LOCATION.lng}}</p>
         </ion-item>
+
       </ion-list>
+      <div>
+        <span *ngFor="let table of TABLES; let i = index">
+          <button ion-button (click)="editTables(table, i)">
+            {{table}}
+          </button>
+        </span>
+      </div>
 
       <button ion-button block (click)="update()" [disabled]="!myForm.valid">Update</button>
     </form>

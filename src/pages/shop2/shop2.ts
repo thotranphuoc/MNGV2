@@ -15,7 +15,7 @@ import { iShop } from '../../interfaces/shop.interface';
 })
 export class Shop2Page {
   loading: any;
-  shop: iShop = null;
+  SHOP: iShop = null;
   ORDER: iOrder = null;
   SHOP_ITEMS: any[] = [];
   SHOP_ITEMS_ID: any[] = [];
@@ -39,14 +39,14 @@ export class Shop2Page {
       content: 'Please wait....',
       spinner: 'crescent'
     });
-    this.shop = navParams.data.shop;
+    this.SHOP = navParams.data.shop;
 
-    this.localService.SHOP = this.shop;
-    console.log(this.shop);
+    this.localService.SHOP = this.SHOP;
+    console.log(this.SHOP);
     this.startLoading();
 
-    if (typeof (this.shop) !== 'undefined') {
-      this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.shop.SHOP_ID)
+    if (typeof (this.SHOP) !== 'undefined') {
+      this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.SHOP.SHOP_ID)
         .then((res: any) => {
           this.SHOP_ITEMS = res.SHOP_ITEMS;
           this.SHOP_ITEMS_ID = res.SHOP_ITEMS_ID;
@@ -86,12 +86,12 @@ export class Shop2Page {
 
   go2AddFavorite() {
     console.log('add favroite clicked');
-    this.navCtrl.push('FavoriteAddPage', { SHOP_ITEMS: this.SHOP_ITEMS, SHOP_ITEMS_ID: this.SHOP_ITEMS_ID, SHOP: this.shop })
+    this.navCtrl.push('FavoriteAddPage', { SHOP_ITEMS: this.SHOP_ITEMS, SHOP_ITEMS_ID: this.SHOP_ITEMS_ID, SHOP: this.SHOP })
   }
 
   go2MenuItemAdd() {
-    console.log(this.shop);
-    this.navCtrl.push('MenuItemAddPage', { SHOP: this.shop });
+    console.log(this.SHOP);
+    this.navCtrl.push('MenuItemAddPage', { SHOP: this.SHOP });
   }
 
   selectITEM(i) {
@@ -145,6 +145,7 @@ export class Shop2Page {
   go2Shop2Order(action: string) {
     let ACTION = action;
     let data = {
+      SHOP: this.SHOP,
       SHOP_ITEMS: this.SHOP_ITEMS,
       SHOP_ITEMS_ID: this.SHOP_ITEMS_ID,
       SHOP_ITEMS_INDEX: this.SHOP_ITEMS_INDEX,
@@ -184,7 +185,7 @@ export class Shop2Page {
   getActiveOrder() {
     if (this.afService.getAuth().auth.currentUser) {
       this.USER_ID = this.afService.getAuth().auth.currentUser.uid;
-      let URL = 'ActiveOrdersOfUser/' + this.USER_ID + '/' + this.shop.SHOP_ID;
+      let URL = 'ActiveOrdersOfUser/' + this.USER_ID + '/' + this.SHOP.SHOP_ID;
       this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data(URL)
         .then((res: any[]) => {
           console.log(res);

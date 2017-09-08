@@ -4,8 +4,8 @@
     <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-    <div *ngIf="shop">
-      <ion-title>{{shop.SHOP_NAME | uppercase}}</ion-title>
+    <div *ngIf="SHOP">
+      <ion-title>{{SHOP.SHOP_NAME | uppercase}}</ion-title>
     </div>
     <ion-buttons end>
       <button ion-button (click)="onCart()"><ion-icon class="icon-big" name="md-cart">{{COUNT}}</ion-icon></button>
@@ -23,7 +23,7 @@
     <div class="info"></div>
     <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
     <div class="name_en">{{item.ITEM_NAME_EN}}</div>
-    <div class="price">{{item.ITEM_PRICE}} {{shop.SHOP_CURRENCY}}</div>
+    <div class="price">{{item.ITEM_PRICE}} {{SHOP.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
     <div class="count"></div>
     <div class="number">{{SHOP_ITEMS_INDEX[i].count}}</div>
   </ion-card>

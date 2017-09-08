@@ -18,6 +18,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class Shop2OrderPage {
   USER_ID: string;
   ORDER: iOrder;
+  SHOP: any;
   SHOP_ITEMS: iItem[] = [];
   SHOP_ITEMS_ID: string[] = [];
   SHOP_ITEMS_INDEX: any[] = [];
@@ -42,6 +43,7 @@ export class Shop2OrderPage {
     private afService: AngularFireService
   ) {
     this.data = this.navParams.data;
+    this.SHOP = this.data.SHOP;
     this.SHOP_ITEMS = this.data.SHOP_ITEMS
     this.SHOP_ITEMS_ID = this.data.SHOP_ITEMS_ID;
     this.SHOP_ITEMS_INDEX = this.data.SHOP_ITEMS_INDEX;
@@ -223,7 +225,7 @@ export class Shop2OrderPage {
   }
 
   selectTable() {
-    let modol = this.modalCtrl.create('TablePage');
+    let modol = this.modalCtrl.create('TablePage', { SHOP: this.SHOP});
     modol.onDidDismiss((table) => {
       console.log(table);
       this.TABLE = table.TABLE;

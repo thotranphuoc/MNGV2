@@ -85,6 +85,7 @@ export class LocationPage {
           this.hideLoading();
           this.gmapService.addMarkerToMap(this.map, position).then((marker) => {
             this.userMarker = marker;
+            this.NEW_SELECTED_LOCATION = position;
           });
         })
 
@@ -99,6 +100,9 @@ export class LocationPage {
           this.NEW_SELECTED_LOCATION = positionClick;
         })
 
+      })
+      .catch((err)=>{
+        console.log(err);
       })
   }
 
