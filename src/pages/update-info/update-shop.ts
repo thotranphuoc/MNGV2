@@ -19,7 +19,9 @@ export class UpdateShopPage {
   SHOP: iShop = null;
   PROFILE: iProfile;
   base64Images: any[];
-  TABLES: string[] = [];
+  // TABLES: string[] = [];
+  isInfoFullFilled: boolean = true;
+  ERROR: string;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -40,7 +42,7 @@ export class UpdateShopPage {
       this.SHOP = null
       this.navCtrl.setRoot('HomePage');
     } else {
-      this.TABLES = this.SHOP.SHOP_TABLES;
+      // this.TABLES = this.SHOP.SHOP_TABLES;
     }
 
     console.log(this.SHOP);
@@ -115,12 +117,18 @@ export class UpdateShopPage {
   }
 
   update() {
-    this.crudService.updateShop(this.SHOP).then((res)=>{
-      console.log(res);
-      this.navCtrl.pop();
-    }).catch((err)=>{
-      console.log(err);
-    })
+    this.checkInfoFullFilled();
+    if (this.isInfoFullFilled) {
+      this.crudService.updateShop(this.SHOP).then((res) => {
+        console.log(res);
+        this.navCtrl.pop();
+      }).catch((err) => {
+        console.log(err);
+      })
+      console.log(this.SHOP);
+    } else {
+      this.appService.alertMsg('Error', this.ERROR);
+    }
   }
 
   updateLocation() {
@@ -162,7 +170,9 @@ export class UpdateShopPage {
   }
 
   removeTable(table, i) {
-    this.TABLES.splice(i, 1);
+    if(this.SHOP.SHOP_TABLES.length>1){
+      this.SHOP.SHOP_TABLES.splice(i, 1);
+    }
   }
 
   addTable() {
@@ -194,13 +204,65 @@ export class UpdateShopPage {
     promp.present();
   }
 
-  addNewTable(table){
-    let index = this.TABLES.indexOf(table);
-    if(index<0){
-      this.TABLES.push(table);
-    }else{
+  addNewTable(table: string) {
+    let index = this.SHOP.SHOP_TABLES.map(table => table.toLocaleLowerCase()).indexOf(table.toLocaleLowerCase())
+    // let index = this.TABLES.indexOf(table);
+    if (index < 0) {
+      this.SHOP.SHOP_TABLES.push(table);
+    } else {
       alert(table + ' already exists');
     }
+  }
+
+  checkInfoFullFilled() {
+
+    this.isInfoFullFilled = true;
+    if (this.SHOP.SHOP_NAME === null || this.SHOP.SHOP_NAME == '') {
+      this.isInfoFullFilled = false;
+      console.log(this.SHOP.SHOP_NAME, ' shop name is missed');
+      this.ERROR = 'shop name is missed';
+    }
+    if (this.SHOP.SHOP_ADDRESS === null || this.SHOP.SHOP_ADDRESS == '') {
+      this.isInfoFullFilled = false;
+      console.log(this.SHOP.SHOP_ADDRESS, ' address is missed');
+      this.ERROR = ' address is missed';
+    }
+
+    if (this.SHOP.SHOP_PHONE === null || this.SHOP.SHOP_PHONE == '') {
+      this.isInfoFullFilled = false;
+      console.log(this.SHOP.SHOP_PHONE, ' phone is missed');
+      this.ERROR = ' phone is missed';
+    }
+
+    if (this.SHOP.SHOP_CURRENCY === null || this.SHOP.SHOP_CURRENCY == '') {
+      this.isInfoFullFilled = false;
+      console.log(this.SHOP.SHOP_CURRENCY, ' currency is missed');
+      this.ERROR = ' currency is missed';
+    }
+
+    if (this.SHOP.SHOP_KIND === null || this.SHOP.SHOP_KIND == '') {
+      this.isInfoFullFilled = false;
+      console.log(this.SHOP.SHOP_KIND, ' kind is missed');
+      this.ERROR = ' kind is missed';
+    }
+
+    if (this.SHOP.SHOP_LOCATION === null) {
+      this.isInfoFullFilled = false;
+      console.log(this.SHOP.SHOP_LOCATION, ' location is missed');
+      this.ERROR = ' location is missed';
+    }
+
+    if (typeof(this.SHOP.SHOP_TABLES) ==='undefined' ||this.SHOP.SHOP_TABLES.length < 1) {
+      this.isInfoFullFilled = false;
+      console.log('tables is empty');
+      this.ERROR = 'Table is empty';
+    }
+
+    // if (this.base64Images.length == 0) {
+    //   this.isInfoFullFilled = false;
+    //   console.log('images is missed');
+    // }
+    console.log(this.isInfoFullFilled, '<--isInfoFullfilled?');
   }
 
 

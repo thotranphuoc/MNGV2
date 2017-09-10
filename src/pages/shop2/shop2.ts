@@ -40,10 +40,10 @@ export class Shop2Page {
       spinner: 'crescent'
     });
     this.SHOP = navParams.data.shop;
-
     this.localService.SHOP = this.SHOP;
     console.log(this.SHOP);
     this.startLoading();
+    this.getUser();
 
     if (typeof (this.SHOP) !== 'undefined') {
       this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.SHOP.SHOP_ID)
@@ -62,7 +62,7 @@ export class Shop2Page {
         .catch((err) => {
           console.log(err);
           this.hideLoading();
-        })
+        });
     } else {
       this.hideLoading();
       this.navCtrl.setRoot('HomePage');
@@ -109,9 +109,9 @@ export class Shop2Page {
           role: 'destructive',
           handler: () => {
             console.log('Destructive clicked');
-            if(this.COUNT>0){
+            if (this.COUNT > 0) {
               this.go2Shop2Order('ordering');
-            }else{
+            } else {
               alert('Choose your favorite items first. Thanks')
             }
           }
@@ -183,8 +183,8 @@ export class Shop2Page {
   }
 
   getActiveOrder() {
-    if (this.afService.getAuth().auth.currentUser) {
-      this.USER_ID = this.afService.getAuth().auth.currentUser.uid;
+    this.getUser();
+    if (this.USER_ID) {
       let URL = 'ActiveOrdersOfUser/' + this.USER_ID + '/' + this.SHOP.SHOP_ID;
       this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data(URL)
         .then((res: any[]) => {
@@ -207,8 +207,15 @@ export class Shop2Page {
           }
         })
         .catch((err) => { console.log(err) })
+    }
+  }
+
+  getUser() {
+    if (this.afService.getAuth().auth.currentUser) {
+      this.USER_ID = this.afService.getAuth().auth.currentUser.uid;
     } else {
       this.USER_ID = null;
+      console.log('this user:', this.USER_ID);
     }
   }
 
