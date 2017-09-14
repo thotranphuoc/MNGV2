@@ -27,12 +27,18 @@ export class UpdateItemsPage {
     this.PROFILE = this.data.PROFILE;
     if (typeof (this.SHOP) == 'undefined') {
       this.SHOP = null
+      this.navCtrl.setRoot('HomePage');
     }
     if(this.SHOP){
-      this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.SHOP.SHOP_ID).then((res: any)=>{
+      this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.SHOP.SHOP_ID)
+      .then((res: any)=>{
         console.log(res);
         this.SHOP_ITEMS = res.SHOP_ITEMS;
       })
+      .catch((err)=>{
+        console.log(err);
+        this.SHOP_ITEMS = [];
+      });
     }
   }
   ionViewDidLoad() {

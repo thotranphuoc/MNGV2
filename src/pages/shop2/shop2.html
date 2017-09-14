@@ -17,7 +17,7 @@
 
 <ion-content>
   <ion-card *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(i)">
-    <div>
+    <div class="div-img">
       <img src="{{item.ITEM_IMAGES[0]}}" alt="">
     </div>
     <div class="info"></div>
@@ -28,12 +28,12 @@
     <div class="number">{{SHOP_ITEMS_INDEX[i].count}}</div>
   </ion-card>
 
-  <ion-fab left bottom *ngIf="USER_ID">
+  <ion-fab left bottom *ngIf="USER_ID" #fab>
     <button ion-fab color="danger" mini><ion-icon name="md-share"></ion-icon></button>
     <ion-fab-list side="top">
       <button ion-fab><ion-icon name="logo-facebook" color="primary"></ion-icon></button>
-      <button ion-fab (click)="go2AddFavorite()"><ion-icon name="heart"  color="danger"></ion-icon></button>
-      <button ion-fab (click)="go2MenuItemAdd()"><ion-icon name="md-add" color="primary"></ion-icon></button>
+      <button ion-fab (click)="go2AddFavorite(fab)"><ion-icon name="heart"  color="danger"></ion-icon></button>
+      <button ion-fab (click)="go2MenuItemAdd(fab)"><ion-icon name="md-add" color="primary"></ion-icon></button>
     </ion-fab-list>
   </ion-fab>
 

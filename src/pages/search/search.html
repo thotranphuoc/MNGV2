@@ -6,7 +6,9 @@
     </button>
     <ion-title>SEARCH</ion-title>
     <ion-buttons end>
-      <ion-toggle checked="{{isThumbnailShown}}" [(ngModel)]="isThumbnailShown"></ion-toggle>
+      <span *ngIf="n==1"><button ion-button (click)="doOptions()"><ion-icon name="ios-list-box-outline"></ion-icon></button></span>
+      <span *ngIf="n==2"><button ion-button (click)="doOptions()"><ion-icon name="ios-list-box"></ion-icon></button></span>
+      <span *ngIf="n==3"><button ion-button (click)="doOptions()"><ion-icon name="md-apps"></ion-icon></button></span>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -14,21 +16,25 @@
 
 <ion-content>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-  <ion-item *ngFor="let item of itemList; let i = index" (click)="go2Shop(item)">
-    <h3 item-start>{{i}}</h3>
-    <p>{{item.ITEM_NAME_LOCAL}}</p>
-    <p>{{item.ITEM_NAME_EN}}</p>
-    <ion-thumbnail item-end *ngIf="isThumbnailShown">
-      <img src="{{item.ITEM_IMAGES[0]}}" alt="">
-    </ion-thumbnail>
-  </ion-item>
-  <!-- <ion-card *ngFor="let item of itemList" (click)="go2Shop(item)">
-    <img src="{{item.ITEM_IMAGES[0]}}" />
-    <div class="info"></div>
-    <div class="card-title">{{item.ITEM_NAME_EN}}</div>
-    <div class="card-subtitle">{{item.ITEM_NAME_LOCAL}}</div>
-    <div class="card-price">Price: {{item.ITEM_PRICE}} - size: {{item.ITEM_SIZE}}</div>
-  </ion-card> -->
+  <div *ngIf="n!==3">
+    <ion-item *ngFor="let item of itemList; let i = index" (click)="go2Shop(item)">
+      <h3 item-start>{{i}}</h3>
+      <p>{{item.ITEM_NAME_LOCAL}}</p>
+      <p>{{item.ITEM_NAME_EN}}</p>
+      <ion-thumbnail item-end *ngIf="n==2">
+        <img src="{{item.ITEM_IMAGES[0]}}" alt="">
+      </ion-thumbnail>
+    </ion-item>
+  </div>
+  <div *ngIf="n==3">
+    <ion-card *ngFor="let item of itemList" (click)="go2Shop(item)">
+      <img src="{{item.ITEM_IMAGES[0]}}" />
+      <div class="info"></div>
+      <div class="card-title">{{item.ITEM_NAME_EN}}</div>
+      <div class="card-subtitle">{{item.ITEM_NAME_LOCAL}}</div>
+      <div class="card-price">Price: {{item.ITEM_PRICE}} - size: {{item.ITEM_SIZE}}</div>
+    </ion-card>
+  </div>
 
 
 </ion-content>

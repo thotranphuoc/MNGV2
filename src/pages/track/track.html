@@ -28,7 +28,7 @@
   <button *ngIf="isUpdate" ion-button block color="secondary" (click)="updateIssue()">Update</button>
   <hr>
   <ion-card *ngFor="let item of issuesData" (click)="setIssueStatus(item)">
-    <h4>{{item.data.ISSUE_TITLE}} - {{item.data.ISSUE_STATE}}</h4>
+    <h4>{{item.data.ISSUE_TITLE}} - <span [ngClass]="item.data.ISSUE_STATE"> {{item.data.ISSUE_STATE}}</span></h4>
     <p>{{item.data.ISSUE_DES}}</p>
   </ion-card>
 </ion-content>

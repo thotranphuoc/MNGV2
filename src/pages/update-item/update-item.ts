@@ -128,6 +128,7 @@ export class UpdateItemPage {
               .catch((err) => { console.log(err) });
           }
         })
+        .catch((err) => { console.log(err) });
     } else {
       if (this.isIMGShared) {
         this.SHOP_ITEM.ITEM_IMAGES = PHOTOS;
@@ -154,14 +155,16 @@ export class UpdateItemPage {
         // upload ITEM_IMAGES then delete the old ITEM_IMAGE
         this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', urls);
         // delete old image firebase storage
-        this.dbService.deleteFileFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES[0]).then((res) => {
-          // update
-          this.SHOP_ITEM.ITEM_IMAGES = urls;
-        })
+        this.dbService.deleteFileFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES[0])
+          .then((res) => {
+            // update
+            this.SHOP_ITEM.ITEM_IMAGES = urls;
+          })
           .catch((err) => {
             console.log(err)
           })
       })
+      .catch((err)=>{ console.log(err)});
   }
 
   update() {

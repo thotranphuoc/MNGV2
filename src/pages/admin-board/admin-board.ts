@@ -59,7 +59,7 @@ export class AdminBoardPage {
   }
 
   go2OrderManager() {
-    this.navCtrl.push('OrderManagerPage', { SHOP_ID: this.SHOP.SHOP_ID });
+    this.navCtrl.push('OrderManagerPage', { SHOP: this.SHOP });
   }
 
   go2Statistic() {

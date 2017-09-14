@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-import { AngularFireService } from '../../services/af.service';
+// import { AngularFireService } from '../../services/af.service';
 import { DbService } from '../../services/db.service';
 import { GmapService } from '../../services/gmap.service';
 import { iShop } from '../../interfaces/shop.interface';
@@ -21,7 +21,8 @@ export class ListPage {
     public navParams: NavParams,
     private dbService: DbService,
     private gmapService: GmapService,
-    private afService: AngularFireService) {
+    // private afService: AngularFireService
+  ) {
     this.shopList = this.navParams.get('shops');
     if (typeof (this.shopList) != 'undefined') {
       this.isBackable = true;

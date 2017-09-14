@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-an
 import { Geolocation } from '@ionic-native/geolocation';
 import { GmapService } from '../../services/gmap.service';
 import { LocalService } from '../../services/local.service';
+import { DbService } from '../../services/db.service';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 import { iPosition } from '../../interfaces/position.interface';
@@ -33,6 +34,7 @@ export class MapPage {
     private geolocation: Geolocation,
     private gmapService: GmapService,
     private localService: LocalService,
+    private dbService: DbService,
     private afDB: AngularFireDatabase
   ) {
     this.USER_LOC = this.navParams.get('LOC');
@@ -147,10 +149,15 @@ export class MapPage {
         let POS: iPosition = {lat: shop.lat, lng: shop.lng}
         console.log(POS);
         if (this.gmapService.isPositionInsideMap(POS, this.map)) {
-          this.afDB.object('Shops/' + shop.ID).subscribe((shopData: iShop) => {
-            console.log(shopData);
+          // this.afDB.object('Shops/' + shop.ID).subscribe((shopData: iShop) => {
+          //   console.log(shopData);
+          //   this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, POS, shopData);
+          //   this.insideMapShops.push(shopData);
+          // })
+          this.dbService.getOneItemReturnPromise('Shops/'+shop.ID).then((shopData:iShop)=>{
             this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, POS, shopData);
             this.insideMapShops.push(shopData);
+            console.log(shopData);
           })
   
         }else{

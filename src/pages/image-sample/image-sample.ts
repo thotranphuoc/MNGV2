@@ -63,6 +63,7 @@ export class ImageSamplePage {
     this.crudService.createImage(this.IMAGE)
     .then((res)=>{
       console.log(res);
+      this.navCtrl.setRoot('ImageSamplePage');
     })
     .catch((err)=>{console.log(err)})
   }

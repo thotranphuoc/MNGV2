@@ -16,5 +16,6 @@
 
   <ion-item *ngFor="let image of images; let i = index">
     <img src="{{image.IMG_URL}}" alt="" (click)="selectPhoto(image)">
+    <p>{{image.IMG_NAME}}</p>
   </ion-item>
 </ion-content>

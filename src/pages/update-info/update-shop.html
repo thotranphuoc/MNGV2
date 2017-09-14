@@ -59,12 +59,43 @@
 
       </ion-list>
       <div>
+        TABLES:
+        <br>
         <span *ngFor="let table of SHOP.SHOP_TABLES; let i = index">
           <button ion-button (click)="editTables(table, i)">
             {{table}}
           </button>
         </span>
       </div>
+      <br>
+      <ion-list>
+        <ion-item>
+          <ion-icon name="md-bicycle" item-start></ion-icon>
+          <ion-label>Parking free for Motobike</ion-label>
+          <ion-toggle [(ngModel)]="SHOP.SHOP_isMOTO_PARK_FREE" name="SHOP_isMOTO_PARK_FREE"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="md-car" item-start></ion-icon>
+          <ion-label>Parking free for Car</ion-label>
+          <ion-toggle [(ngModel)]="SHOP.SHOP_isCAR_PARK_FREE" name="SHOP_isCAR_PARK_FREE"></ion-toggle>
+        </ion-item>
+        <!-- <ion-item>
+          <ion-icon name="md-bicycle" item-start></ion-icon>
+          <ion-label>Parking free for Motobike</ion-label>
+          <ion-toggle [(ngModel)]="SHOP.SHOP_isMOTO_PARK_FREE" name="SHOP_isMOTO_PARK_FREE"></ion-toggle>
+        </ion-item> -->
+        <ion-item>
+          <ion-icon name="md-card" item-start></ion-icon>
+          <ion-label>Credit/ Debit accepted</ion-label>
+          <ion-toggle [(ngModel)]="SHOP.SHOP_isCREDIT" name="SHOP_isCREDIT"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="md-trophy" item-start></ion-icon>
+          <ion-label>Membership available</ion-label>
+          <ion-toggle [(ngModel)]="SHOP.SHOP_isMEMBERSHIP" name="SHOP_isMEMBERSHIP"></ion-toggle>
+        </ion-item>
+      </ion-list>
+
 
       <button ion-button block (click)="update()" [disabled]="!myForm.valid">Update</button>
     </form>

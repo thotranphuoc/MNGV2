@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, FabContainer } from 'ionic-angular';
 import { iShop } from '../../interfaces/shop.interface';
 import { LocalService } from '../../services/local.service';
 import { AngularFireService } from '../../services/af.service';
@@ -73,13 +73,15 @@ export class Shop1Page {
     this.loading.dismiss();
   }
 
-  go2AddFavorite(){
+  go2AddFavorite(fab: FabContainer){
     console.log('add favroite clicked');
+    fab.close();
     this.navCtrl.push('FavoriteAddPage', { SHOP_ITEMS: this.SHOP_ITEMS, SHOP_ITEMS_ID: this.SHOP_ITEMS_ID, SHOP: this.shop})
   }
 
-  go2MenuItemAdd() {
+  go2MenuItemAdd(fab: FabContainer) {
     console.log(this.shop);
+    fab.close();
     this.navCtrl.push('MenuItemAddPage', { SHOP: this.shop });
   }
 

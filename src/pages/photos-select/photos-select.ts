@@ -60,7 +60,13 @@ export class PhotosSelectPage {
         {
           text: 'Select',
           handler: () => {
-            this.viewCtrl.dismiss({ isCancel: false, PHOTOS: [image.IMG_URL]});
+            this.viewCtrl.dismiss({ isCancel: false, PHOTOS: [image.IMG_URL]})
+            .then((res)=>{
+              console.log('success', res);
+            })
+            .catch((err)=>{
+              console.log('fail', err);
+            })
           }
         }, {
           text: 'Cancel',

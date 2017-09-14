@@ -19,6 +19,7 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: 'order-manager.html',
 })
 export class OrderManagerPage {
+  data: any;
   SHOP: iShop = null;
   SHOP_ID: string = '-KpxM-lgwzEKCrqU0Cp9'
   SHOP_ITEMS: iItem[] = [];
@@ -26,7 +27,7 @@ export class OrderManagerPage {
   ORDERs_NEW: any[] = [];
 
   // for unsubcribe
-  subscription: Subscription
+  subscription;
   DATE: any = '2017/07/23';
   selectedDate: string = null;
 
@@ -41,7 +42,15 @@ export class OrderManagerPage {
     private dbService: DbService,
     private localService: LocalService
   ) {
-    this.SHOP_ID = this.navParams.get('SHOP_ID');
+    this.data = this.navParams.data;
+    this.SHOP = this.data.SHOP;
+    if (typeof (this.SHOP) === 'undefined') {
+      this.navCtrl.setRoot('HomePage');
+    } else {
+      this.SHOP_ID = this.SHOP.SHOP_ID;
+    }
+    // this.SHOP_ID = this.navParams.get('SHOP_ID');
+    
     this.loading = this.loadingCtrl.create({
       content: 'Please wait....',
       spinner: 'crescent'
@@ -62,14 +71,18 @@ export class OrderManagerPage {
       })
     }
     // get SHOP_ITEMS & SHOP_ITEMS_ID
-    this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.SHOP_ID).then((data: any) => {
-      this.SHOP_ITEMS = data.SHOP_ITEMS;
-      this.SHOP_ITEMS_ID = data.SHOP_ITEMS_ID;
-      console.log(this.SHOP_ITEMS, this.SHOP_ITEMS_ID);
-      this.getOrderDetailAsync();
-    })
+    this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.SHOP_ID)
+      .then((data: any) => {
+        this.SHOP_ITEMS = data.SHOP_ITEMS;
+        this.SHOP_ITEMS_ID = data.SHOP_ITEMS_ID;
+        console.log(this.SHOP_ITEMS, this.SHOP_ITEMS_ID);
+        this.getOrderDetailAsync();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
 
-    
+
   }
 
   ionViewDidLoad() {
@@ -117,7 +130,11 @@ export class OrderManagerPage {
   }
 
   ionViewWillLeave() {
-    // this.subscription.unsubscribe();
+    if (typeof (this.subscription) !== 'undefined') {
+      this.subscription.unsubscribe();
+    } else {
+
+    }
   }
 
   selectDate() {
@@ -144,6 +161,6 @@ export class OrderManagerPage {
     this.loading.dismiss();
   }
 
-  
+
 
 }

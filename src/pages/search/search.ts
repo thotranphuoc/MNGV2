@@ -15,6 +15,7 @@ export class SearchPage {
   itemList: iItem[] = [];
   itemListObservable: any;
   isThumbnailShown: boolean = false;
+  n: number = 1;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -111,6 +112,17 @@ export class SearchPage {
       }
 
     })
+  }
+
+  doOptions(){
+    if(this.n<3){
+      console.log(this.n);
+      this.n++;
+    }else{
+      console.log(this.n)
+      this.n = 1;
+      
+    }
   }
 
 }
