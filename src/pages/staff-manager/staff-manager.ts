@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 
-import { AngularFireService } from '../../services/af.service';
+// import { AngularFireService } from '../../services/af.service';
 import { DbService } from '../../services/db.service';
 import { AppService } from '../../services/app.service';
 import { CrudService } from '../../services/crud.service';
@@ -38,7 +38,7 @@ export class StaffManagerPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
-    private afService: AngularFireService,
+    // private afService: AngularFireService,
     private dbService: DbService,
     private appService: AppService,
     private crudService: CrudService
@@ -49,7 +49,9 @@ export class StaffManagerPage {
     this.USER_ID = this.data.USER_ID;
     this.SHOP = this.data.SHOP;
     this.PROFILE = this.data.PROFILE;
-    // this.getData(this.SHOP);
+    if(typeof(this.SHOP) === 'undefined'){
+      this.navCtrl.setRoot('HomePage');
+    }
   }
 
   ionViewDidLoad() {

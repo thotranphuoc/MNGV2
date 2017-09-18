@@ -278,6 +278,15 @@ export class LocalService {
             setTimeout(() => {
                 this.dbService.removeAnObjectAtNode('ActiveOrdersOfUser/' + USER_ID + '/' + SHOP_ID + '/' + ORDER_ID);
             }, 3000);
+        }else if (NEW_STATUS === 'DELETED') {
+            setTimeout(() => {
+                // delete from ActiveOrdersOfUser
+                this.dbService.removeAnObjectAtNode('ActiveOrdersOfUser/' + USER_ID + '/' + SHOP_ID + '/' + ORDER_ID);
+                // delete from OrdersOfUser/USER_ID/DATE/
+                this.dbService.removeElementFromArray('OrdersOfUser/' + USER_ID + '/' + DATE, 'OrdersOfShop/' + SHOP_ID + '/' + DATE + '/' + ORDER_ID)
+                // delete from OrdersOfShop/SHOP_ID/
+                this.dbService.removeAnObjectAtNode('OrdersOfShop/' + SHOP_ID + '/' + DATE + '/' + ORDER_ID);
+            }, 3000);
         } else {
             // update OrdersOfShop
             this.afService.updateObjectData('OrdersOfShop/' + SHOP_ID + '/' + DATE + '/' + ORDER_ID + '/ORDER_STATUS', NEW_STATUS);

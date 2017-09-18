@@ -5,6 +5,12 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     <ion-title>+Issue</ion-title>
+    <ion-buttons end>
+      <span *ngIf="n==1"><button ion-button (click)="doOptions()">All</button></span>
+      <span *ngIf="n==2"><button ion-button (click)="doOptions()">Opened</button></span>
+      <span *ngIf="n==3"><button ion-button (click)="doOptions()">Rejected</button></span>
+      <span *ngIf="n==4"><button ion-button (click)="doOptions()">Closed</button></span>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -27,8 +33,38 @@
   <button *ngIf="!isUpdate" ion-button block (click)="createIssue()">Create</button>
   <button *ngIf="isUpdate" ion-button block color="secondary" (click)="updateIssue()">Update</button>
   <hr>
-  <ion-card *ngFor="let item of issuesData" (click)="setIssueStatus(item)">
-    <h4>{{item.data.ISSUE_TITLE}} - <span [ngClass]="item.data.ISSUE_STATE"> {{item.data.ISSUE_STATE}}</span></h4>
-    <p>{{item.data.ISSUE_DES}}</p>
-  </ion-card>
+  <div *ngIf="n==1">
+    <div *ngFor="let item of issuesData">
+      <ion-card (click)="setIssueStatus(item)">
+        <h4>{{item.data.ISSUE_TITLE}} - <span [ngClass]="item.data.ISSUE_STATE"> {{item.data.ISSUE_STATE}}</span></h4>
+        <p>{{item.data.ISSUE_DES}}</p>
+      </ion-card>
+    </div>
+  </div>
+  <div *ngIf="n>1">
+    <div *ngIf="n==2">
+      <div *ngFor="let item of issuesData">
+        <ion-card *ngIf="item.data.ISSUE_STATE ==='Open'" (click)="setIssueStatus(item)">
+          <h4>{{item.data.ISSUE_TITLE}} - <span [ngClass]="item.data.ISSUE_STATE"> {{item.data.ISSUE_STATE}}</span></h4>
+          <p>{{item.data.ISSUE_DES}}</p>
+        </ion-card>
+      </div>
+    </div>
+    <div *ngIf="n==3">
+      <div *ngFor="let item of issuesData">
+        <ion-card *ngIf="item.data.ISSUE_STATE ==='Rejected'" (click)="setIssueStatus(item)">
+          <h4>{{item.data.ISSUE_TITLE}} - <span [ngClass]="item.data.ISSUE_STATE"> {{item.data.ISSUE_STATE}}</span></h4>
+          <p>{{item.data.ISSUE_DES}}</p>
+        </ion-card>
+      </div>
+    </div>
+    <div *ngIf="n==4">
+      <div *ngFor="let item of issuesData">
+        <ion-card *ngIf="item.data.ISSUE_STATE ==='Closed'" (click)="setIssueStatus(item)">
+          <h4>{{item.data.ISSUE_TITLE}} - <span [ngClass]="item.data.ISSUE_STATE"> {{item.data.ISSUE_STATE}}</span></h4>
+          <p>{{item.data.ISSUE_DES}}</p>
+        </ion-card>
+      </div>
+    </div>
+  </div>
 </ion-content>

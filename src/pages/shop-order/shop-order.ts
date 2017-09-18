@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, 
+  // AlertController, 
+  ActionSheetController } from 'ionic-angular';
 
 import { LocalService } from '../../services/local.service';
 import { AngularFireService } from '../../services/af.service';
 import { AppService } from '../../services/app.service';
-import { DbService } from '../../services/db.service';
+// import { DbService } from '../../services/db.service';
 import { iItem } from '../../interfaces/item.interface';
 import { iOrderList } from '../../interfaces/order-list.interface';
 import { iOrder } from '../../interfaces/order.interface';
@@ -31,11 +33,11 @@ export class ShopOrderPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private alertCtrl: AlertController,
+    // private alertCtrl: AlertController,
     private actionSheetCtrl: ActionSheetController,
     private localService: LocalService,
     private appService: AppService,
-    private dbService: DbService,
+    // private dbService: DbService,
     private afService: AngularFireService
   ) {
     this.SHOP = this.localService.SHOP;

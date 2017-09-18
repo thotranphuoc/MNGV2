@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {
+  IonicPage, NavController, NavParams,
+  // ModalController 
+} from 'ionic-angular';
 
-import { AngularFireService } from '../../services/af.service';
+// import { AngularFireService } from '../../services/af.service';
 import { DbService } from '../../services/db.service';
 import { AppService } from '../../services/app.service';
 import { ImageService } from '../../services/image.service';
@@ -30,34 +33,42 @@ export class ProfilePage {
     PROFILE_OTHERS: null
   }
   USER: any;
-  USER_ID: string = null;
-  USER_EMAIL: string = null;
+  // USER_ID: string = null;
+  // USER_EMAIL: string = null;
   action: string = 'edited-by-owner';
   btnEnable: boolean = true;
-  base64Images: string[] = null;
+  base64Images: string[] = [];
   hasNewAvatar: boolean = false;
+  data: any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private afService: AngularFireService,
+    // private modalCtrl: ModalController,
+    // private afService: AngularFireService,
     private dbService: DbService,
     private appService: AppService,
     private imageService: ImageService,
     private localService: LocalService) {
     this.PROFILE = this.localService.PROFILE;
-    let act = this.navParams.get('action');
+    this.data = this.navParams.data;
+    console.log(this.data);
+    // let act = this.navParams.get('action');
+    let act = this.data.action;
     if (typeof (act) != 'undefined') {
       this.action = act;
+    } else {
+      this.navCtrl.setRoot('HomePage');
     }
 
     // user update by their own;
     if (this.action === 'edited-by-owner') {
-      this.USER = this.afService.getAuth().auth.currentUser;
+      // this.USER = this.afService.getAuth().auth.currentUser;
+      this.USER = this.data.USER;
       if (this.USER != null) {
-        this.USER_ID = this.USER.uid;
-        this.USER_EMAIL = this.USER.email;
-        this.getProfile(this.USER_ID);
-        this.PROFILE.PROFILE_EMAIL = this.USER_EMAIL;
+        // this.USER_ID = this.USER.uid;
+        // this.USER_EMAIL = this.USER.email;
+        this.getProfile(this.USER.uid);
+        this.PROFILE.PROFILE_EMAIL = this.USER.email;
       }
     } else {
       // edited by admin
@@ -71,36 +82,47 @@ export class ProfilePage {
 
   getProfile(USER_ID: string) {
     console.log(USER_ID);
-    this.dbService.getOneItemReturnPromise('UserProfiles/' + USER_ID).then((res: iProfile) => {
-      console.log(res);
-      if (res != null) {
-        this.localService.PROFILE_OLD = res;
-        this.PROFILE = res
-        // this.base64Images[0] = this.PROFILE.AVATAR_URL;
-      } else {
-        console.log('User does not update profile yet');
-      }
-    })
+    this.dbService.getOneItemReturnPromise('UserProfiles/' + USER_ID)
+      .then((res: iProfile) => {
+        console.log(res);
+        if (res != null) {
+          this.localService.PROFILE_OLD = res;
+          this.PROFILE = res
+          this.base64Images[0] = this.PROFILE.PROFILE_AVATAR_URL;
+        } else {
+          console.log('User does not update profile yet');
+        }
+      })
+      .catch((err) => { console.log(err) })
   }
 
   onUpdateProfile(form) {
-    if (this.USER_ID) {
+    if (this.USER.uid) {
       if (this.hasNewAvatar) {
-        this.uploadImages(this.base64Images).then((res: string[]) => {
-          this.PROFILE.PROFILE_AVATAR_URL = res[0];
-          console.log(this.PROFILE);
-          this.dbService.insertAnObjectAtNode('UserProfiles/' + this.USER_ID, this.PROFILE).then((res) => {
-            console.log(res);
-            this.resetDefault();
+        this.uploadImages(this.base64Images)
+          .then((res: string[]) => {
+            this.PROFILE.PROFILE_AVATAR_URL = res[0];
+            console.log(this.PROFILE);
+            this.dbService.insertAnObjectAtNode('UserProfiles/' + this.USER.uid, this.PROFILE)
+              .then((res) => {
+                console.log(res);
+                this.resetDefault();
+                this.appService.toastMsg('Successfully changed', 3000);
+                this.navCtrl.pop();
+              })
+              .catch((err) => { console.log(err) })
           })
-        })
+          .catch((err) => { console.log(err) })
       } else {
         console.log(this.PROFILE);
-        this.dbService.insertAnObjectAtNode('UserProfiles/' + this.USER_ID, this.PROFILE).then((res) => {
-          console.log(res);
-          this.resetDefault();
-          this.appService.toastMsg('Successfully changed', 3000);
-        })
+        this.dbService.insertAnObjectAtNode('UserProfiles/' + this.USER.uid, this.PROFILE)
+          .then((res) => {
+            console.log(res);
+            this.resetDefault();
+            this.navCtrl.pop();
+            this.appService.toastMsg('Successfully changed', 3000);
+          })
+          .catch((err) => { console.log(err) })
       }
     } else {
       console.log('User not logged in');
@@ -122,11 +144,12 @@ export class ProfilePage {
           this.hasNewAvatar = true;
         }, 2000)
       })
+      .catch((err) => { console.log(err) })
   }
 
   uploadImages(images: string[]) {
-    let URL = 'Avatar/' + this.USER_ID;
-    let NAME = this.USER_ID;
+    let URL = 'Avatar/' + this.USER.uid;
+    let NAME = this.USER.uid;
     return this.dbService.uploadBase64Images2FBReturnPromiseWithArrayOfURL(URL, images, NAME);
   }
 
@@ -134,5 +157,4 @@ export class ProfilePage {
     this.hasNewAvatar = false;
     this.localService.PROFILE = this.localService.PROFILE_DEFAULT;
   }
-
 }

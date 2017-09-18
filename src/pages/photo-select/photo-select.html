@@ -1,0 +1,22 @@
+<ion-header>
+  
+    <ion-navbar>
+        <ion-buttons start>
+            <button ion-button (click)="closeModal()">Cancel</button>
+          </ion-buttons>
+      <ion-title>Select a Photo</ion-title>
+      
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content>
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  
+  
+    <ion-item *ngFor="let image of images; let i = index">
+      <img src="{{image.IMG_URL}}" alt="" (click)="selectPhoto(image)">
+      <p>{{image.IMG_NAME}}</p>
+    </ion-item>
+  </ion-content>

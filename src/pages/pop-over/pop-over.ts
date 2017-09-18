@@ -24,7 +24,7 @@ export class PopOverPage {
   }
 
   closePopover() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss().catch((err) => { console.log(err)});
   }
 
   go2Shop() {
@@ -47,20 +47,20 @@ export class PopOverPage {
         if(shop.SHOP_OTHER.isVERIFIED){
           console.log('isVERIFIED TRUE');
           // this.navCtrl.setRoot('ShopPage', { shop: shop });
-          this.app.getRootNav().setRoot('Shop2Page', {shop: this.shop});
+          this.app.getRootNav().setRoot('Shop2Page', {SHOP: this.shop});
         }else{
           console.log('isVERIFIED FALSE');
-          // this.navCtrl.setRoot('Shop1Page', { shop: shop });
-          this.app.getRootNav().setRoot('Shop1Page', {shop: this.shop});
+          // this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
+          this.app.getRootNav().setRoot('Shop1Page', {SHOP: this.shop});
         }
       }else{
         console.log('isVERIFIED not exist');
-        // this.navCtrl.setRoot('Shop1Page', { shop: shop });
-        this.app.getRootNav().setRoot('Shop1Page', {shop: this.shop});
+        // this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
+        this.app.getRootNav().setRoot('Shop1Page', {SHOP: this.shop});
       }
     }else{
       console.log('no SHOP_OTHER')
-      this.app.getRootNav().setRoot('Shop1Page', {shop: this.shop});
+      this.app.getRootNav().setRoot('Shop1Page', {SHOP: this.shop});
     }
   }
 

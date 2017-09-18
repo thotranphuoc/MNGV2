@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { iShop } from '../../interfaces/shop.interface';
-import { iItem } from '../../interfaces/item.interface';
+// import { iItem } from '../../interfaces/item.interface';
 // import { AngularFireService } from '../../services/af.service';
-import { DbService } from '../../services/db.service';
+// import { DbService } from '../../services/db.service';
 import { LocalService } from '../../services/local.service';
 
 @IonicPage()
@@ -23,7 +23,7 @@ export class ShopPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private dbService: DbService,
+    // private dbService: DbService,
     private localService: LocalService,
     // private afService: AngularFireService
   ) {

@@ -6,7 +6,7 @@ import { StatisticService } from '../../services/statistic.service';
 // import { DbService } from '../../services/db.service';
 import { LocalService } from '../../services/local.service';
 import { GchartService } from '../../services/gchart.service';
-import { iOrder } from '../../interfaces/order.interface';
+// import { iOrder } from '../../interfaces/order.interface';
 import { iItem } from '../../interfaces/item.interface';
 
 declare var google: any;

@@ -5,7 +5,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { iSetting } from '../../interfaces/setting.interface';
 import { DbService } from '../../services/db.service';
-import { AuthService } from '../../services/auth.service';
+// import { AuthService } from '../../services/auth.service';
 import { LocalService } from '../../services/local.service';
 // import { AngularFireService } from '../../services/af.service';
 
@@ -18,6 +18,7 @@ export class SettingPage {
 
   mySettings: iSetting;
   isSigned;
+  USER: any;
   isAdminOfApp: boolean = false;
   
   constructor(
@@ -25,17 +26,21 @@ export class SettingPage {
     public navParams: NavParams,
     private localService: LocalService,
     private dbService: DbService,
-    private authService: AuthService,
+    // private authService: AuthService,
     private afAuth: AngularFireAuth
   ) {
     
     this.mySettings = this.localService.SETTING_DEFAULT;
     console.log('constructor inside')
     this.isSigned = this.afAuth.auth.currentUser;
+    this.USER = this.afAuth.auth.currentUser;
     if (this.isSigned) {
-      this.dbService.checkIfUserIsAdminOfApp(this.isSigned.uid).then((res: boolean)=>{
+      this.dbService.checkIfUserIsAdminOfApp(this.isSigned.uid)
+      .then((res: boolean)=>{
         this.isAdminOfApp = res;
+        console.log(this.isAdminOfApp);
       })
+      .catch((err)=>{ console.log(err)})
     }
     console.log(this.isSigned);
   }
@@ -61,7 +66,7 @@ export class SettingPage {
 
   go2ProfilePage() {
     console.log('edit profile page');
-    this.navCtrl.push('ProfilePage');
+    this.navCtrl.push('ProfilePage', { action: 'edited-by-owner', USER: this.USER});
   }
 
   go2OrdersHistory() {

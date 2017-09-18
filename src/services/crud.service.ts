@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { AppService } from './app.service';
 import { DbService } from './db.service';
-import { LocalService } from './local.service';
-import { GchartService } from './gchart.service';
+// import { LocalService } from './local.service';
+// import { GchartService } from './gchart.service';
 import { AuthService } from './auth.service';
 import { AngularFireService } from './af.service';
 
@@ -19,8 +19,8 @@ export class CrudService {
     constructor(
         private appService: AppService,
         private dbService: DbService,
-        private localService: LocalService,
-        private gchartService: GchartService,
+        // private localService: LocalService,
+        // private gchartService: GchartService,
         private authService: AuthService,
         private afService: AngularFireService
     ) { }

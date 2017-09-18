@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase, 
+  // FirebaseListObservable, 
+  // FirebaseObjectObservable 
+} from 'angularfire2/database';
 
 import { iItem } from '../../interfaces/item.interface';
-import { iShop } from '../../interfaces/shop.interface';
+// import { iShop } from '../../interfaces/shop.interface';
 
 @IonicPage()
 @Component({
@@ -31,7 +34,7 @@ export class SearchPage {
 
   getItems(event) {
     console.log(event.srcElement.value);
-    let srcStr = null;
+    // let srcStr = null;
     if (typeof (event.srcElement.value) != 'undefined') {
       let srcStr = event.srcElement.value.trim();
       if (srcStr) {
@@ -97,18 +100,18 @@ export class SearchPage {
         if('isVERIFIED' in shop.SHOP_OTHER){
           if(shop.SHOP_OTHER.isVERIFIED){
             console.log('isVERIFIED TRUE');
-            this.navCtrl.setRoot('Shop2Page', { shop: shop });
+            this.navCtrl.setRoot('Shop2Page', { SHOP: shop });
           }else{
             console.log('isVERIFIED FALSE');
-            this.navCtrl.setRoot('Shop1Page', { shop: shop });
+            this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
           }
         }else{
           console.log('isVERIFIED not exist');
-          this.navCtrl.setRoot('Shop1Page', { shop: shop });
+          this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
         }
       }else{
         console.log('no SHOP_OTHER')
-        this.navCtrl.setRoot('Shop1Page', { shop: shop });
+        this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
       }
 
     })

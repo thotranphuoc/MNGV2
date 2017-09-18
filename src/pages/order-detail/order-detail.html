@@ -9,20 +9,20 @@
 
 <ion-content>
 
-  <ion-card>
-    <img src="{{SHOP.SHOP_IMAGES[0]}}" alt="">
-    <h3>{{SHOP.SHOP_NAME}}</h3>
-    <p>{{SHOP.SHOP_ADDRESS}}</p>
-    <p>{{SHOP.SHOP_PHONE}}</p>
+  <ion-card *ngIf="SENDER==='USER'">
+    <img src="{{SHOP?.SHOP_IMAGES[0]}}" alt="">
+    <h3>{{SHOP?.SHOP_NAME}}</h3>
+    <p>{{SHOP?.SHOP_ADDRESS}}</p>
+    <p>{{SHOP?.SHOP_PHONE}}</p>
   </ion-card>
  
   <ion-card>
     <ion-grid>
       <ion-row style="background-color: lightgrey">
-        <ion-col>{{ORDER.ORDER_DATE_CREATE}}</ion-col>
-        <ion-col>{{ORDER.ORDER_STATUS}}</ion-col>
+        <ion-col>{{ORDER?.ORDER_DATE_CREATE}}</ion-col>
+        <ion-col>{{ORDER?.ORDER_STATUS}}</ion-col>
       </ion-row>
-      <ion-row *ngFor="let orderz of ORDER.ORDER_LIST_NEW; let i = index" class="row_main">
+      <ion-row *ngFor="let orderz of ORDER?.ORDER_LIST_NEW; let i = index" class="row_main">
         <ion-col col-7>
           <ion-row class="name_local">{{orderz.item.ITEM_NAME_LOCAL}}</ion-row>
           <ion-row class="name_local">{{orderz.item.ITEM_NAME_EN}}</ion-row>
@@ -41,15 +41,19 @@
 
  
   <div style="padding: 12px; text-align: center" *ngIf="SENDER ==='ADMIN'">
-    <button ion-button color="primary" small (click)="setOrderStatus('ACCEPTED')">ACCEPTED</button>
-    <button ion-button color="dark" small (click)="setOrderStatus('DELIVERED')">DELIVERED</button>
-    <button ion-button color="secondary" small (click)="setOrderStatus('PAID')">PAID</button>
-    <button ion-button color="light" small (click)="setOrderStatus('CLOSED')">CLOSED</button>
-    <button ion-button color="danger" small (click)="setOrderStatus('CANCELED')">CANCELED</button>
+    <button ion-button color="primary" (click)="setOrderStatus('ACCEPTED')" [disabled]="isDisabled">ACCEPTED</button>
+    <button ion-button color="dark"  (click)="setOrderStatus('DELIVERED')" [disabled]="isDisabled">DELIVERED</button>
+    <button ion-button color="secondary"  (click)="setOrderStatus('PAID')" [disabled]="isDisabled">PAID</button>
+    <button ion-button color="light"  (click)="setOrderStatus('CLOSED')" [disabled]="isDisabled">CLOSED</button>
+    <button ion-button color="danger"  (click)="setOrderDeleted()" [disabled]="isDisabled">DELETED</button>
   </div> 
   <hr>
-  <p>TABLE: {{ORDER.ORDER_TABLE}}</p>
-  <p>USER: {{ORDER.ORDER_USER_ID}}</p>
+  
+  <div *ngIf="SENDER ==='ADMIN'">
+    <p>TABLE: {{ORDER?.ORDER_TABLE}}</p>
+    <p>USER: {{ORDER?.ORDER_USER_ID}}</p>
+    <button ion-button block (click)="editOrder()">Edit Order</button>
+  </div>
 
 
 </ion-content>

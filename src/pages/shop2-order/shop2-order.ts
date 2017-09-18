@@ -158,7 +158,7 @@ export class Shop2OrderPage {
   }
 
   closeModal() {
-    // this.viewCtrl.dismiss();
+    // this.viewCtrl.dismiss().catch((err) => { console.log(err)});
     let data = {
       SHOP_ITEMS: this.SHOP_ITEMS,
       SHOP_ITEMS_ID: this.SHOP_ITEMS_ID,

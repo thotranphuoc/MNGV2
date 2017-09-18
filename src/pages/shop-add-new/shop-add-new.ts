@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ViewController, ActionSheetController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, 
+  // ViewController, 
+  ActionSheetController, AlertController } from 'ionic-angular';
 
 import { iShop } from '../../interfaces/shop.interface';
 import { LocalService } from '../../services/local.service';
@@ -24,7 +26,7 @@ export class ShopAddNewPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private modalCtrl: ModalController,
-    private viewCtrl: ViewController,
+    // private viewCtrl: ViewController,
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     private localService: LocalService,

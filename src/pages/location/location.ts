@@ -11,6 +11,7 @@ declare var google: any;
   templateUrl: 'location.html',
 })
 export class LocationPage {
+  data: any;
   loading: any;
   mapEl: any;
   map: any;
@@ -26,6 +27,8 @@ export class LocationPage {
     private geolocation: Geolocation,
     private gmapService: GmapService,
   ) {
+    this.data = this.navParams.data;
+    console.log(this.data);
     this.CURRENT_LOCATION = this.navParams.get('CURRENT_LOCATION');
     this.SHOP = this.navParams.get('SHOP');
     this.loading = this.loadingCtrl.create({
@@ -58,6 +61,7 @@ export class LocationPage {
           }
           this.showMap(pos, mapElement);
         })
+        .catch((err) => { console.log(err) });
     }
   }
 
@@ -101,17 +105,25 @@ export class LocationPage {
         })
 
       })
-      .catch((err)=>{
-        console.log(err);
-      })
+      .catch((err) => { console.log(err); })
   }
 
-  setLocation(){
-    this.viewCtrl.dismiss({NEW_LOCATION: this.NEW_SELECTED_LOCATION});
+  setLocation() {
+    let NEW_LOCATION = {
+      lat: Number(this.NEW_SELECTED_LOCATION.lat.toFixed(5)),
+      lng: Number(this.NEW_SELECTED_LOCATION.lng.toFixed(5))
+    }
+    console.log(NEW_LOCATION);
+    // this.viewCtrl.dismiss({ NEW_LOCATION: this.NEW_SELECTED_LOCATION })
+    this.viewCtrl.dismiss({ NEW_LOCATION: NEW_LOCATION })
+      .then((res) => { console.log(res) })
+      .catch((err) => { console.log(err) });
   }
 
-  cancelLocation(){
-    this.viewCtrl.dismiss({NEW_LOCATION: this.CURRENT_LOCATION});
+  cancelLocation() {
+    this.viewCtrl.dismiss({ NEW_LOCATION: this.CURRENT_LOCATION })
+      .then((res) => { console.log(res) })
+      .catch((err) => { console.log(err) });
   }
 
   private startLoading() {
@@ -123,7 +135,9 @@ export class LocationPage {
   }
 
   private hideLoading() {
-    this.loading.dismiss();
+    this.loading.dismiss()
+      .then((res) => { console.log(res) })
+      .catch((err) => { console.log(err) });
   }
 
 }

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+// import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 // for af auth
-import { Observable } from 'rxjs/Observable';
-import { AngularFireAuth } from 'angularfire2/auth';
+// import { Observable } from 'rxjs/Observable';
+// import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/storage';
 
-import { iShop } from '../interfaces/shop.interface';
+// import { iShop } from '../interfaces/shop.interface';
 
 @Injectable()
 export class DbService {
@@ -16,39 +16,40 @@ export class DbService {
 
 
     constructor(
-        private db: AngularFireDatabase,
-        private afAuth: AngularFireAuth) {
+        // private db: AngularFireDatabase,
+        // private afAuth: AngularFireAuth
+    ) {
     }
 
-    checkIfUserIsAdminOfApp(USER_ID: string){
-        return new Promise((resolve, reject)=>{
-            this.getOneItemReturnPromise('AdminsOfApp/'+ USER_ID).then((res)=>{
+    checkIfUserIsAdminOfApp(USER_ID: string) {
+        return new Promise((resolve, reject) => {
+            this.getOneItemReturnPromise('AdminsOfApp/' + USER_ID).then((res) => {
                 console.log(res);
-                if(res !=null){
+                if (res != null) {
                     resolve(true);
-                }else{
+                } else {
                     resolve(false);
                 }
             })
-            .catch((err)=>{
-                reject(err);
-            })
+                .catch((err) => {
+                    reject(err);
+                })
         })
     }
 
-    checkIfUserIsAdmin(USER_ID: string){
-        return new Promise((resolve, reject)=>{
-            this.getOneItemReturnPromise('Admins/'+ USER_ID).then((res)=>{
+    checkIfUserIsAdmin(USER_ID: string) {
+        return new Promise((resolve, reject) => {
+            this.getOneItemReturnPromise('Admins/' + USER_ID).then((res) => {
                 console.log(res);
-                if(res !=null){
+                if (res != null) {
                     resolve(true);
-                }else{
+                } else {
                     resolve(false);
                 }
             })
-            .catch((err)=>{
-                reject(err);
-            })
+                .catch((err) => {
+                    reject(err);
+                })
         })
     }
 
@@ -67,6 +68,10 @@ export class DbService {
                 this.uploadBase64Image2FBReturnPromiseWithURL(path, imageData, name)
                     .then(url => {
                         resolve(url)
+                    })
+                    .catch((err)=>{ 
+                        console.log(err);
+                        reject(err);
                     })
             })
         });
@@ -208,19 +213,19 @@ export class DbService {
         })
     }
 
-    removeElementFromArray(dbURL, el: any){
-        return new Promise((resolve, reject)=>{
-            this.getListReturnPromise_ArrayOfData(dbURL).then((array: any[])=>{
+    removeElementFromArray(dbURL, el: any) {
+        return new Promise((resolve, reject) => {
+            this.getListReturnPromise_ArrayOfData(dbURL).then((array: any[]) => {
                 console.log(el, array);
                 let index = array.indexOf(el);
-                if(index<0){
+                if (index < 0) {
                     // el not exist
-                    reject({message: 'Element not exist'});
-                }else{
-                    array.splice(index,1);
-                    firebase.database().ref(dbURL).set(array).then((res)=>{
+                    reject({ message: 'Element not exist' });
+                } else {
+                    array.splice(index, 1);
+                    firebase.database().ref(dbURL).set(array).then((res) => {
                         resolve(res);
-                    }).catch((err)=>{
+                    }).catch((err) => {
                         reject(err);
                     })
                 }
@@ -296,14 +301,14 @@ export class DbService {
         })
     }
 
-    moveObjectFromURL2URL(url1,url2,node_key){
-        this.copyObjectFromURL2URL(url1,url2,node_key)
-        .then(()=>{
-            // remove url1/node_key
-            this.removeAnObjectAtNode(url1+'/'+node_key).then(()=>{
-                console.log('move success')
+    moveObjectFromURL2URL(url1, url2, node_key) {
+        this.copyObjectFromURL2URL(url1, url2, node_key)
+            .then(() => {
+                // remove url1/node_key
+                this.removeAnObjectAtNode(url1 + '/' + node_key).then(() => {
+                    console.log('move success')
+                })
             })
-        })
     }
 
 

@@ -70,12 +70,13 @@ export class UpdateItemPage {
         }
       ]
     });
-    actionSheet.present();
+    actionSheet.present()
+    .catch((err)=>{ console.log(err)})
   }
 
   takePhoto() {
     console.log('takePhoto');
-    let photosModal = this.modalCtrl.create('PhotosTakePage', { PHOTOS: this.base64Images });
+    let photosModal = this.modalCtrl.create('PhotoTakePage', { PHOTOS: this.base64Images });
     photosModal.onDidDismiss((data) => {
       console.log(data);
       if (!data.isCancel) {
@@ -88,12 +89,14 @@ export class UpdateItemPage {
       }
 
     });
-    photosModal.present();
+    photosModal.present()
+    .then((res)=>{ console.log(res)})
+    .catch((err)=>{ console.log(err)})
   }
 
   selectPhoto() {
     console.log('selectPhoto');
-    let photosModal1 = this.modalCtrl.create('PhotosSelectPage', { KEY: this.SHOP_ITEM.ITEM_NAME_EN, PHOTOS: this.base64Images });
+    let photosModal1 = this.modalCtrl.create('PhotoSelectPage', { KEY: this.SHOP_ITEM.ITEM_NAME_EN, PHOTOS: this.base64Images });
     photosModal1.onDidDismiss((data1) => {
       console.log(data1);
       if (!data1.isCancel) {
@@ -106,7 +109,9 @@ export class UpdateItemPage {
       }
 
     });
-    photosModal1.present();
+    photosModal1.present()
+    .then((res)=>{ console.log(res)})
+    .catch((err)=>{ console.log(err)})
   }
 
   updatePhoto(PHOTOS: string[]) {
@@ -134,9 +139,7 @@ export class UpdateItemPage {
         this.SHOP_ITEM.ITEM_IMAGES = PHOTOS;
         // update ITEM_IMAGES then delete the old ITEM_IMAGE
         this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', PHOTOS)
-          .then((res) => {
-            console.log(res);
-          })
+          .then((res) => { console.log(res) })
           .catch((err) => { console.log(err) })
       } else {
         // delete exist images in firebase storage
@@ -144,27 +147,13 @@ export class UpdateItemPage {
           .then((res) => {
             this.SHOP_ITEM.ITEM_IMAGES = PHOTOS;
             // update ITEM_IMAGES then delete the old ITEM_IMAGE
-            this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', PHOTOS);
+            this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', PHOTOS)
+              .then((res) => { console.log(res) })
+              .catch((err) => { console.log(err) })
           })
           .catch((err) => { console.log(err) });
       }
     }
-    let NAME = new Date().getTime().toString();
-    this.dbService.uploadBase64Images2FBReturnPromiseWithArrayOfURL('ItemImages/' + this.SHOP_ITEM.ITEM_ID, this.base64Images, NAME)
-      .then((urls) => {
-        // upload ITEM_IMAGES then delete the old ITEM_IMAGE
-        this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', urls);
-        // delete old image firebase storage
-        this.dbService.deleteFileFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES[0])
-          .then((res) => {
-            // update
-            this.SHOP_ITEM.ITEM_IMAGES = urls;
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      })
-      .catch((err)=>{ console.log(err)});
   }
 
   update() {

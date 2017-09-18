@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController, ModalController, ViewController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, ModalController, AlertController } from 'ionic-angular';
 
 import { AppService } from '../../services/app.service';
 import { ImageService } from '../../services/image.service';
@@ -27,7 +27,7 @@ export class UpdateShopPage {
     public navParams: NavParams,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
-    private viewCtrl: ViewController,
+    // private viewCtrl: ViewController,
     private alertCtrl: AlertController,
     private imageService: ImageService,
     private dbService: DbService,
@@ -41,8 +41,6 @@ export class UpdateShopPage {
     if (typeof (this.SHOP) === 'undefined') {
       this.SHOP = null
       this.navCtrl.setRoot('HomePage');
-    } else {
-      // this.TABLES = this.SHOP.SHOP_TABLES;
     }
 
     console.log(this.SHOP);
@@ -103,6 +101,7 @@ export class UpdateShopPage {
               this.SHOP.SHOP_IMAGES = this.SHOP.SHOP_IMAGES.concat(urls);
               this.dbService.updateAnObjectAtNode('Shops/' + this.SHOP.SHOP_ID + '/SHOP_IMAGES', this.SHOP.SHOP_IMAGES)
             })
+            .catch((err) => { console.log(err); });
         }, 1000);
       })
   }
@@ -110,21 +109,28 @@ export class UpdateShopPage {
   removePhoto(image, i) {
     this.SHOP.SHOP_IMAGES.splice(i, 1);
     // update db. Remember to delete removed image from firebase storage
-    this.dbService.deleteFileFromFireStorageWithHttpsURL(image).then((res) => {
-      console.log(res);
-    }).catch((err) => console.log(err))
-    this.dbService.updateAnObjectAtNode('Shops/' + this.SHOP.SHOP_ID + '/SHOP_IMAGES', this.SHOP.SHOP_IMAGES);
+    this.dbService.deleteFileFromFireStorageWithHttpsURL(image)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err))
+    this.dbService.updateAnObjectAtNode('Shops/' + this.SHOP.SHOP_ID + '/SHOP_IMAGES', this.SHOP.SHOP_IMAGES)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err))
   }
 
   update() {
     this.checkInfoFullFilled();
     if (this.isInfoFullFilled) {
-      this.crudService.updateShop(this.SHOP).then((res) => {
-        console.log(res);
-        this.navCtrl.pop();
-      }).catch((err) => {
-        console.log(err);
-      })
+      this.crudService.updateShop(this.SHOP)
+        .then((res) => {
+          console.log(res);
+          this.navCtrl.pop();
+        }).catch((err) => {
+          console.log(err);
+        })
       console.log(this.SHOP);
     } else {
       this.appService.alertMsg('Error', this.ERROR);
@@ -170,7 +176,7 @@ export class UpdateShopPage {
   }
 
   removeTable(table, i) {
-    if(this.SHOP.SHOP_TABLES.length>1){
+    if (this.SHOP.SHOP_TABLES.length > 1) {
       this.SHOP.SHOP_TABLES.splice(i, 1);
     }
   }
@@ -252,16 +258,11 @@ export class UpdateShopPage {
       this.ERROR = ' location is missed';
     }
 
-    if (typeof(this.SHOP.SHOP_TABLES) ==='undefined' ||this.SHOP.SHOP_TABLES.length < 1) {
+    if (typeof (this.SHOP.SHOP_TABLES) === 'undefined' || this.SHOP.SHOP_TABLES.length < 1) {
       this.isInfoFullFilled = false;
       console.log('tables is empty');
       this.ERROR = 'Table is empty';
     }
-
-    // if (this.base64Images.length == 0) {
-    //   this.isInfoFullFilled = false;
-    //   console.log('images is missed');
-    // }
     console.log(this.isInfoFullFilled, '<--isInfoFullfilled?');
   }
 

@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 
-import { AppService } from './app.service';
+// import { AppService } from './app.service';
 import { DbService } from './db.service';
-import { LocalService } from './local.service';
-import { GchartService } from './gchart.service';
+// import { LocalService } from './local.service';
+// import { GchartService } from './gchart.service';
 
 import { iOrder } from '../interfaces/order.interface';
-import { iItem } from '../interfaces/item.interface';
-declare var google: any;
+// import { iItem } from '../interfaces/item.interface';
+// declare var google: any;
 
 @Injectable()
 
 export class StatisticService {
 
     constructor(
-        private appService: AppService,
+        // private appService: AppService,
         private dbService: DbService,
-        private localService: LocalService,
-        private gchartService: GchartService
+        // private localService: LocalService,
+        // private gchartService: GchartService
     ) { }
 
     getSUMofDATE(DATE: string, SHOP_ID: string, SHOP_ITEMS, SHOP_ITEMS_ID) {

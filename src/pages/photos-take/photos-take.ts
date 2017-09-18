@@ -10,7 +10,7 @@ import { ImageService } from '../../services/image.service';
 export class PhotosTakePage {
   data: any;
   base64Images: string[] = [];
-
+  newPhoto: boolean = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -45,6 +45,7 @@ export class PhotosTakePage {
         setTimeout(() => {
           console.log(imgDataUrls);
           this.base64Images = imgDataUrls;
+          this.newPhoto = true;
           // if(this.base64Images){
           //   this.base64Images = this.base64Images.concat(imgDataUrls)
           // }else{
@@ -52,6 +53,7 @@ export class PhotosTakePage {
           // }
         }, 2000)
       })
+      .catch((err) => console.log(err))
   }
 
   selectPhoto(i) {
@@ -77,16 +79,24 @@ export class PhotosTakePage {
   }
 
   removePhoto(index){
+   if(this.base64Images.length>1){
     this.base64Images.splice(index,1);
+   }else{
+
+   }
   }
 
   setPhotos(){
-    this.viewCtrl.dismiss({ isCancel: false, PHOTOS: this.base64Images });
+    this.viewCtrl.dismiss({ isCancel: false, PHOTOS: this.base64Images })
+    .then((res)=>{ console.log(res)})
+    .catch((err)=>{ console.log(err)})
 
   }
 
   doCancel(){
-    this.viewCtrl.dismiss({ isCancel: true, PHOTOS: this.base64Images });
+    this.viewCtrl.dismiss({ isCancel: true, PHOTOS: this.base64Images })
+    .then((res)=>{ console.log(res)})
+    .catch((err)=>{ console.log(err)})
   }
 
 }

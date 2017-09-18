@@ -112,6 +112,6 @@ export class AddNewShopTab3Page {
   }
 
   private hideLoading() {
-    this.loading.dismiss();
+    this.loading.dismiss().catch((err) => { console.log(err)});
   }
 }

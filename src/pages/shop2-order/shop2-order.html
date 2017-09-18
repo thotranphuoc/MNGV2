@@ -41,7 +41,7 @@
       </ion-grid>
     </ion-card>
     <div>
-      <button ion-button clear (click)="selectTable()">TABLE<span *ngIf="TABLE">: - {{TABLE}}</span></button>
+      <button ion-button clear (click)="selectTable()"><span *ngIf="!TABLE" padding-right><ion-icon name="md-arrow-forward"></ion-icon></span>TABLE<span *ngIf="TABLE">: - {{TABLE}}</span></button>
     </div>
     <ion-grid>
       <ion-row>

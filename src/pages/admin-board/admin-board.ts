@@ -16,7 +16,7 @@ export class AdminBoardPage {
   PROFILE: iProfile;
   USER_ROLE: string = 'staff';
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     private dbService: DbService
   ) {
@@ -28,11 +28,13 @@ export class AdminBoardPage {
     }
     console.log(this.data.SHOP);
     this.PROFILE = this.data.PROFILE;
-    if(this.SHOP){
-      this.getRoleOfUserFromShop(this.SHOP.SHOP_ID, this.USER_ID).then((res: any)=>{
-        console.log(res);
-        this.USER_ROLE = res.ROLE;
-      })
+    if (this.SHOP) {
+      this.getRoleOfUserFromShop(this.SHOP.SHOP_ID, this.USER_ID)
+        .then((res: any) => {
+          console.log(res);
+          this.USER_ROLE = res.ROLE;
+        })
+        .catch((err) => { console.log(err); });
     }
   }
 
@@ -40,22 +42,23 @@ export class AdminBoardPage {
     console.log('ionViewDidLoad AdminBoardPage');
   }
 
-  getRoleOfUserFromShop(SHOP_ID, USER_ID){
-    return new Promise((resolve, reject)=>{
-      this.dbService.getListReturnPromise_ArrayOfData('AdminsOfShop/'+SHOP_ID)
-      .then((admins: any[])=>{
-        console.log(admins);
-        let i = admins.map(admin => admin.UID).indexOf(USER_ID);
-        console.log(i);
-        if(i<0){
-          reject('No ROLE found');
-        }else{
-          let ROLE = admins[i].ROLE;
-          resolve({ROLE: ROLE})
-        }
-      })
+  getRoleOfUserFromShop(SHOP_ID, USER_ID) {
+    return new Promise((resolve, reject) => {
+      this.dbService.getListReturnPromise_ArrayOfData('AdminsOfShop/' + SHOP_ID)
+        .then((admins: any[]) => {
+          console.log(admins);
+          let i = admins.map(admin => admin.UID).indexOf(USER_ID);
+          console.log(i);
+          if (i < 0) {
+            reject('No ROLE found');
+          } else {
+            let ROLE = admins[i].ROLE;
+            resolve({ ROLE: ROLE })
+          }
+        })
+        .catch((err) => { console.log(err); });
     })
-    
+
   }
 
   go2OrderManager() {

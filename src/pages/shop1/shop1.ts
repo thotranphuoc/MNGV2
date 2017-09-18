@@ -26,7 +26,7 @@ export class Shop1Page {
       content: 'Please wait....',
       spinner: 'crescent'
     });
-    this.shop = navParams.data.shop;
+    this.shop = navParams.data.SHOP;
     if (typeof (this.shop) == 'undefined') {
       this.navCtrl.setRoot('HomePage');
     }
@@ -70,7 +70,7 @@ export class Shop1Page {
   }
 
   private hideLoading() {
-    this.loading.dismiss();
+    this.loading.dismiss().catch((err) => { console.log(err)});
   }
 
   go2AddFavorite(fab: FabContainer){

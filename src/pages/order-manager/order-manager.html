@@ -22,7 +22,7 @@
   <hr>
 
   <ion-card *ngFor="let order of ORDERs_NEW; let ind = index" (click)="go2OrderDetail(order,ind)">
-    <ion-grid>
+    <ion-grid *ngIf="order.ORDER_STATUS !=='DELETED'">
       <ion-row style="background-color: lightgrey">
         <ion-col>{{order.ORDER_DATE_CREATE}}</ion-col>
         <ion-col [ngClass]="order.ORDER_STATUS">{{order.ORDER_STATUS}}</ion-col>
@@ -45,7 +45,9 @@
       </ion-row>
       <ion-row>
         <ion-col col-7>
-          <ion-row></ion-row>
+          <ion-row>
+            <button ion-button color="secondary" small>{{order.ORDER_TABLE}}</button>
+          </ion-row>
         </ion-col>
         <ion-col col-2>
           <ion-row>

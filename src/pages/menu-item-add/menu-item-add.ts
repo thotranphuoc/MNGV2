@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, App, AlertController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ModalController } from 'ionic-angular';
 
 import { LocalService } from '../../services/local.service';
-import { ImageService } from '../../services/image.service';
+// import { ImageService } from '../../services/image.service';
 import { AngularFireService } from '../../services/af.service';
-import { DbService } from '../../services/db.service';
+// import { DbService } from '../../services/db.service';
 import { AppService } from '../../services/app.service';
 import { CrudService } from '../../services/crud.service';
 import { iItem } from '../../interfaces/item.interface';
@@ -32,13 +32,14 @@ export class MenuItemAddPage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private modalCtrl: ModalController,
-    private app: App,
+    // private app: App,
     private afService: AngularFireService,
-    private dbService: DbService,
+    // private dbService: DbService,
     private appService: AppService,
     private localService: LocalService,
     private crudService: CrudService,
-    private imageService: ImageService) {
+    // private imageService: ImageService
+  ) {
     this.data = this.navParams.data;
     this.SHOP = this.data.SHOP;
     if(typeof(this.SHOP) === 'undefined'){
@@ -60,7 +61,7 @@ export class MenuItemAddPage {
 
   takePhoto() {
     console.log('takePhoto');
-    let photosModal = this.modalCtrl.create('PhotosTakePage', { PHOTOS: this.base64Images });
+    let photosModal = this.modalCtrl.create('PhotoTakePage', { PHOTOS: this.base64Images });
     photosModal.onDidDismiss((data) => {
       console.log(data);
       this.base64Images = data.PHOTOS;
@@ -76,7 +77,7 @@ export class MenuItemAddPage {
 
   selectPhoto() {
     console.log('selectPhoto');
-    let photosModal = this.modalCtrl.create('PhotosSelectPage', { KEY: this.item.ITEM_NAME_EN ,PHOTOS: this.base64Images });
+    let photosModal = this.modalCtrl.create('PhotoSelectPage', { KEY: this.item.ITEM_NAME_EN ,PHOTOS: this.base64Images });
     photosModal.onDidDismiss((data) => {
       console.log(data);
       this.base64Images = data.PHOTOS;
@@ -156,7 +157,7 @@ export class MenuItemAddPage {
   }
 
   private hideLoading() {
-    this.loading.dismiss();
+    this.loading.dismiss().catch((err) => { console.log(err)});
   }
 
 

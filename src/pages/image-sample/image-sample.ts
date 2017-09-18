@@ -82,7 +82,7 @@ export class ImageSamplePage {
 
   getItems(event) {
     console.log(event.srcElement.value);
-    let srcStr = null;
+    // let srcStr = null;
     if (typeof (event.srcElement.value) != 'undefined') {
       let srcStr = event.srcElement.value.trim();
       if (srcStr) {

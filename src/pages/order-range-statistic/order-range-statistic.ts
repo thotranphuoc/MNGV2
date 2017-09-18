@@ -4,7 +4,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AppService } from '../../services/app.service';
 import { LocalService } from '../../services/local.service';
 import { StatisticService } from '../../services/statistic.service';
-import { GchartService } from '../../services/gchart.service';
+// import { GchartService } from '../../services/gchart.service';
 import { iItem } from '../../interfaces/item.interface';
 
 declare var google: any;
@@ -35,7 +35,7 @@ export class OrderRangeStatisticPage {
     public navParams: NavParams,
     private localService: LocalService,
     private statService: StatisticService,
-    private gchartService: GchartService,
+    // private gchartService: GchartService,
     private appService: AppService
   ) {
     this.SHOP_ID = this.navParams.get('SHOP_ID');

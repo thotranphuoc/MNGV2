@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, App, LoadingController } from 'ionic-angular';
 
 import { AngularFireService } from '../../services/af.service';
-import { DbService } from '../../services/db.service';
+// import { DbService } from '../../services/db.service';
 import { LocalService } from '../../services/local.service';
 
 import { iShop } from '../../interfaces/shop.interface';
@@ -24,7 +24,7 @@ export class ShopMenuPage {
     public navParams: NavParams,
     private loadingCtrl: LoadingController,
     private app: App,
-    private dbService: DbService,
+    // private dbService: DbService,
     private afService: AngularFireService,
     private localService: LocalService
   ) {
@@ -101,6 +101,6 @@ export class ShopMenuPage {
   }
 
   private hideLoading() {
-    this.loading.dismiss();
+    this.loading.dismiss().catch((err) => { console.log(err)});
   }
 }

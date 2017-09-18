@@ -15,6 +15,7 @@ export class TrackPage {
     ISSUE_DATE: string
   };
   issuesData: any[] = [];
+  n: number = 1;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -77,6 +78,15 @@ export class TrackPage {
             this.issue.ISSUE_STATE = 'Open';
           }
         }, {
+          text: 'Reject',
+          handler: () => {
+            console.log('Archive clicked');
+            this.issue = ISSUE.data;
+            this.issue.ISSUE_STATE = 'Rejected';
+            this.IssueUpdateKey = ISSUE.key;
+            this.updateIssue();
+          }
+        }, {
           text: 'Closed',
           handler: () => {
             console.log('Archive clicked');
@@ -108,6 +118,17 @@ export class TrackPage {
         ISSUE_STATE: 'Open'
       }
     })
+  }
+
+  doOptions(){
+    if(this.n<4){
+      console.log(this.n);
+      this.n++;
+    }else{
+      console.log(this.n)
+      this.n = 1;
+      
+    }
   }
 
 

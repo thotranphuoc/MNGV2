@@ -5,8 +5,8 @@ import { AppService } from '../../services/app.service';
 import { LocalService } from '../../services/local.service';
 import { GmapService } from '../../services/gmap.service';
 import { AngularFireService } from '../../services/af.service';
-import { DbService } from '../../services/db.service';
-import { CrudService } from '../../services/crud.service';
+// import { DbService } from '../../services/db.service';
+// import { CrudService } from '../../services/crud.service';
 
 import { iShop } from '../../interfaces/shop.interface';
 import { iPosition } from '../../interfaces/position.interface';
@@ -39,8 +39,9 @@ export class AddNewShopTab4Page {
     private afService: AngularFireService,
     private gmapService: GmapService,
     private localService: LocalService,
-    private crudService: CrudService,
-    private dbService: DbService) {
+    // private crudService: CrudService,
+    // private dbService: DbService
+  ) {
     this.SHOP = this.localService.SHOP;
     this.loading = this.loadingCtrl.create({
       content: 'Please wait....',
@@ -164,23 +165,23 @@ export class AddNewShopTab4Page {
   }
 
   // LOADING
-  private startLoading() {
-    this.loading.present();
-    setTimeout(() => {
-      this.hideLoading();
-      // alert('Please turn on internet and location permission. Then open app again')
-    }, 20000)
-  }
+  // private startLoading() {
+  //   this.loading.present();
+  //   setTimeout(() => {
+  //     this.hideLoading();
+  //     // alert('Please turn on internet and location permission. Then open app again')
+  //   }, 20000)
+  // }
 
-  private hideLoading() {
-    this.loading.dismiss();
-  }
+  // private hideLoading() {
+  //   this.loading.dismiss().catch((err) => { console.log(err)});
+  // }
 
-  private hideLoadingWithMessage(message: string) {
-    this.loading.dismiss();
-    this.appService.alertMsg('Alert', message);
-    this.go2Page('HomePage')
-  }
+  // private hideLoadingWithMessage(message: string) {
+  //   this.loading.dismiss().catch((err) => { console.log(err)});
+  //   this.appService.alertMsg('Alert', message);
+  //   this.go2Page('HomePage')
+  // }
 
   go2Page(page: string) {
     const root = this.app.getRootNav();

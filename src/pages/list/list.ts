@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 // import { AngularFireService } from '../../services/af.service';
-import { DbService } from '../../services/db.service';
+// import { DbService } from '../../services/db.service';
 import { GmapService } from '../../services/gmap.service';
 import { iShop } from '../../interfaces/shop.interface';
 
@@ -19,7 +19,7 @@ export class ListPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private dbService: DbService,
+    // private dbService: DbService,
     private gmapService: GmapService,
     // private afService: AngularFireService
   ) {
@@ -57,15 +57,15 @@ export class ListPage {
     //       this.navCtrl.setRoot('ShopPage', { shop: shop });
     //     }else{
     //       console.log('isVERIFIED FALSE');
-    //       this.navCtrl.setRoot('Shop1Page', { shop: shop });
+    //       this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
     //     }
     //   }else{
     //     console.log('isVERIFIED not exist');
-    //     this.navCtrl.setRoot('Shop1Page', { shop: shop });
+    //     this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
     //   }
     // }else{
     //   console.log('no SHOP_OTHER')
-    //   this.navCtrl.setRoot('Shop1Page', { shop: shop });
+    //   this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
     // }
 
     if('SHOP_OTHER' in shop){
@@ -75,18 +75,18 @@ export class ListPage {
       if('isVERIFIED' in shop.SHOP_OTHER){
         if(shop.SHOP_OTHER.isVERIFIED){
           console.log('isVERIFIED TRUE');
-          this.navCtrl.setRoot('Shop2Page', { shop: shop });
+          this.navCtrl.setRoot('Shop2Page', { SHOP: shop });
         }else{
           console.log('isVERIFIED FALSE');
-          this.navCtrl.setRoot('Shop1Page', { shop: shop });
+          this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
         }
       }else{
         console.log('isVERIFIED not exist');
-        this.navCtrl.setRoot('Shop1Page', { shop: shop });
+        this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
       }
     }else{
       console.log('no SHOP_OTHER')
-      this.navCtrl.setRoot('Shop1Page', { shop: shop });
+      this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
     }
   }
 

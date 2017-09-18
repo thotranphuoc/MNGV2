@@ -150,6 +150,11 @@ export class ImageService {
                 }
             }
             resolve(resizedDataURLs);
+            // if(resizedDataURLs.length>0){
+            //     resolve(resizedDataURLs);
+            // }else{
+            //     reject({err: 'null returned'})
+            // }
         })
     }
 

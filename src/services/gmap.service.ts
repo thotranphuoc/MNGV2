@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NavController, NavParams, PopoverController } from 'ionic-angular';
+import { PopoverController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 
 import { DbService } from './db.service';
@@ -260,7 +260,8 @@ export class GmapService {
 
             marker.addListener('click', () => {
                 console.log(data);
-                let popover = this.popoverCtrl.create('PopOverPage', data).present()
+                // let popover = this.popoverCtrl.create('PopOverPage', data).present();
+                this.popoverCtrl.create('PopOverPage', data).present()
             })
         })
     }

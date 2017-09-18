@@ -5,7 +5,11 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { GmapService } from '../../services/gmap.service';
 import { LocalService } from '../../services/local.service';
 import { DbService } from '../../services/db.service';
-import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { 
+  AngularFireDatabase, 
+  FirebaseListObservable, 
+  // FirebaseObjectObservable 
+} from 'angularfire2/database';
 
 import { iPosition } from '../../interfaces/position.interface';
 import { iShop } from '../../interfaces/shop.interface';
@@ -95,6 +99,7 @@ export class MapPage {
             this.gmapService.setUserCurrentPosition(pos);
             this.showMap(pos, mapElement);
           })
+          .catch((err)=>{console.log(err)});
       })
 
   }
@@ -164,6 +169,8 @@ export class MapPage {
           console.log('out of map');
         }
       })
+    }else{
+
     }
   }
 
@@ -179,7 +186,7 @@ export class MapPage {
   }
 
   private hideLoading() {
-    this.loading.dismiss();
+    this.loading.dismiss().catch((err) => { console.log(err)});
   }
 
   go2List() {

@@ -51,4 +51,22 @@ page-update-items {
 
     }
 
+    .item-visible{
+        position: absolute;
+        bottom: 5px;
+        width: 100%;
+        color: #fff;
+        text-align: right;
+        font-size: 2em;
+    }
+
+    .item-onsale{
+        position: absolute;
+        bottom: 5px;
+        width: 100%;
+        color: #fff;
+        text-align: left;
+        font-size: 2em;
+    }
+
 }

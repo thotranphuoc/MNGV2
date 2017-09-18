@@ -9,7 +9,7 @@ import { iOrder } from '../../interfaces/order.interface';
 import { iItem } from '../../interfaces/item.interface';
 import { iShop } from '../../interfaces/shop.interface';
 
-import { Subscription } from 'rxjs/Subscription';
+// import { Subscription } from 'rxjs/Subscription';
 
 
 
@@ -158,7 +158,7 @@ export class OrderManagerPage {
   }
 
   private hideLoading() {
-    this.loading.dismiss();
+    this.loading.dismiss().catch((err) => { console.log(err)});
   }
 
 

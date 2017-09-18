@@ -143,7 +143,7 @@ export class HistoryPage {
       }
     })
     console.log(res);
-    this.navCtrl.push('OrderDetailPage', { ORDER: order, SHOP: res });
+    this.navCtrl.push('OrderDetailPage', { ORDER: order, SHOP: res, SENDER: 'USER' });
   }
 
   selectDate() {

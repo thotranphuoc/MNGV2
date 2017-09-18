@@ -15,6 +15,7 @@ import { iShop } from '../../interfaces/shop.interface';
 })
 export class Shop2Page {
   loading: any;
+  data: any;
   SHOP: iShop = null;
   ORDER: iOrder = null;
   SHOP_ITEMS: any[] = [];
@@ -39,11 +40,17 @@ export class Shop2Page {
       content: 'Please wait....',
       spinner: 'crescent'
     });
-    this.SHOP = navParams.data.shop;
+    this.data = navParams.data;
+    this.SHOP = this.data.SHOP;
+    this.USER_ID = this.data.USER_ID;
     this.localService.SHOP = this.SHOP;
-    console.log(this.SHOP);
+    console.log(this.data, this.SHOP);
     this.startLoading();
-    this.getUser();
+    if(typeof(this.USER_ID) ==='undefined'){
+      this.getUser();
+    }else{
+      console.log(this.USER_ID);
+    }
 
     if (typeof (this.SHOP) !== 'undefined') {
       this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.SHOP.SHOP_ID)
@@ -57,7 +64,7 @@ export class Shop2Page {
           }
           this.hideLoading();
           this.getActiveOrder();
-
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -81,7 +88,7 @@ export class Shop2Page {
   }
 
   private hideLoading() {
-    this.loading.dismiss();
+    this.loading.dismiss().catch((err) => { console.log(err)});
   }
 
   go2AddFavorite(fab: FabContainer) {
@@ -185,7 +192,7 @@ export class Shop2Page {
   }
 
   getActiveOrder() {
-    this.getUser();
+    // this.getUser();
     if (this.USER_ID) {
       let URL = 'ActiveOrdersOfUser/' + this.USER_ID + '/' + this.SHOP.SHOP_ID;
       this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data(URL)
@@ -209,6 +216,8 @@ export class Shop2Page {
           }
         })
         .catch((err) => { console.log(err) })
+    } else{
+      console.log('no user found');
     }
   }
 

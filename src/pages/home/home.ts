@@ -45,12 +45,13 @@ export class HomePage {
         console.log(err);
         if (this.USER_ID) {
           let UID = this.USER_ID;
-          this.dbService.getOneItemReturnPromise('UserPosition/' + UID).then((res: any) => {
-            this.USER_LOCATION = res.LAST_POSITION;
-            this.USER_LAST_TIME = res.TIME;
-            console.log(res);
-            this.getShopsNearby(this.USER_LOCATION.lat, this.USER_LOCATION.lng);
-          })
+          this.dbService.getOneItemReturnPromise('UserPosition/' + UID)
+            .then((res: any) => {
+              this.USER_LOCATION = res.LAST_POSITION;
+              this.USER_LAST_TIME = res.TIME;
+              console.log(res);
+              this.getShopsNearby(this.USER_LOCATION.lat, this.USER_LOCATION.lng);
+            })
             .catch((err) => {
               this.USER_LOCATION = { lat: 10.778168043677463, lng: 106.69638633728027 };
               this.getShopsNearby(this.USER_LOCATION.lat, this.USER_LOCATION.lng);
@@ -103,12 +104,13 @@ export class HomePage {
       })
     })
 
-    Promise.all([pro1, pro2]).then(() => {
+    return Promise.all([pro1, pro2])
+    .then(() => {
       let final = this.appService.commonOf2Arrays(latArray, lngArray);
       console.log(final);
       this.localService.SHOPs_NEARBY = final;
       let finalLOC = [];
-      final.forEach(ID=>{
+      final.forEach(ID => {
         let index = latArray.indexOf(ID);
         finalLOC.push(itemArray[index]);
       })
@@ -116,6 +118,7 @@ export class HomePage {
       console.log(finalLOC);
       this.localService.shopsLoaded = true;
     })
+    .catch((err)=>{console.log(err)})
   }
 
 }

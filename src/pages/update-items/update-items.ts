@@ -16,6 +16,7 @@ export class UpdateItemsPage {
   SHOP: iShop = null;
   PROFILE: iProfile;
   SHOP_ITEMS: iItem[];
+  isHidden: boolean = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -23,6 +24,7 @@ export class UpdateItemsPage {
     private localService: LocalService
   ) {
     this.data = this.navParams.data;
+    console.log(this.data);
     this.SHOP = this.data.SHOP;
     this.PROFILE = this.data.PROFILE;
     if (typeof (this.SHOP) == 'undefined') {
@@ -48,6 +50,11 @@ export class UpdateItemsPage {
   selectITEM(item, i){
     console.log(item, i);
     this.navCtrl.push('UpdateItemPage', {SHOP_ITEM: item});
+  }
+
+  doHiding(){
+    this.isHidden = !this.isHidden;
+    console.log(this.isHidden);
   }
 
 }

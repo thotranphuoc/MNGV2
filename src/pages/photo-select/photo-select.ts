@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController, ViewController } from 'ionic-angular';
-import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @IonicPage()
 @Component({
-  selector: 'page-photos-select',
-  templateUrl: 'photos-select.html',
+  selector: 'page-photo-select',
+  templateUrl: 'photo-select.html',
 })
-export class PhotosSelectPage {
+export class PhotoSelectPage {
   data: any;
   base64Images: string[] = [];
   images: string[] = [];
@@ -26,12 +26,12 @@ export class PhotosSelectPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PhotosSelectPage');
+    console.log('ionViewDidLoad PhotoSelectPage');
   }
 
   getItems(event) {
     console.log(event.srcElement.value);
-    let srcStr = null;
+    // let srcStr = null;
     if (typeof (event.srcElement.value) != 'undefined') {
       let srcStr = event.srcElement.value.trim();
       if (srcStr) {
@@ -77,11 +77,15 @@ export class PhotosSelectPage {
         }
       ]
     });
-    actionSheet.present();
+    actionSheet.present()
+    .then((res)=>{ console.log(res)})
+    .catch((err)=>{ console.log(err)})
   }
 
   closeModal(){
-    this.viewCtrl.dismiss({ isCancel: true, PHOTOS: this.base64Images});
+    this.viewCtrl.dismiss({ isCancel: true, PHOTOS: this.base64Images})
+    .then((res)=>{ console.log(res)})
+    .catch((err)=>{ console.log(err)})
   }
 
 }

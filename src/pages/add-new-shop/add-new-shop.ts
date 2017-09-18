@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-import { AngularFireService } from '../../services/af.service';
+// import { AngularFireService } from '../../services/af.service';
 import { iShop } from '../../interfaces/shop.interface';
 
 @IonicPage()
@@ -20,7 +20,8 @@ export class AddNewShopPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private afService: AngularFireService) {
+    // private afService: AngularFireService
+  ) {
 
   }
 

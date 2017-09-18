@@ -1,9 +1,9 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-buttons start>
+    <!-- <ion-buttons start>
       <button ion-button (click)="setPhotos()">Close</button>
-    </ion-buttons>
+    </ion-buttons> -->
     <ion-title>Take Photos</ion-title>
   </ion-navbar>
 
@@ -30,7 +30,7 @@
         <button ion-button block color="danger" (click)="doCancel()">Cancel</button>
       </ion-col>
       <ion-col>
-        <button ion-button block color="secondary" (click)="setPhotos()">OK</button>
+        <button ion-button block color="secondary" (click)="setPhotos()" [disabled]="!newPhoto">OK</button>
       </ion-col>
     </ion-row>
   </ion-grid>
