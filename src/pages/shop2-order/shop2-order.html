@@ -53,7 +53,6 @@
         <span *ngIf="!isNoteEdited">
             <textarea cols="35" rows="4"  (click)="editNote()">{{AsyncOrder.ORDER_NOTES}}</textarea>
         </span>
-        <br>
         <span *ngIf="isNoteEdited">
             <textarea name="" id="" cols="35" rows="4" (keyup)="onKeyUp()" [(ngModel)]="NOTES" name="NOTES" placeholder="{{AsyncOrder.ORDER_NOTES}}"></textarea>
         </span>
