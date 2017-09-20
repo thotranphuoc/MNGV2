@@ -126,6 +126,8 @@ export class ShopOrderPage {
       ORDER_DATE_CLOSE: null,
       ORDER_TABLE: TABLE,
       ORDER_LIST: ORDER_LIST,
+      ORDER_NOTES: '',
+      ORDER_OTHER: null
     };
     let DATE = this.appService.getCurrentDate();
     if (USER_ID) {

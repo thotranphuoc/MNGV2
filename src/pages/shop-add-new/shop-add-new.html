@@ -28,16 +28,13 @@
       <ion-icon name="ios-call-outline" item-left></ion-icon>
       <ion-input required [(ngModel)]="SHOP.SHOP_PHONE" name="SHOP_PHONE" type="text" id="name" placeholder="Phone number"></ion-input>
     </ion-item>
+
+
     <ion-item>
       <ion-icon name="md-apps" item-left></ion-icon>
-      <ion-select required [(ngModel)]="SHOP.SHOP_KIND" name="SHOP_KIND" placeholder="Choose kind of shop">
-        <ion-option value="cafe" selected="true">Cafe</ion-option>
-        <ion-option value="restaurant">Restaurant</ion-option>
-        <ion-option value="takeaway">Take Away</ion-option>
-        <ion-option value="homemade">Home made</ion-option>
-        <ion-option value="other">Other</ion-option>
-      </ion-select>
+      <button ion-button clear (click)="selectKind()"><span *ngIf="!isKindSet">Select Kind of Shop</span><span *ngIf="isKindSet">{{SHOP.SHOP_KIND}}</span></button>
     </ion-item>
+
     <ion-item>
       <ion-icon name="ios-home-outline" item-left></ion-icon>
       <ion-input required [(ngModel)]="SHOP.SHOP_ADDRESS" name="SHOP_ADDRESS" type="text" id="name" placeholder="Enter address"></ion-input>
@@ -52,7 +49,6 @@
       <p>Latitute: <span *ngIf="SHOP.SHOP_LOCATION">{{SHOP.SHOP_LOCATION.lat}}</span></p>
       <p>Longitute: <span *ngIf="SHOP.SHOP_LOCATION">{{SHOP.SHOP_LOCATION.lng}}</span></p>
     </ion-item>
-
     <button ion-button block (click)="createShop()" [disabled]="hasPosted">Create</button>
   </form>
   <input type="file" (change)="takePictureAndResizeByBrowser($event)" hidden accept="image/*" id="inputFile" multiple>

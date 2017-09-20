@@ -47,21 +47,40 @@ export class LocationPage {
   }
 
   initMap(mapElement) {
+    console.log('start initMap()')
     if (this.CURRENT_LOCATION) {
       console.log('user location set');
       console.log(this.CURRENT_LOCATION)
       this.showMap(this.CURRENT_LOCATION, mapElement);
     } else {
       console.log('user location not set yet');
-      this.geolocation.getCurrentPosition()
-        .then((position) => {
-          let pos: iPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          }
+      // this.geolocation.getCurrentPosition()
+      //   .then((position) => {
+      //     let pos: iPosition = {
+      //       lat: position.coords.latitude,
+      //       lng: position.coords.longitude
+      //     }
+      //     this.showMap(pos, mapElement);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     this.gmapService.getUserCurrentPosition()
+      //       .then((pos: iPosition) => {
+      //         console.log(pos);
+      //         this.showMap(pos, mapElement);
+      //       })
+      //       .catch((err) => {
+      //         console.log(err);
+      //       })
+      //   });
+      this.gmapService.getUserCurrentPosition()
+        .then((pos: iPosition) => {
+          console.log(pos);
           this.showMap(pos, mapElement);
         })
-        .catch((err) => { console.log(err) });
+        .catch((err) => {
+          console.log(err);
+        })
     }
   }
 

@@ -18,7 +18,7 @@ import { AppService } from '../../services/app.service';
 export class ShopAddNewPage {
   SHOP: iShop = null;
   base64Images: string[] = [];
-
+  isKindSet: boolean = false;
   // Review & post
   isInfoFullFilled: boolean = true;
   hasPosted: boolean = false;
@@ -194,6 +194,62 @@ export class ShopAddNewPage {
         }
       ]
     }).present();
+  }
+
+  selectKind(){
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Select one',
+      buttons: [
+        {
+          text: 'Cafe Shop',
+          handler: () => {
+            console.log('Coffee clicked');
+            this.setKind('Cafe Shop');
+          }
+        },
+        {
+          text: 'Restaurant',
+          handler: () => {
+            console.log('Restaurant clicked');
+            this.setKind('Restaurant');
+          }
+        },
+        {
+          text: 'Take Away',
+          handler: () => {
+            console.log('Take Away clicked');
+            this.setKind('Take Away');
+          }
+        },
+        {
+          text: 'Home Made',
+          handler: () => {
+            console.log('Home made clicked');
+            this.setKind('Home Made');
+          }
+        },
+        {
+          text: 'Other',
+          handler: () => {
+            console.log('Other clicked');
+            this.setKind('Other');
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  setKind(KIND){
+    this.isKindSet = true;
+    this.SHOP.SHOP_KIND = KIND;
+    console.log(KIND);
   }
 
 }

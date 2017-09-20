@@ -7,5 +7,7 @@ export interface iOrder {
     ORDER_DATE_CREATE: string,
     ORDER_DATE_CLOSE: string,
     ORDER_TABLE: string,
-    ORDER_LIST: any[]
+    ORDER_LIST: any[],
+    ORDER_NOTES: string,
+    ORDER_OTHER: any
 }

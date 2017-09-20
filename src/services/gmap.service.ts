@@ -39,24 +39,31 @@ export class GmapService {
                 position = this.currentUserPosition;
                 resolve(position);
             } else {
-                if(this.afService.getAuth().auth.currentUser){
-                    this.dbService.getOneItemReturnPromise('UserPosition/' + this.afService.getAuth().auth.currentUser.uid + '/LAST_POSITION')
-                    .then((res: any) => {
-                        let pos = {
-                            lat: res.lat,
-                            lng: res.lng
-                        }
+                this.geolocation.getCurrentPosition()
+                    .then((pos: any) => {
                         console.log(pos);
-                        position = pos;
+                        let position: iPosition = { lat: pos.coords.latitude, lng: pos.coords.longitude }
+                        this.setUserCurrentPosition(position)
                         resolve(position);
                     })
-                    .catch(err=>{
-                        reject('Location not detected')
+                    .catch((err) => {
+                        console.log(err);
+                        if (this.afService.getAuth().auth.currentUser) {
+                            this.dbService.getOneItemReturnPromise('UserPosition/' + this.afService.getAuth().auth.currentUser.uid + '/LAST_POSITION')
+                                .then((res: any) => {
+                                    let position: iPosition = { lat: res.lat, lng: res.lng };
+                                    this.setUserCurrentPosition(position);
+                                    resolve(position);
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                    reject('Location not detected')
+                                })
+                        } else {
+                            let pos: iPosition = { lat: 10.778168043677463, lng: 106.69638633728027 };
+                            resolve(pos)
+                        }
                     })
-                }else{
-                    let pos: iPosition = { lat: 10.778168043677463, lng: 106.69638633728027};
-                    resolve(pos)
-                }
             }
 
         })
@@ -70,7 +77,7 @@ export class GmapService {
     setUserCurrentPosition(position: iPosition) {
         this.currentUserPosition = position;
         let DATE = this.appService.getCurrentDataAndTime();
-        if(this.afService.getAuth().auth.currentUser){
+        if (this.afService.getAuth().auth.currentUser) {
             this.afService.updateObjectData('UserPosition/' + this.afService.getAuth().auth.currentUser.uid, { LAST_POSITION: position, TIME: DATE });
         }
     }
@@ -81,10 +88,10 @@ export class GmapService {
     }
 
     getDistanceFromCurrent(lat1, lng1) {
-        if(this.currentUserPosition){
+        if (this.currentUserPosition) {
             return this.getDistanceFrom2Point(this.currentUserPosition.lat, this.currentUserPosition.lng, lat1, lng1);
-        }else{
-            return {distance: 0, disStr: '0 m'};
+        } else {
+            return { distance: 0, disStr: '0 m' };
         }
     }
 
@@ -440,11 +447,11 @@ export class GmapService {
     initMap(mapElement, mapOptions) {
         return new Promise((resolve, reject) => {
             let map: any;
-            if( typeof(google) !== 'undefined'){
+            if (typeof (google) !== 'undefined') {
                 map = new google.maps.Map(mapElement, mapOptions);
                 resolve(map);
-            }else{
-                reject({message: 'google is undefined'});
+            } else {
+                reject({ message: 'google is undefined' });
             }
         })
     }

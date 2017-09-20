@@ -30,8 +30,10 @@ export class Shop2OrderPage {
   COUNT: number = 0;
   AsyncOrder: any = null;
   TABLE: string = null;
+  NOTES: string = null;
   subscription: Subscription;
   isSubscribed: boolean = false;
+  isNoteEdited: boolean = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -89,7 +91,7 @@ export class Shop2OrderPage {
     this.checkOrderIfUpdated();
   }
 
-  sendORDER() {
+  createORDER() {
     let ORDER_LIST: iOrderList[] = [];
     this.SHOP_ITEMS_INDEX.forEach((element, index: number, array) => {
       if (element.count > 0) {
@@ -111,12 +113,15 @@ export class Shop2OrderPage {
       ORDER_DATE_CLOSE: null,
       ORDER_TABLE: this.TABLE,
       ORDER_LIST: ORDER_LIST,
+      ORDER_NOTES: this.NOTES,
+      ORDER_OTHER: null
     };
     let DATE = this.appService.getCurrentDate();
     if ( this.TABLE === null || this.ORDER.ORDER_TABLE === null || this.ORDER.ORDER_LIST.length < 1) {
       alert('Select table and favorite items please');
     } else {
       if (USER_ID) {
+        console.log(this.ORDER);
         this.crudService.createOrder(this.ORDER, SHOP_ID, USER_ID, DATE)
           .then((res: any) => {
             console.log(res);
@@ -140,6 +145,7 @@ export class Shop2OrderPage {
   }
 
   updateOrder() {
+    console.log(this.ORDER);
     let ORDER_LIST: iOrderList[] = [];
     this.SHOP_ITEMS_INDEX.forEach((element, index: number, array) => {
       if (element.count > 0) {
@@ -170,7 +176,8 @@ export class Shop2OrderPage {
       TABLE: this.TABLE
 
     }
-    this.viewCtrl.dismiss(data);
+    this.viewCtrl.dismiss(data)
+      .catch((err)=>{ console.log(err)})
   }
 
   cancel() {
@@ -190,6 +197,7 @@ export class Shop2OrderPage {
           this.isOrderUPDATE = false;
           this.closeModal();
         })
+        .catch((err)=>{ console.log(err)})
     } else {
       this.closeModal();
     }
@@ -271,4 +279,23 @@ export class Shop2OrderPage {
     }
   }
 
+  onKeyUp(e){
+    this.isOrderUPDATE = true;
+    this.ORDER.ORDER_NOTES = this.NOTES;
+    console.log(this.NOTES);
+  }
+
+  editNote(){
+    console.log('editNote');
+    this.isNoteEdited = true;
+    this.NOTES = this.AsyncOrder.ORDER_NOTES;
+  }
+
 }
+
+/**
+ * ACTION === billing: when user click Check Bill
+ * 
+ *ACTION === ordering: when user click View Order
+
+ */ 

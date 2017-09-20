@@ -6,4 +6,13 @@ page-shop-add-new {
     ion-input.ng-invalid { 
         border-bottom: 2px solid red;
     }
+
+    .select-ios .select-placeholder {
+        color: #383636;
+        width: 100%;
+      }
+
+    // .selection {
+    //     width: 200px;
+    // }
 }

@@ -11,7 +11,7 @@
 
 
 <ion-content>
-
+  <!-- WHEN USER VIEW ORDER -->
   <div *ngIf="ACTION==='ordering'">
     <ion-card>
       <ion-grid>
@@ -40,14 +40,33 @@
         </ion-row>
       </ion-grid>
     </ion-card>
-    <div>
-      <button ion-button clear (click)="selectTable()"><span *ngIf="!TABLE" padding-right><ion-icon name="md-arrow-forward"></ion-icon></span>TABLE<span *ngIf="TABLE">: - {{TABLE}}</span></button>
+    <div padding>
+      <button block ion-button clear (click)="selectTable()"><span *ngIf="!TABLE" padding-right><ion-icon name="md-arrow-forward"></ion-icon></span>TABLE<span *ngIf="TABLE">: - {{TABLE}}</span></button>
+
+      <!-- <input type="text" [(ngModel)]="ORDER.ORDER_NOTES" name="ORDER_NOTES" (keyup)="onKeyUp()"> -->
+      <!-- <ion-textarea placeholder="Add note here" [(ngModel)]="NOTES" name="NOTES" (keyup)="onKeyUp()">
+
+      </ion-textarea> -->
+      <div *ngIf="AsyncOrder">
+        NOTE:
+        <br>
+        <span *ngIf="!isNoteEdited">
+            <textarea cols="35" rows="4"  (click)="editNote()">{{AsyncOrder.ORDER_NOTES}}</textarea>
+        </span>
+        <br>
+        <span *ngIf="isNoteEdited">
+            <textarea name="" id="" cols="35" rows="4" (keyup)="onKeyUp()" [(ngModel)]="NOTES" name="NOTES" placeholder="{{AsyncOrder.ORDER_NOTES}}"></textarea>
+        </span>
+
+      </div>
+
     </div>
+
     <ion-grid>
       <ion-row>
         <div *ngIf="isOrderNEW">
           <ion-col>
-            <button ion-button color="primary" (click)="sendORDER()" [disabled]="!isOrderNEW">Send Order</button>
+            <button ion-button color="primary" (click)="createORDER()" [disabled]="!isOrderNEW">Send Order</button>
           </ion-col>
           <ion-col>
             <button ion-button color="secondary" (click)="cancel()" [disabled]="!isOrderNEW">Cancel</button>
@@ -65,23 +84,27 @@
     </ion-grid>
   </div>
 
+  <!-- WHEN USER CHECK BILL -->
+
   <div *ngIf="ACTION==='billing' && !isOrderNEW">
     <ion-grid>
-      <ion-row *ngFor="let item of SHOP_ITEMS; let i = index" class="row_main">
-        <ion-col col-7>
-          <ion-row class="name_local" *ngIf="item !='undefined'">{{item.ITEM_NAME_LOCAL}}</ion-row>
-        </ion-col>
-        <ion-col col-2>
-          <ion-row>
-            <div class="total-price">{{SHOP_ITEMS_INDEX[i].count}}<span style="font-size:10px"> x{{item.ITEM_PRICE}}</span></div>
-          </ion-row>
-        </ion-col>
-        <ion-col>
-          <ion-row>
-            <div class="total-price">{{SHOP_ITEMS_INDEX[i].count*item.ITEM_PRICE}}</div>
-          </ion-row>
-        </ion-col>
-      </ion-row>
+      <div *ngFor="let item of SHOP_ITEMS; let i = index">
+        <ion-row class="row_main" *ngIf="SHOP_ITEMS_INDEX[i].count>0">
+          <ion-col col-7>
+            <ion-row class="name_local" *ngIf="item !='undefined'">{{item.ITEM_NAME_LOCAL}}</ion-row>
+          </ion-col>
+          <ion-col col-2>
+            <ion-row>
+              <div class="total-price">{{SHOP_ITEMS_INDEX[i].count}}<span style="font-size:10px"> x{{item.ITEM_PRICE}}</span></div>
+            </ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-row>
+              <div class="total-price">{{SHOP_ITEMS_INDEX[i].count*item.ITEM_PRICE}}</div>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </div>
       <ion-row>
         <ion-col col-7>
           <ion-row></ion-row>
