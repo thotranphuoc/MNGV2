@@ -11,5 +11,6 @@ export interface iItem {
     ITEM_NEW: boolean,
     ITEM_VISIBLE: boolean,
     ITEM_IMG_SHARED: boolean,
+    ITEM_CATEGORY: string,
     ITEM_OTHER: any
 }

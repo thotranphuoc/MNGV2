@@ -17,6 +17,7 @@ export interface iShop {
     SHOP_isVISIBLE: boolean,
     SHOP_CURRENCY: string,
     SHOP_TABLES: string[],
+    SHOP_CATEGORIES: string[],
     SHOP_OTHER: any
 
 }

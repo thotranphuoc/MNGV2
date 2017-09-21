@@ -33,6 +33,7 @@ export class LocalService {
         SHOP_isVISIBLE: true,
         SHOP_CURRENCY: null,
         SHOP_TABLES: ['TB0', 'TB1', 'TB2', 'TB3', 'TB4', 'TB5', 'TB6', 'TB7', 'TB8', 'TB9'],
+        SHOP_CATEGORIES: ['Drinks', 'Foods'],
         SHOP_OTHER: null
     }
 
@@ -53,6 +54,7 @@ export class LocalService {
         SHOP_isVISIBLE: true,
         SHOP_CURRENCY: null,
         SHOP_TABLES: ['TB0', 'TB1', 'TB2', 'TB3', 'TB4', 'TB5', 'TB6', 'TB7', 'TB8', 'TB9'],
+        SHOP_CATEGORIES: ['Drinks', 'Foods'],
         SHOP_OTHER: null
     }
 
@@ -69,6 +71,7 @@ export class LocalService {
         ITEM_NEW: true,
         ITEM_VISIBLE: true,
         ITEM_IMG_SHARED: false,
+        ITEM_CATEGORY: null,
         ITEM_OTHER: null
     }
 
@@ -85,6 +88,7 @@ export class LocalService {
         ITEM_NEW: true,
         ITEM_VISIBLE: true,
         ITEM_IMG_SHARED: false,
+        ITEM_CATEGORY: null,
         ITEM_OTHER: null
     }
 

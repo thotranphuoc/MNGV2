@@ -25,7 +25,8 @@ export class OrderManagerPage {
   SHOP_ITEMS: iItem[] = [];
   SHOP_ITEMS_ID: string[] = [];
   ORDERs_NEW: any[] = [];
-
+  TABLES: any[] = [];
+  RESERVED_TABLES: string[] =[];
   // for unsubcribe
   subscription;
   DATE: any = '2017/07/23';
@@ -48,6 +49,9 @@ export class OrderManagerPage {
       this.navCtrl.setRoot('HomePage');
     } else {
       this.SHOP_ID = this.SHOP.SHOP_ID;
+      this.SHOP.SHOP_TABLES.forEach(table =>{
+        this.TABLES.push({ TABLE: table, reserved: false})
+      })
     }
     // this.SHOP_ID = this.navParams.get('SHOP_ID');
     
@@ -110,9 +114,15 @@ export class OrderManagerPage {
     this.subscription = this.afService.getList(URL).subscribe((ORDERS: any[]) => {
       console.log(ORDERS);
       this.ORDERs_NEW = [];
+      this.RESERVED_TABLES = [];
       ORDERS.forEach((ORDER: iOrder) => {
         let ORDER_LIST_NEW = [];
         let TOTAL_PRICE = 0;
+        this.RESERVED_TABLES.push(ORDER.ORDER_TABLE);
+        let index = this.SHOP.SHOP_TABLES.indexOf(ORDER.ORDER_TABLE);
+        if(index >-1){
+          this.TABLES[index].reserved = true;
+        }
         ORDER.ORDER_LIST.forEach((item: any) => {
           console.log(item);
           let index = this.SHOP_ITEMS_ID.indexOf(item.item);
@@ -159,6 +169,11 @@ export class OrderManagerPage {
 
   private hideLoading() {
     this.loading.dismiss().catch((err) => { console.log(err)});
+  }
+
+  go2OrderDetail1(table){
+    let index = this.RESERVED_TABLES.indexOf(table.TABLE);
+    this.go2OrderDetail(this.ORDERs_NEW[index], index);
   }
 
 

@@ -16,18 +16,23 @@
 
 
 <ion-content>
-  <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(i)">
-    <ion-card *ngIf="item.ITEM_VISIBLE">
-      <div class="div-img">
-        <img src="{{item.ITEM_IMAGES[0]}}" alt="">
+  <div *ngFor="let cat of SHOP?.SHOP_CATEGORIES">
+    <div class="category">{{cat}}</div>
+    <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(i)">
+        <div *ngIf="item.ITEM_CATEGORY===cat">
+            <ion-card *ngIf="item.ITEM_VISIBLE">
+                <div class="div-img">
+                  <img src="{{item.ITEM_IMAGES[0]}}" alt="">
+                </div>
+                <div class="info"></div>
+                <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
+                <div class="name_en">{{item.ITEM_NAME_EN}}</div>
+                <div class="price">{{item.ITEM_PRICE}} {{SHOP.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
+                <div class="count"></div>
+                <div class="number">{{SHOP_ITEMS_INDEX[i].count}}</div>
+              </ion-card>
+        </div>
       </div>
-      <div class="info"></div>
-      <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
-      <div class="name_en">{{item.ITEM_NAME_EN}}</div>
-      <div class="price">{{item.ITEM_PRICE}} {{SHOP.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
-      <div class="count"></div>
-      <div class="number">{{SHOP_ITEMS_INDEX[i].count}}</div>
-    </ion-card>
   </div>
 
   <ion-fab left bottom *ngIf="USER_ID" #fab>

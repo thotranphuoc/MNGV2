@@ -54,6 +54,15 @@
           <ion-label>Item is Visible?</ion-label>
           <ion-toggle [(ngModel)]="SHOP_ITEM.ITEM_VISIBLE" name="ITEM_VISIBLE"></ion-toggle>
         </ion-item>
+
+        <ion-item>
+          <ion-label>Category:</ion-label>
+          <ion-select [(ngModel)]="SHOP_ITEM.ITEM_CATEGORY" name="ITEM_CATEGORY">
+            <span *ngFor="let cat of CATEGORIES">
+                <ion-option value="{{cat}}">{{cat}}</ion-option>
+            </span>
+          </ion-select>
+        </ion-item>
       </ion-list>
       <button ion-button block (click)="update()" [disabled]="!myForm.valid">Update</button>
     </form>

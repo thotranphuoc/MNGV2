@@ -49,7 +49,7 @@ export class UpdateItemsPage {
 
   selectITEM(item, i){
     console.log(item, i);
-    this.navCtrl.push('UpdateItemPage', {SHOP_ITEM: item});
+    this.navCtrl.push('UpdateItemPage', {SHOP: this.SHOP, SHOP_ITEM: item});
   }
 
   doHiding(){

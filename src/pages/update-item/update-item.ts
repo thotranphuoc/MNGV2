@@ -5,6 +5,7 @@ import { DbService } from '../../services/db.service';
 // import { AppService } from '../../services/app.service';
 import { CrudService } from '../../services/crud.service';
 import { iItem } from '../../interfaces/item.interface';
+import { iShop } from '../../interfaces/shop.interface';
 @IonicPage()
 @Component({
   selector: 'page-update-item',
@@ -15,7 +16,9 @@ export class UpdateItemPage {
   isIMGShared: boolean = false;
   willIMGBeUploaded: boolean = false;
   SHOP_ITEM: iItem = null;
+  SHOP: iShop = null;
   base64Images: any[];
+  CATEGORIES: string[];
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -27,12 +30,15 @@ export class UpdateItemPage {
     // private appService: AppService
   ) {
     this.data = this.navParams.data;
-    this.SHOP_ITEM = this.data.SHOP_ITEM;
-    if (typeof (this.SHOP_ITEM) === 'undefined') {
+    console.log(this.data);
+    if (typeof (this.data.SHOP_ITEM) === 'undefined') {
       this.SHOP_ITEM = null;
       this.navCtrl.setRoot('HomePage');
     } else {
-      console.log(this.SHOP_ITEM);
+      this.SHOP_ITEM = this.data.SHOP_ITEM;
+      this.SHOP = this.data.SHOP;
+      this.CATEGORIES = this.SHOP.SHOP_CATEGORIES;
+      // console.log(this.data);
       this.checkIfImageShare(this.SHOP_ITEM.ITEM_IMAGES[0]);
       this.base64Images = this.SHOP_ITEM.ITEM_IMAGES;
     }
@@ -176,6 +182,10 @@ export class UpdateItemPage {
     // } else {
     //   this.isIMGShared = true;
     // }
+  }
+
+  setCategory(){
+    console.log('Set Category');
   }
 
 }

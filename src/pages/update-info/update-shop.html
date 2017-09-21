@@ -68,6 +68,21 @@
         </span>
       </div>
       <br>
+      <div>
+        CATEGORIES:
+        <br>
+        <div *ngIf="SHOP.SHOP_CATEGORIES">
+          <span *ngFor="let cat of SHOP.SHOP_CATEGORIES; let i = index">
+            <button ion-button (click)="editCategories(cat, i)">
+              {{cat}}
+            </button>
+          </span>
+        </div>
+        <div *ngIf="!SHOP.SHOP_CATEGORIES">
+          No categories. <span (click)="addCategory()" style="color: red">Add New</span>
+        </div>
+      </div>
+      <br>
       <ion-list>
         <ion-item>
           <ion-icon name="md-bicycle" item-start></ion-icon>

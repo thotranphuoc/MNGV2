@@ -21,6 +21,12 @@
   </ion-grid>
   <hr>
 
+  <div padding>
+    <span *ngFor="let table of TABLES">
+      <button ion-button small *ngIf="table.reserved" color="danger" (click)="go2OrderDetail1(table)">{{table.TABLE}}</button>
+      <button ion-button small *ngIf="!table.reserved" disabled>{{table.TABLE}}</button>
+    </span>
+  </div>
   <ion-card *ngFor="let order of ORDERs_NEW; let ind = index" (click)="go2OrderDetail(order,ind)">
     <ion-grid *ngIf="order.ORDER_STATUS !=='DELETED'">
       <ion-row style="background-color: lightgrey">
@@ -46,7 +52,7 @@
       <ion-row>
         <ion-col col-7>
           <ion-row>
-            <button ion-button color="secondary" small>{{order.ORDER_TABLE}}</button>
+            <button ion-button color="danger" small>{{order.ORDER_TABLE}}</button>
           </ion-row>
         </ion-col>
         <ion-col col-2>
@@ -61,9 +67,11 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-
   </ion-card>
+
   <div padding *ngIf="ORDERs_NEW.length==0">
     <p>There is no record</p>
   </div>
+
+
 </ion-content>

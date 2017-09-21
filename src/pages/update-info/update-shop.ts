@@ -220,6 +220,86 @@ export class UpdateShopPage {
     }
   }
 
+
+  editCategories(cat, i) {
+    console.log(cat);
+    let actionSheet = this.actionSheetCtrl.create({
+      buttons: [
+        {
+          text: 'Remove category',
+          role: 'destructive',
+          handler: () => {
+            console.log('Delete clicked');
+            this.removeCategory(cat, i);
+          }
+        }, {
+          text: 'Add new category',
+          handler: () => {
+            console.log('Add new clicked');
+            this.addCategory();
+          }
+        }, {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  removeCategory(cat, i) {
+    if (this.SHOP.SHOP_CATEGORIES.length > 1) {
+      this.SHOP.SHOP_CATEGORIES.splice(i, 1);
+    }
+  }
+
+  addCategory() {
+    let promp = this.alertCtrl.create({
+      title: 'New Category',
+      message: 'Enter a new category you want to add',
+      inputs: [
+        {
+          name: 'NEW_CATEGORY',
+          placeholder: 'Title'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Add',
+          handler: (data) => {
+            console.log('Saved clicked', data);
+            this.addNewCategory(data.NEW_CATEGORY);
+          }
+        }
+      ]
+    });
+    promp.present();
+  }
+
+  addNewCategory(cat: string) {
+    if(this.SHOP.SHOP_CATEGORIES){
+      let index = this.SHOP.SHOP_CATEGORIES.map(cat => cat.toLocaleLowerCase()).indexOf(cat.toLocaleLowerCase())
+      // let index = this.TABLES.indexOf(table);
+      if (index < 0) {
+        this.SHOP.SHOP_CATEGORIES.push(cat);
+      } else {
+        alert(cat + ' already exists');
+      }
+    }else{
+      this.SHOP['SHOP_CATEGORIES'] = [cat];
+      console.log(this.SHOP);
+    }
+  }
+
   checkInfoFullFilled() {
 
     this.isInfoFullFilled = true;
