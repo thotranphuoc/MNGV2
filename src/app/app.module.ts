@@ -19,6 +19,7 @@ import { ImageService } from '../services/image.service';
 import { LocalService } from '../services/local.service';
 import { AuthService } from '../services/auth.service';
 import { AppService } from '../services/app.service';
+import { ShopService } from '../services/shop.service';
 import { StatisticService } from '../services/statistic.service';
 // setup angularfire2
 import { AngularFireModule } from 'angularfire2';
@@ -68,6 +69,7 @@ export const firebaseConfig = {
     LocalService,
     AuthService,
     AppService,
+    ShopService,
     StatisticService,
     CrudService,
     AngularFireAuth

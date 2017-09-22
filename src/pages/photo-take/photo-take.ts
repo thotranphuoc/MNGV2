@@ -38,7 +38,7 @@ export class PhotoTakePage {
   }
 
   selectPhotoByBrowser() {
-    console.log('select photo')
+    console.log('start browsering or taking photo camera')
     document.getElementById('inputFile').click();
   }
 

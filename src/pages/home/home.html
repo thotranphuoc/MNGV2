@@ -1,21 +1,18 @@
-
-<!-- <ion-header>
-
-  <ion-navbar>
-    <ion-title>home</ion-title>
-  </ion-navbar>
-
-</ion-header> -->
-
-
 <ion-content padding>
-  <div text-center>
-      <h3 style="color: red">Welcome to MenuGo</h3>
+  <div (click)="go2MapPage()" class="home-page">
+      <div text-center>
+          <h3 style="color: red">Menu2Book</h3>
+      </div>
+    
+      <hr>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div text-center>
+        <img src="{{IMG}}" alt="">
+      </div>
+      <button block ion-button clear>Click to continue...</button>
   </div>
-
-  <hr>
-  <div text-center>
-    <img src="{{IMG}}" alt="">
-  </div>
-  <button block ion-button clear (click)="go2MapPage()">Click to continue...</button>
 </ion-content>

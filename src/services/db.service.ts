@@ -12,9 +12,6 @@ import 'firebase/storage';
 
 @Injectable()
 export class DbService {
-
-
-
     constructor(
         // private db: AngularFireDatabase,
         // private afAuth: AngularFireAuth
@@ -69,7 +66,7 @@ export class DbService {
                     .then(url => {
                         resolve(url)
                     })
-                    .catch((err)=>{ 
+                    .catch((err) => {
                         console.log(err);
                         reject(err);
                     })
@@ -310,10 +307,4 @@ export class DbService {
                 })
             })
     }
-
-
-
-
-
-
 }

@@ -15,7 +15,7 @@ import { iProfile } from '../interfaces/profile.interface';
 export class LocalService {
     SHOPs_LOCATION: any[] = [];
     SHOPs_NEARBY: any[] = [];
-    shopsLoaded: boolean = false;
+    SHOP_LOADED: boolean = false;
     SHOP_DEFAULT: iShop = {
         SHOP_ID: null,
         SHOP_OWNER: null,

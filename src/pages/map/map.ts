@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 
 import { Geolocation } from '@ionic-native/geolocation';
 import { GmapService } from '../../services/gmap.service';
 import { LocalService } from '../../services/local.service';
 import { DbService } from '../../services/db.service';
-import { 
-  AngularFireDatabase, 
-  FirebaseListObservable, 
+import {
+  AngularFireDatabase,
+  FirebaseListObservable,
   // FirebaseObjectObservable 
 } from 'angularfire2/database';
 
@@ -22,18 +22,20 @@ declare var google: any;
   templateUrl: 'map.html',
 })
 export class MapPage {
+  data: any;
   mapEl: any;
   map: any;
   loading: any;
   shops: iShop[] = [];
   shopsO: FirebaseListObservable<iShop[]>;;
   insideMapShops: iShop[] = [];
-  SHOPs_LOC: any[] = [];
+  // SHOPs_LOC: any[] = [];
   SHOPs_NEARBY: any[] = [];
   USER_LOC: iPosition;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
     private geolocation: Geolocation,
     private gmapService: GmapService,
@@ -41,22 +43,34 @@ export class MapPage {
     private dbService: DbService,
     private afDB: AngularFireDatabase
   ) {
-    this.USER_LOC = this.navParams.get('LOC');
-    console.log(this.USER_LOC);
-    if (this.localService.shopsLoaded) {
-      this.SHOPs_NEARBY = this.localService.SHOPs_NEARBY;
-      this.SHOPs_LOC = this.localService.SHOPs_LOCATION;
-    } else {
-      this.afDB.list('ShopsLOCATION')
-      // this.afDB.list('ShopsLOCATION')
-      .forEach((shops_loc: any[]) => {
-        this.localService.SHOPs_LOCATION = shops_loc;
-        this.SHOPs_LOC = shops_loc;
-        // this.shopsLoaded = true;
-        this.localService.shopsLoaded = true;
-        console.log(this.SHOPs_LOC);
-      })
-    }
+    this.data = this.navParams.data;
+    this.USER_LOC = typeof (this.data.USER_LOCATION) === 'undefined' ? null : this.data.USER_LOCATION;
+    // this.SHOPs_LOC = typeof(this.data.SHOPS_LOCATION) ==='undefined'? null : this.data.SHOPS_LOCATION;
+    console.log(this.data, this.USER_LOC);
+    // if(this.SHOPs_LOC){
+
+    // }else{
+    //   this.afDB.list('ShopsLOCATION').forEach((shops_loc: any[])=>{
+    //     this.SHOPs_LOC = shops_loc;
+    //     console.log(this.SHOPs_LOC);
+    //   })
+    // }
+
+
+    // if (this.localService.shopsLoaded) {
+    //   this.SHOPs_NEARBY = this.localService.SHOPs_NEARBY;
+    //   this.SHOPs_LOC = this.localService.SHOPs_LOCATION;
+    // } else {
+    //   this.afDB.list('ShopsLOCATION')
+    //   // this.afDB.list('ShopsLOCATION')
+    //   .forEach((shops_loc: any[]) => {
+    //     this.localService.SHOPs_LOCATION = shops_loc;
+    //     this.SHOPs_LOC = shops_loc;
+    //     // this.shopsLoaded = true;
+    //     this.localService.shopsLoaded = true;
+    //     console.log(this.SHOPs_LOC);
+    //   })
+    // }
 
     this.loading = this.loadingCtrl.create({
       content: 'Please wait....',
@@ -78,10 +92,9 @@ export class MapPage {
   }
 
   initMap(mapElement) {
-    // this.gmapService.getCurrentPosition()
     this.geolocation.getCurrentPosition()
       .then((position) => {
-        let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        // let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         let pos: iPosition = { lat: position.coords.latitude, lng: position.coords.longitude }
         this.gmapService.setUserCurrentPosition(pos);
         this.showMap(pos, mapElement)
@@ -99,12 +112,10 @@ export class MapPage {
             this.gmapService.setUserCurrentPosition(pos);
             this.showMap(pos, mapElement);
           })
-          .catch((err)=>{console.log(err)});
+          .catch((err) => { console.log(err) });
       })
 
   }
-
-
 
   showMap(position: iPosition, mapElement) {
     let latLng = new google.maps.LatLng(position.lat, position.lng);
@@ -132,45 +143,41 @@ export class MapPage {
   }
 
   loadShops() {
-    if (!this.localService.shopsLoaded) {
-      // this.shops = [];
-      this.afDB.list('Shops_LOC').forEach((shops_loc: any[]) => {
+    if (!this.localService.SHOP_LOADED) {
+      console.log('localService.SHOP_LOADED = false');
+      this.afDB.list('ShopsLOCATION').forEach((shops_loc: any[]) => {
         console.log(shops_loc);
-        this.SHOPs_LOC = shops_loc;
-        this.localService.shopsLoaded = true;
-        this.checkAndLoadMarker(this.SHOPs_LOC);
+        this.localService.SHOPs_LOCATION = shops_loc;
+        this.localService.SHOP_LOADED = true;
+        this.checkAndLoadMarker(this.localService.SHOPs_LOCATION);
       })
-    }else{
-      this.checkAndLoadMarker(this.SHOPs_LOC);
+    } else {
+      console.log('localService.SHOP_LOADED = true');
+      this.checkAndLoadMarker(this.localService.SHOPs_LOCATION);
     }
-    
+
   }
 
   checkAndLoadMarker(shops: any[]) {
-    if(shops.length>0){
+    if (shops.length > 0) {
       console.log(shops);
       this.insideMapShops = [];
       shops.forEach(shop => {
-        let POS: iPosition = {lat: shop.lat, lng: shop.lng}
+        let POS: iPosition = { lat: shop.lat, lng: shop.lng }
         console.log(POS);
         if (this.gmapService.isPositionInsideMap(POS, this.map)) {
-          // this.afDB.object('Shops/' + shop.ID).subscribe((shopData: iShop) => {
-          //   console.log(shopData);
-          //   this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, POS, shopData);
-          //   this.insideMapShops.push(shopData);
-          // })
-          this.dbService.getOneItemReturnPromise('Shops/'+shop.ID).then((shopData:iShop)=>{
+          this.dbService.getOneItemReturnPromise('Shops/' + shop.ID).then((shopData: iShop) => {
             this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, POS, shopData);
             this.insideMapShops.push(shopData);
             console.log(shopData);
           })
-  
-        }else{
+
+        } else {
           console.log('out of map');
         }
       })
-    }else{
-
+    } else {
+      console.log('this.localService.SHOPs_LOCATION = 0');
     }
   }
 
@@ -186,7 +193,7 @@ export class MapPage {
   }
 
   private hideLoading() {
-    this.loading.dismiss().catch((err) => { console.log(err)});
+    this.loading.dismiss().catch((err) => { console.log(err) });
   }
 
   go2List() {
@@ -194,8 +201,44 @@ export class MapPage {
     this.navCtrl.push('ListPage', { shops: this.insideMapShops });
   }
 
-  go2AddNewShop() {
-    this.navCtrl.push('ShopAddNewPage');
+  // go2AddNewShop() {
+  //   this.navCtrl.push('ShopAddNewPage');
+  // }
+
+  go2SearchShop() {
+    let modal = this.modalCtrl.create('SearchShopPage');
+    modal.onDidDismiss((data)=>{
+      console.log(data);
+      if(typeof(data) !== 'undefined'){
+        this.go2Shop(data.SHOP);
+      }
+    })
+    modal.present();
   }
+
+  go2Shop(shop: iShop) {
+    console.log(shop.SHOP_OTHER);
+    if('SHOP_OTHER' in shop){
+      console.log(shop.SHOP_OTHER);
+
+      // if isVERIFIED exist
+      if('isVERIFIED' in shop.SHOP_OTHER){
+        if(shop.SHOP_OTHER.isVERIFIED){
+          console.log('isVERIFIED TRUE');
+          this.navCtrl.setRoot('Shop2Page', { SHOP: shop });
+        }else{
+          console.log('isVERIFIED FALSE');
+          this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
+        }
+      }else{
+        console.log('isVERIFIED not exist');
+        this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
+      }
+    }else{
+      console.log('no SHOP_OTHER')
+      this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
+    }
+  }
+
 
 }

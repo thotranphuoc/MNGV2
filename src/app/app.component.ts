@@ -37,6 +37,7 @@ export class MyApp {
       { title: 'Home', component: 'HomePage', icon:'home' },
       { title: 'Setting', component: 'SettingPage', icon:'cog' },
       { title: 'Search', component: 'SearchPage', icon:'search' },
+      { title: 'New Shop', component: 'ShopAddNewPage', icon: 'add'},
       { title: 'About', component: 'AboutPage', icon:'information-circle' }
     ];
 

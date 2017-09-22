@@ -8,4 +8,22 @@ page-map {
         height: 100%;
       }
 
+      .disable-map{
+        position: absolute;
+        width: 100%;
+        height: 50px;
+        background-color: red;
+        opacity: 0.0;
+        bottom: 0;
+      }
+
+      .search{
+        position: absolute;
+        width: 100%;
+        height: 50px;
+        background-color: black;
+        opacity: 0.3;
+        top: 0px;
+      }
+
 }

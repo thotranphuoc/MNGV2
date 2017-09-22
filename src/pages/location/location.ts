@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ViewController } from 'ionic-angular';
-import { Geolocation } from '@ionic-native/geolocation';
+// import { Geolocation } from '@ionic-native/geolocation';
 import { GmapService } from '../../services/gmap.service';
 import { iPosition } from '../../interfaces/position.interface';
 import { iShop } from '../../interfaces/shop.interface';
@@ -24,7 +24,7 @@ export class LocationPage {
     public navParams: NavParams,
     private loadingCtrl: LoadingController,
     private viewCtrl: ViewController,
-    private geolocation: Geolocation,
+    // private geolocation: Geolocation,
     private gmapService: GmapService,
   ) {
     this.data = this.navParams.data;

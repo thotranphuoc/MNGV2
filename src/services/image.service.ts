@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ImageService {
+    IMG_WIDTH_MAX: number = 750;
+    IMG_HEIGHT_MAX: number = 750;
     constructor() { }
 
     // VERIFIED: browse photo/ capture photo, then convert to imageData to be ready to display
@@ -122,7 +124,7 @@ export class ImageService {
     // remember to wait 1s to update array otherwise array = null
     resizeImagesFromChoosenFilesReturnPromiseWithArrayOfImageDataUrls(event) {
         return new Promise((resolve, reject) => {
-            let imagesDataURLs: string[] = [];
+            // let imagesDataURLs: string[] = [];
             let resizedDataURLs: string[] = [];
             let seletectedFiles: any[] = event.target.files;
             console.log(seletectedFiles);
@@ -131,17 +133,17 @@ export class ImageService {
                 if (index < seletectedFiles.length) {
                     let selectedFile = seletectedFiles[index];
                     console.log(selectedFile);
-                    // convert file into imageDataURL. if keep same quality
-                    this.convertFile2ImageData(selectedFile)
-                        .then((imgDataURL: string) => {
-                            imagesDataURLs.push(imgDataURL)
-                        }, err => console.log(err))
+                    // // convert file into imageDataURL. if keep same quality
+                    // this.convertFile2ImageData(selectedFile)
+                    //     .then((imgDataURL: string) => {
+                    //         imagesDataURLs.push(imgDataURL)
+                    //     }, err => console.log(err))
 
                     // convert files to HTMLImageElement in order resize
                     this.convertFile2ImageElement(selectedFile)
                         .then((el: HTMLImageElement) => {
                             console.log(el);
-                            this.resizeFromImageElementReturnPromise(el, 750, 750)
+                            this.resizeFromImageElementReturnPromise(el, this.IMG_WIDTH_MAX, this.IMG_HEIGHT_MAX)
                                 .then((res) => {
                                     console.log(res);
                                     resizedDataURLs.push(res.imageUrl)

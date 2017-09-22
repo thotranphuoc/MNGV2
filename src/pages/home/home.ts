@@ -5,9 +5,10 @@ import { DbService } from '../../services/db.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { iPosition } from '../../interfaces/position.interface';
 import { Geolocation } from '@ionic-native/geolocation';
-import { AppService } from '../../services/app.service';
+// import { AppService } from '../../services/app.service';
+import { ShopService } from '../../services/shop.service';
 import { LocalService } from '../../services/local.service';
-import * as firebase from 'firebase/app';
+// import * as firebase from 'firebase/app';
 
 @IonicPage()
 @Component({
@@ -18,14 +19,17 @@ export class HomePage {
   USER_LOCATION: iPosition;
   USER_LAST_TIME: string;
   USER_ID = null;
-  IMG = '../../assets/imgs/menugo_192x192.png';
+  IMG = '../../assets/imgs/menugo_144x144.png';
+  SHOPS_ID: any[] = [];
+  SHOPS_LOCATION: any[] = [];
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private dbService: DbService,
     private afAuth: AngularFireAuth,
     private geolocation: Geolocation,
-    private appService: AppService,
+    // private appService: AppService,
+    private shopService: ShopService,
     private localService: LocalService
   ) {
     // this.test();
@@ -60,65 +64,34 @@ export class HomePage {
       })
   }
 
-
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
   }
 
   go2MapPage() {
-    this.navCtrl.setRoot('MapPage', { LOC: this.USER_LOCATION });
+    let data = {
+      USER_LOCATION: this.USER_LOCATION,
+      SHOPS_ID: this.SHOPS_ID,
+      SHOPS_LOCATION: this.SHOPS_LOCATION
+    }
+    this.navCtrl.setRoot('MapPage', data);
   }
 
   getShopsNearby(LAT: number, LNG: number) {
-    console.log(LAT, LNG);
-    let latArray: any[] = [];
-    let lngArray: any[] = [];
-    let itemArray: any[] = [];
-    let db = firebase.database();
-    const loca = db.ref('ShopsLOCATION');
-    const query1 = loca
-      .orderByChild('lat')
-      .startAt(LAT - 0.1)
-      .endAt(LAT + 0.1)
-    let pro1 = query1.once('value', snap => {
-      console.log(snap);
-      snap.forEach((child: any) => {
-        console.log(child.val(), child.key)
-        latArray.push(child.key);
-        itemArray.push(child.val());
-        return false
-      })
-    })
-
-    const query2 = loca
-      .orderByChild('lng')
-      .startAt(LNG - 0.1)
-      .endAt(LNG + 0.2)
-    let pro2 = query2.once('value', snap => {
-      console.log(snap);
-      snap.forEach((child: any) => {
-        console.log(child.val(), child.key)
-        lngArray.push(child.key);
-        return false
-      })
-    })
-
-    return Promise.all([pro1, pro2])
-    .then(() => {
-      let final = this.appService.commonOf2Arrays(latArray, lngArray);
-      console.log(final);
-      this.localService.SHOPs_NEARBY = final;
-      let finalLOC = [];
-      final.forEach(ID => {
-        let index = latArray.indexOf(ID);
-        finalLOC.push(itemArray[index]);
-      })
-      this.localService.SHOPs_LOCATION = finalLOC;
-      console.log(finalLOC);
-      this.localService.shopsLoaded = true;
-    })
-    .catch((err)=>{console.log(err)})
+    if (!this.localService.SHOP_LOADED) {
+      this.shopService.getShopsNearBy(LAT, LNG)
+        .then((res: any) => {
+          console.log(res);
+          this.SHOPS_ID = res.SHOP_IDs;
+          this.SHOPS_LOCATION = res.SHOP_locations;
+          this.localService.SHOPs_LOCATION = res.SHOP_locations;
+          this.localService.SHOPs_NEARBY = res.SHOP_IDs;
+          this.localService.SHOP_LOADED = true;
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
 
 }

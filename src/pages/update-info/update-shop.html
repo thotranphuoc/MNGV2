@@ -62,7 +62,7 @@
         TABLES:
         <br>
         <span *ngFor="let table of SHOP.SHOP_TABLES; let i = index">
-          <button ion-button (click)="editTables(table, i)">
+          <button ion-button (click)="editTables(table, i)" small>
             {{table}}
           </button>
         </span>
@@ -73,7 +73,7 @@
         <br>
         <div *ngIf="SHOP.SHOP_CATEGORIES">
           <span *ngFor="let cat of SHOP.SHOP_CATEGORIES; let i = index">
-            <button ion-button (click)="editCategories(cat, i)">
+            <button ion-button (click)="editCategories(cat, i)" small color="secondary">
               {{cat}}
             </button>
           </span>

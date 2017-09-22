@@ -3,18 +3,21 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title icon-left (click)="go2List()">MenuGo</ion-title>
-  
+    <ion-title>Menu2Book</ion-title>
+
     <ion-buttons end>
-      <button ion-button (click)="go2AddNewShop()"><ion-icon name="add"></ion-icon>New</button>
-    </ion-buttons> 
+        <!-- <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar> -->
+      <button ion-button (click)="go2SearchShop()"><ion-icon name="search"></ion-icon></button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
   <div id="map" #map></div>
+
   <ion-fab left bottom>
     <button ion-fab color="danger" mini (click)="go2List()"><ion-icon name="md-swap"></ion-icon></button>
   </ion-fab>
+  <div class="disable-map"></div>
 </ion-content>
