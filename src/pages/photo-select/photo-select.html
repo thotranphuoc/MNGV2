@@ -16,7 +16,7 @@
   
   
     <ion-item *ngFor="let image of images; let i = index">
-      <img src="{{image.IMG_URL}}" alt="" (click)="selectPhoto(image)">
-      <p>{{image.IMG_NAME}}</p>
+      <img src="{{image.IMG_URL}}" alt="" (click)="selectPhoto(image)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+      <p>{{image.IMG_KEYWORD}}</p>
     </ion-item>
   </ion-content>

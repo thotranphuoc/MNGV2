@@ -12,7 +12,7 @@
     <div text-center>
       <ion-slides pager>
         <ion-slide *ngFor="let SHOP_IMAGE of SHOP.SHOP_IMAGES; let i = index">
-          <img src="{{SHOP_IMAGE}}">
+          <img src="{{SHOP_IMAGE}}" onError="this.src='../../assets/imgs/imagenotavailable.png';">
         </ion-slide>
       </ion-slides>
       <p>{{SHOP.SHOP_ADDRESS}}</p>

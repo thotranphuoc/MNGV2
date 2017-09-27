@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, LoadingController } from 'ionic-angular';
 
 import { DbService } from '../../services/db.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { iPosition } from '../../interfaces/position.interface';
 import { Geolocation } from '@ionic-native/geolocation';
-// import { AppService } from '../../services/app.service';
+import { GmapService } from '../../services/gmap.service';
 import { ShopService } from '../../services/shop.service';
 import { LocalService } from '../../services/local.service';
 // import * as firebase from 'firebase/app';
+
+import { iShop } from '../../interfaces/shop.interface';
 
 @IonicPage()
 @Component({
@@ -22,16 +24,24 @@ export class HomePage {
   IMG = '../../assets/imgs/menugo_144x144.png';
   SHOPS_ID: any[] = [];
   SHOPS_LOCATION: any[] = [];
+  loading: any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private modalCtrl: ModalController,
+    private loadingCtrl: LoadingController,
     private dbService: DbService,
     private afAuth: AngularFireAuth,
     private geolocation: Geolocation,
-    // private appService: AppService,
+    private gmapService: GmapService,
     private shopService: ShopService,
     private localService: LocalService
   ) {
+    this.loading = this.loadingCtrl.create({
+      content: 'Please wait....',
+      spinner: 'crescent'
+    });
+    
     // this.test();
     if (this.afAuth.auth.currentUser) {
       this.USER_ID = this.afAuth.auth.currentUser.uid;
@@ -43,6 +53,7 @@ export class HomePage {
           lat: res.coords.latitude,
           lng: res.coords.longitude
         };
+        this.gmapService.setUserCurrentPosition(this.USER_LOCATION);
         this.getShopsNearby(this.USER_LOCATION.lat, this.USER_LOCATION.lng);
       })
       .catch((err) => {
@@ -66,6 +77,7 @@ export class HomePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
+    // this.startLoading();
   }
 
   go2MapPage() {
@@ -78,7 +90,9 @@ export class HomePage {
   }
 
   getShopsNearby(LAT: number, LNG: number) {
+    
     if (!this.localService.SHOP_LOADED) {
+      this.startLoading();
       this.shopService.getShopsNearBy(LAT, LNG)
         .then((res: any) => {
           console.log(res);
@@ -87,11 +101,73 @@ export class HomePage {
           this.localService.SHOPs_LOCATION = res.SHOP_locations;
           this.localService.SHOPs_NEARBY = res.SHOP_IDs;
           this.localService.SHOP_LOADED = true;
+          this.shopService.getShopsInDetail(res.SHOP_IDs);
+          this.hideLoading();
         })
         .catch((err) => {
           console.log(err)
         })
+    }else{
+      console.log('Shop list already loaded');
+      // this.hideLoading();
     }
+    // this.shopService.getShops(LAT, LNG);
+  }
+
+  go2SearchShop() {
+    let modal = this.modalCtrl.create('SearchShopPage');
+    modal.onDidDismiss((data)=>{
+      console.log(data);
+      if(typeof(data) !== 'undefined'){
+        this.go2Shop(data.SHOP);
+      }
+    })
+    modal.present();
+  }
+
+  go2Shop(shop: iShop) {
+    console.log(shop.SHOP_OTHER);
+    if('SHOP_OTHER' in shop){
+      console.log(shop.SHOP_OTHER);
+
+      // if isVERIFIED exist
+      if('isVERIFIED' in shop.SHOP_OTHER){
+        if(shop.SHOP_OTHER.isVERIFIED){
+          console.log('isVERIFIED TRUE');
+          this.navCtrl.setRoot('Shop2Page', { SHOP: shop });
+        }else{
+          console.log('isVERIFIED FALSE');
+          this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
+        }
+      }else{
+        console.log('isVERIFIED not exist');
+        this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
+      }
+    }else{
+      console.log('no SHOP_OTHER')
+      this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
+    }
+  }
+
+  go2ListPage(){
+    let data = {
+      USER_LOCATION: this.USER_LOCATION,
+      SHOPS_ID: this.SHOPS_ID,
+      SHOPS_LOCATION: this.SHOPS_LOCATION
+    }
+    this.navCtrl.setRoot('ListPage', data);
+  }
+
+  startLoading() {
+    this.loading.present();
+    setTimeout(() => {
+      this.hideLoading();
+      // alert('Please turn on internet and location permission. Then open app again')
+    }, 15000)
+  }
+
+  hideLoading() {
+    this.loading.dismiss().catch((err) => { console.log(err) });
   }
 
 }

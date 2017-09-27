@@ -16,7 +16,7 @@
     <div *ngIf="SHOP_IMAGES">
       <ion-slides pager>
         <ion-slide *ngFor="let SHOP_IMAGE of SHOP_IMAGES">
-          <img src="{{SHOP_IMAGE}}" alt="">
+          <img src="{{SHOP_IMAGE}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
         </ion-slide>
       </ion-slides>
     </div>

@@ -42,9 +42,9 @@ export class MenuItemAddPage {
   ) {
     this.data = this.navParams.data;
     this.SHOP = this.data.SHOP;
-    if(typeof(this.SHOP) === 'undefined'){
+    if (typeof (this.SHOP) === 'undefined') {
       this.navCtrl.setRoot('HomePage');
-    }else{
+    } else {
       this.SHOP_ID = this.SHOP.SHOP_ID;
       this.item = this.localService.ITEM_DEFAULT;
       this.loading = this.loadingCtrl.create({
@@ -52,7 +52,7 @@ export class MenuItemAddPage {
         spinner: 'crescent'
       });
     }
-    
+
   }
 
   ionViewDidLoad() {
@@ -77,7 +77,7 @@ export class MenuItemAddPage {
 
   selectPhoto() {
     console.log('selectPhoto');
-    let photosModal = this.modalCtrl.create('PhotoSelectPage', { KEY: this.item.ITEM_NAME_EN ,PHOTOS: this.base64Images });
+    let photosModal = this.modalCtrl.create('PhotoSelectPage', { KEY: this.item.ITEM_NAME_EN, PHOTOS: this.base64Images });
     photosModal.onDidDismiss((data) => {
       console.log(data);
       this.base64Images = data.PHOTOS;
@@ -123,7 +123,7 @@ export class MenuItemAddPage {
     } else {
       // info not fullfilled
       this.hasPosted = false;
-      this.appService.alertMsg('Notice', 'Please fill all information required');
+      this.appService.alertMsg('Notice', 'Information or Photo missing');
     }
   }
 
@@ -145,6 +145,12 @@ export class MenuItemAddPage {
       this.isInfoFullFilled = false;
       console.log(this.item.ITEM_SIZE, 'size is missed');
     }
+
+    if (this.base64Images.length < 1) {
+      this.isInfoFullFilled = false;
+      console.log(this.item.ITEM_IMAGES, 'images is missed');
+    }
+
     console.log(this.isInfoFullFilled, '<--isInfoFullfilled?');
   }
 
@@ -157,7 +163,7 @@ export class MenuItemAddPage {
   }
 
   private hideLoading() {
-    this.loading.dismiss().catch((err) => { console.log(err)});
+    this.loading.dismiss().catch((err) => { console.log(err) });
   }
 
 

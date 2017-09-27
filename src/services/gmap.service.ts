@@ -22,7 +22,9 @@ export class GmapService {
         private appService: AppService,
         private afService: AngularFireService,
         private popoverCtrl: PopoverController,
-        private geolocation: Geolocation) { }
+        private geolocation: Geolocation) { 
+            this.getUserCurrentPosition();
+        }
 
 
     setMarkers(markers) {

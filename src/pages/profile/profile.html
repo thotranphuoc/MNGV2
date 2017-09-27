@@ -13,12 +13,12 @@
       <div>
         <ion-item *ngIf="!hasNewAvatar">
           <ion-avatar (click)="selectPhotoByBrowser()">
-            <img src="{{PROFILE.PROFILE_AVATAR_URL}}" alt="" class="img">
+            <img src="{{PROFILE.PROFILE_AVATAR_URL}}" alt="" class="img" onError="this.src='../../assets/imgs/imagenotavailable.png';">
           </ion-avatar>
         </ion-item>
         <ion-item *ngIf="hasNewAvatar">
           <ion-avatar (click)="selectPhotoByBrowser()">
-            <img src="{{base64Images[0]}}" alt="" class="img">
+            <img src="{{base64Images[0]}}" alt="" class="img" onError="this.src='../../assets/imgs/imagenotavailable.png';">
           </ion-avatar>
         </ion-item>
       </div>

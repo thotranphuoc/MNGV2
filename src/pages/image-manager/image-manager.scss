@@ -1,0 +1,39 @@
+page-image-manager {
+    .item-ios ion-thumbnail ion-img,
+    .item-ios ion-thumbnail img {
+      width: 56*1.3px;
+      height: 56px;
+    }
+
+    .item-md ion-thumbnail ion-img, 
+    .item-md ion-thumbnail img {
+        width: 80*1.3px;
+        height: 80px;
+    }
+
+    p{
+        font-size: 2px;
+    }
+
+    .item-md p {
+        margin: 0 0 2px;
+        overflow: inherit;
+        font-size: 1.2rem;
+        line-height: normal;
+        text-overflow: inherit;
+        color: #666;
+      }
+
+    .item-ios p {
+        overflow: inherit;
+        font-size: 1.2rem;
+        line-height: normal;
+        text-overflow: inherit;
+        color: #8e9093;
+        margin: 0 0 2px;
+      }
+
+      ion-icon{
+          font-size: 1.8em;
+      }
+}

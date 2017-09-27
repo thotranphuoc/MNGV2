@@ -18,7 +18,7 @@
     <ion-item-sliding *ngFor="let PROFILE of PROFILES; let i = index">
       <ion-item>
         <ion-avatar item-start>
-          <img src="{{PROFILE.profile.PROFILE_AVATAR_URL}}" alt="">
+          <img src="{{PROFILE.profile.PROFILE_AVATAR_URL}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
         </ion-avatar>
         <h2>{{PROFILE.profile.PROFILE_NAME}}</h2>
         <p>{{PROFILE.role}} | {{PROFILE.profile.PROFILE_EMAIL}}</p>

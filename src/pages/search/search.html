@@ -22,13 +22,13 @@
       <p>{{item.ITEM_NAME_LOCAL}}</p>
       <p>{{item.ITEM_NAME_EN}}</p>
       <ion-thumbnail item-end *ngIf="n==2">
-        <img src="{{item.ITEM_IMAGES[0]}}" alt="">
+        <img src="{{item.ITEM_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
       </ion-thumbnail>
     </ion-item>
   </div>
   <div *ngIf="n==3">
     <ion-card *ngFor="let item of itemList" (click)="go2Shop(item)">
-      <img src="{{item.ITEM_IMAGES[0]}}" />
+      <img src="{{item.ITEM_IMAGES[0]}}" onError="this.src='../../assets/imgs/imagenotavailable.png';" />
       <div class="info"></div>
       <div class="card-title">{{item.ITEM_NAME_EN}}</div>
       <div class="card-subtitle">{{item.ITEM_NAME_LOCAL}}</div>

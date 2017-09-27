@@ -10,7 +10,7 @@
 <ion-content>
 
   <ion-card *ngIf="SENDER==='USER'">
-    <img src="{{SHOP?.SHOP_IMAGES[0]}}" alt="">
+    <img src="{{SHOP?.SHOP_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
     <h3>{{SHOP?.SHOP_NAME}}</h3>
     <p>{{SHOP?.SHOP_ADDRESS}}</p>
     <p>{{SHOP?.SHOP_PHONE}}</p>

@@ -184,7 +184,7 @@ export class AddNewShopTab4Page {
   // }
 
   go2Page(page: string) {
-    const root = this.app.getRootNav();
+    const root = this.app.getRootNavs()[0];
     root.setRoot(page);
   }
 

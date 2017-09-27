@@ -20,7 +20,7 @@
   
     <div *ngIf="base64Images">
       <div *ngFor="let base64Image of base64Images; let i = index">
-        <img src="{{base64Image}}" alt="" (click)="selectPhoto(i)">
+        <img src="{{base64Image}}" alt="" (click)="selectPhoto(i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
       </div>
     </div>
   

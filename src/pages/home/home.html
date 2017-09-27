@@ -1,18 +1,49 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    <ion-title color="danger">Menu2Book</ion-title>
+
+    <ion-buttons end>
+      <!-- <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar> -->
+      <button ion-button (click)="go2SearchShop()"><ion-icon name="search"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
 <ion-content padding>
-  <div (click)="go2MapPage()" class="home-page">
-      <div text-center>
+  <div class="home-page">
+    <!-- <div text-center>
           <h3 style="color: red">Menu2Book</h3>
-      </div>
-    
-      <hr>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <div text-center>
-        <img src="{{IMG}}" alt="">
-      </div>
-      <button block ion-button clear>Click to continue...</button>
+      </div> -->
+
+
+
+    <br>
+    <br>
+    <div text-center>
+      <img src="{{IMG}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+    </div>
+    <!-- <button block ion-button clear>Click to continue...</button> -->
+    <ion-grid>
+      <ion-row text-center>
+        <ion-col (click)="go2MapPage()">
+          <button ion-button icon-left clear>
+            <ion-icon name="map"></ion-icon>
+            MAP
+          </button>
+        </ion-col>
+        <ion-col (click)="go2ListPage()">
+          <button ion-button icon-left clear>
+            <ion-icon name="md-list"></ion-icon>
+            LIST
+          </button>
+        </ion-col>
+        <!-- <ion-col (click)="go2ListPage()">LIST</ion-col> -->
+      </ion-row>
+    </ion-grid>
   </div>
+
+
 </ion-content>

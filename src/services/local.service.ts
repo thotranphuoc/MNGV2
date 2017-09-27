@@ -8,6 +8,7 @@ import { iSetting } from '../interfaces/setting.interface';
 import { iItem } from '../interfaces/item.interface';
 import { iOrder } from '../interfaces/order.interface';
 import { iProfile } from '../interfaces/profile.interface';
+import { iImage } from '../interfaces/image.interface';
 
 
 @Injectable()
@@ -16,6 +17,7 @@ export class LocalService {
     SHOPs_LOCATION: any[] = [];
     SHOPs_NEARBY: any[] = [];
     SHOP_LOADED: boolean = false;
+    SHOPs_NEARBY_DETAIL: any[] = []
     SHOP_DEFAULT: iShop = {
         SHOP_ID: null,
         SHOP_OWNER: null,
@@ -71,7 +73,7 @@ export class LocalService {
         ITEM_NEW: true,
         ITEM_VISIBLE: true,
         ITEM_IMG_SHARED: false,
-        ITEM_CATEGORY: null,
+        ITEM_CATEGORY: 'Drinks',
         ITEM_OTHER: null
     }
 
@@ -113,6 +115,18 @@ export class LocalService {
         setHomeMade: true,
         setOther: true,
         language: 'english'
+    }
+
+    IMAGE_DEFAULT: iImage = {
+        IMG_KEYWORD: null, 
+        IMG_URL: null, 
+        THUM_URL: null 
+    }
+
+    IMAGE: iImage = {
+        IMG_KEYWORD: null, 
+        IMG_URL: null, 
+        THUM_URL: null 
     }
 
     SHOP_IMAGE: string;

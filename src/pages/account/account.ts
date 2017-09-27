@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { AuthService } from '../../services/auth.service';
 import { AppService } from '../../services/app.service';
@@ -10,20 +10,25 @@ import { CrudService } from '../../services/crud.service';
   templateUrl: 'account.html',
 })
 export class AccountPage {
+  data: any;
   action: string = 'sign-in';
   signIn: { email: string, password: string } = { email: '', password: '' };
   signUp: { email: string, password1: string, password2: string } = { email: '', password1: '', password2: '' };
   resetAccount: { email: string } = { email: '' };
+  isBackable: boolean = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private viewCtrl: ViewController,
     private authService: AuthService,
     private crudService: CrudService,
     private appService: AppService) {
-
-    let Act = this.navParams.get('action');
-    if (typeof (Act) != 'undefined') {
-      this.action = Act;
+    this.data = navParams.data;
+    this.action = this.data.action;
+    if (typeof (this.action) != 'undefined') {
+      this.isBackable = true;
+    } else {
+      this.navCtrl.setRoot('HomePage');
     }
     console.log(this.action);
   }
@@ -97,8 +102,16 @@ export class AccountPage {
     this.action = 'sign-up';
   }
 
-  go2ResetPassword(){
+  go2ResetPassword() {
     this.action = 'reset-account';
+  }
+
+  close() {
+    // this.viewCtrl.dismiss()
+    // .catch((err)=>{
+    //   console.log(err);
+    // });
+    this.navCtrl.pop();
   }
 
 

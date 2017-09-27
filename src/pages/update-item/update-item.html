@@ -11,7 +11,7 @@
       <div>
         <ion-slides pager>
           <ion-slide *ngFor="let ITEM_IMAGE of SHOP_ITEM.ITEM_IMAGES; let i = index">
-            <img src="{{ITEM_IMAGE}}" alt="" (click)="clickImage(ITEM_IMAGE, i)">
+            <img src="{{ITEM_IMAGE}}" alt="" (click)="clickImage(ITEM_IMAGE, i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
           </ion-slide>
         </ion-slides>
       </div>
@@ -57,8 +57,8 @@
 
         <ion-item>
           <ion-label>Category:</ion-label>
-          <ion-select [(ngModel)]="SHOP_ITEM.ITEM_CATEGORY" name="ITEM_CATEGORY">
-            <span *ngFor="let cat of CATEGORIES">
+          <ion-select [(ngModel)]="SHOP_ITEM.ITEM_CATEGORY" name="ITEM_CATEGORY" value="SHOP_ITEM.ITEM_CATEGORY">
+            <span *ngFor="let cat of CATEGORIES" >
                 <ion-option value="{{cat}}">{{cat}}</ion-option>
             </span>
           </ion-select>

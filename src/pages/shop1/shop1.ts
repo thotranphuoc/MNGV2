@@ -11,10 +11,11 @@ import { AngularFireService } from '../../services/af.service';
 })
 export class Shop1Page {
   loading: any;
-  shop: iShop = null;
+  SHOP: iShop = null;
   SHOP_ITEMS: any[] = [];
   SHOP_ITEMS_ID: any[] = [];
   USER_ID: string = null;
+  n: number = 3;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -26,13 +27,13 @@ export class Shop1Page {
       content: 'Please wait....',
       spinner: 'crescent'
     });
-    this.shop = navParams.data.SHOP;
-    if (typeof (this.shop) == 'undefined') {
+    this.SHOP = navParams.data.SHOP;
+    if (typeof(this.SHOP) === 'undefined') {
       this.navCtrl.setRoot('HomePage');
     }
 
-    this.localService.SHOP = this.shop;
-    console.log(this.shop);
+    this.localService.SHOP = this.SHOP;
+    console.log(this.SHOP);
     this.startLoading();
 
     if(this.afService.getAuth().auth.currentUser){
@@ -41,8 +42,8 @@ export class Shop1Page {
       this.USER_ID = null;
     }
 
-    if (typeof (this.shop) !== 'undefined') {
-      this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.shop.SHOP_ID).then((res: any) => {
+    if (typeof (this.SHOP) !== 'undefined') {
+      this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.SHOP.SHOP_ID).then((res: any) => {
         this.SHOP_ITEMS = res.SHOP_ITEMS;
         this.SHOP_ITEMS_ID = res.SHOP_ITEMS_ID;
         this.hideLoading();
@@ -76,13 +77,24 @@ export class Shop1Page {
   go2AddFavorite(fab: FabContainer){
     console.log('add favroite clicked');
     fab.close();
-    this.navCtrl.push('FavoriteAddPage', { SHOP_ITEMS: this.SHOP_ITEMS, SHOP_ITEMS_ID: this.SHOP_ITEMS_ID, SHOP: this.shop})
+    this.navCtrl.push('FavoriteAddPage', { SHOP_ITEMS: this.SHOP_ITEMS, SHOP_ITEMS_ID: this.SHOP_ITEMS_ID, SHOP: this.SHOP})
   }
 
   go2MenuItemAdd(fab: FabContainer) {
-    console.log(this.shop);
+    console.log(this.SHOP);
     fab.close();
-    this.navCtrl.push('MenuItemAddPage', { SHOP: this.shop });
+    this.navCtrl.push('MenuItemAddPage', { SHOP: this.SHOP });
+  }
+
+  doOptions(){
+    if(this.n>1){
+      console.log(this.n);
+      this.n--;
+    }else{
+      console.log(this.n)
+      this.n = 3;
+      
+    }
   }
 
 }

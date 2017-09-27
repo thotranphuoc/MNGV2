@@ -73,12 +73,12 @@ export class ShopMenuPage {
 
   go2MenuItemAdd() {
     console.log(this.shop.SHOP_ID);
-    this.app.getRootNav().push('MenuItemAddPage', { SHOP_ID: this.shop.SHOP_ID });
+    this.app.getRootNavs()[0].push('MenuItemAddPage', { SHOP_ID: this.shop.SHOP_ID });
   }
 
   go2AddFavorite(){
     console.log('add favroite clicked');
-    this.app.getRootNav().push('FavoriteAddPage', { SHOP_ITEMS: this.SHOP_ITEMS, SHOP_ITEMS_ID: this.SHOP_ITEMS_ID, SHOP: this.shop})
+    this.app.getRootNavs()[0].push('FavoriteAddPage', { SHOP_ITEMS: this.SHOP_ITEMS, SHOP_ITEMS_ID: this.SHOP_ITEMS_ID, SHOP: this.shop})
   }
 
   selectITEM(i) {

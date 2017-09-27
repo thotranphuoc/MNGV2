@@ -15,7 +15,7 @@
   <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(item, i)">
       <ion-card *ngIf="!isHidden || item.ITEM_VISIBLE">
           <div>
-            <img src="{{item.ITEM_IMAGES[0]}}" alt="">
+            <img src="{{item.ITEM_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
           </div>
           <div class="info"></div>
           <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>

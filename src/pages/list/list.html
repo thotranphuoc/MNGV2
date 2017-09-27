@@ -15,10 +15,10 @@
     <ion-item-sliding *ngFor="let shop of shopList" >
       <ion-item (click)="go2Shop(shop)" *ngIf="shop.distance !=='undefined'">
         <ion-thumbnail item-start *ngIf="shop.SHOP_IMAGES">
-          <img src="{{shop.SHOP_IMAGES[0]}}">
+          <img src="{{shop.SHOP_IMAGES[0]}}" onError="this.src='../../assets/imgs/imagenotavailable.png';">
         </ion-thumbnail>
         <h2>{{shop.SHOP_NAME}}</h2>
-        <p>{{shop.SHOP_KIND}}</p>
+        <p>{{shop.SHOP_ADDRESS}}</p>
         <span item-end><ion-note>{{shop.distance?.disStr}}</ion-note></span>
       </ion-item>
       <ion-item-options side="right">

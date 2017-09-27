@@ -1,0 +1,49 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>image-manager</ion-title>
+    <ion-buttons end>
+      <!-- <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar> -->
+      <button ion-button (click)="addNewImage()"><ion-icon name="ios-camera-outline"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <!-- <ion-item *ngFor="let image of IMAGES; let i = index" (click)="doActionSheet(image, i)">
+    <img src="{{image.data.THUM_URL}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+  </ion-item> -->
+  <!-- 
+  <ion-item *ngFor="let image of IMAGE_LIST | async" (click)="doActionSheet(image,1)">
+    <img src="{{image?.THUM_URL}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+  </ion-item> -->
+
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <div *ngIf="!isSearching">
+    <ion-item *ngFor="let image of IMAGE_LIST | async" (click)="doActionSheet(image, image.$key)">
+      <ion-thumbnail item-start>
+        <img src="{{image?.THUM_URL}}" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+      </ion-thumbnail>
+      <h2>{{image.IMG_KEYWORD}}</h2>
+      <p>{{image.IMG_URL}}</p>
+      <p>{{image.THUM_URL}}</p>
+    </ion-item>
+  </div>
+
+  <div *ngIf="isSearching">
+    <ion-item *ngFor="let image of temp_IMAGE_LIST" (click)="doActionSheet(image, image.$key)">
+      <ion-thumbnail item-start>
+        <img src="{{image?.THUM_URL}}" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+      </ion-thumbnail>
+      <h2>{{image.IMG_KEYWORD}}</h2>
+      <p>{{image.IMG_URL}}</p>
+      <p>{{image.THUM_URL}}</p>
+    </ion-item>
+  </div>
+
+</ion-content>

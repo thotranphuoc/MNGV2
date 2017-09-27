@@ -34,7 +34,7 @@ export class ImageSamplePage {
       console.log(data);
       this.IMAGES = [];
       // data.forEach((item: any) =>{
-      //   this.IMAGES.push({ key: item.key, IMG_NAME: item.data.IMG_NAME, IMG_URL: item.data.IMG_URL, VISIBLE: false });
+      //   this.IMAGES.push({ key: item.key, IMG_KEYWORD: item.data.KEYWORD, IMG_URL: item.data.IMG_URL, VISIBLE: false });
       // });
       this.IMAGES = data;
       this.IMAGES.map(image => image['VISIBLE']=false)
@@ -55,7 +55,7 @@ export class ImageSamplePage {
     this.IMAGE = null;
     this.toAddNew = !this.toAddNew;
     // this.toBeUpdated = false;
-    this.IMAGE = { IMG_CODE: null, IMG_NAME: null, IMG_URL: null}
+    this.IMAGE = { IMG_CODE: null, IMG_KEYWORD: null, IMG_URL: null}
   }
 
   onCreate(){
@@ -99,7 +99,7 @@ export class ImageSamplePage {
   searchString(searchStr: string) {
     console.log(searchStr);
     this.IMAGES = this.IMAGES_BK;
-    this.IMAGES = this.IMAGES.filter(image => image.data.IMG_NAME.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase())>=0);
+    this.IMAGES = this.IMAGES.filter(image => image.data.IMG_KEYWORD.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase())>=0);
     console.log(this.IMAGES);
   }
 
@@ -109,6 +109,6 @@ export class ImageSamplePage {
 
 export interface iIMG{
   IMG_URL: string, 
-  IMG_NAME: string,
+  IMG_KEYWORD: string,
   IMG_CODE: string
 }

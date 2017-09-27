@@ -49,7 +49,7 @@ export class PhotoSelectPage {
     console.log(searchStr);
     this.images = [];
     this.afDB.list('Images/').forEach((images: any[])=>{
-      this.images = images.filter(image => image.IMG_NAME.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase())>=0);
+      this.images = images.filter(image => image.IMG_KEYWORD.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase())>=0);
       console.log(this.images);
     })
   }
@@ -60,7 +60,7 @@ export class PhotoSelectPage {
         {
           text: 'Select',
           handler: () => {
-            this.viewCtrl.dismiss({ isCancel: false, PHOTOS: [image.IMG_URL]})
+            this.viewCtrl.dismiss({ isCancel: false, PHOTOS: [image.IMG_URL, image.THUM_URL]})
             .then((res)=>{
               console.log('success', res);
             })

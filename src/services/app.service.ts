@@ -93,6 +93,7 @@ export class AppService {
         return hour.toString() + ':' + minute.toString() + ':' + second.toString();
     }
 
+    // return format: '2017/04/09 12:30:15'
     getCurrentDataAndTime(): string {
         return this.getCurrentDate() + ' ' + this.getCurrentTime();
     }

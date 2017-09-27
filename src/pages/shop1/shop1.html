@@ -4,8 +4,8 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <div *ngIf="shop">
-      <ion-title>{{shop.SHOP_NAME | uppercase}}</ion-title>
+    <div *ngIf="SHOP">
+      <ion-title><span (click)="doOptions()">{{SHOP.SHOP_NAME | uppercase}}</span></ion-title>
     </div>
   </ion-navbar>
 
@@ -13,20 +13,75 @@
 
 
 <ion-content>
-  <div *ngFor="let item of SHOP_ITEMS">
-    <ion-card *ngIf="item.ITEM_VISIBLE">
-      <div>
-        <img src="{{item.ITEM_IMAGES[0]}}" alt="">
-      </div>
-      <div class="info"></div>
-      <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
-      <div class="name_en">{{item.ITEM_NAME_EN}}</div>
-      <div class="price">{{item.ITEM_PRICE}} {{shop.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
-      <div class="count">
-      </div>
-    </ion-card>
+  <!-- <div *ngIf="n==3">
+    <div *ngFor="let item of SHOP_ITEMS">
+      <ion-card *ngIf="item.ITEM_VISIBLE">
+        <div>
+          <img src="{{item.ITEM_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+        </div>
+        <div class="info"></div>
+        <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
+        <div class="name_en">{{item.ITEM_NAME_EN}}</div>
+        <div class="price">{{item.ITEM_PRICE}} {{shop.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
+        <div class="count">
+        </div>
+      </ion-card>
+    </div>
   </div>
+  <div *ngIf="n!==3">
+    <div *ngFor="let item of SHOP_ITEMS">
+      <ion-card *ngIf="item.ITEM_VISIBLE">
+        <div>
+          <img src="{{item.ITEM_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+        </div>
+        <div class="info"></div>
+        <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
+        <div class="name_en">{{item.ITEM_NAME_EN}}</div>
+        <div class="price">{{item.ITEM_PRICE}} {{shop.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
+        <div class="count">
+        </div>
+      </ion-card>
+    </div>
+  </div> -->
 
+  <div *ngIf="n==3">
+    <div *ngFor="let cat of SHOP?.SHOP_CATEGORIES">
+      <div class="category">{{cat}}</div>
+      <div *ngFor="let item of SHOP_ITEMS">
+        <div *ngIf="item.ITEM_CATEGORY===cat">
+          <ion-card *ngIf="item.ITEM_VISIBLE">
+            <div class="div-img">
+              <img src="{{item.ITEM_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+            </div>
+            <div class="info"></div>
+            <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
+            <div class="name_en">{{item.ITEM_NAME_EN}}</div>
+            <div class="price">{{item.ITEM_PRICE}} {{SHOP.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
+          </ion-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="n!==3">
+    <div *ngFor="let cat of SHOP?.SHOP_CATEGORIES">
+      <div class="category">{{cat}}</div>
+      <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(i)">
+        <div *ngIf="item.ITEM_CATEGORY===cat">
+          <div *ngIf="item.ITEM_VISIBLE">
+            <ion-item>
+              <!-- <h3 item-start>{{i}}</h3> -->
+              <p class="name_local1">{{item.ITEM_NAME_LOCAL}}</p>
+              <p class="name_en1">{{item.ITEM_NAME_EN}}</p>
+              <p class="price1">{{item.ITEM_PRICE}} {{SHOP.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</p>
+              <ion-thumbnail item-end *ngIf="n==2">
+                <img src="{{item.ITEM_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+              </ion-thumbnail>
+            </ion-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <ion-fab left bottom *ngIf="USER_ID" #fab>
     <button ion-fab color="danger" mini><ion-icon name="md-share"></ion-icon></button>

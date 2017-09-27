@@ -51,7 +51,9 @@ export class MyApp {
 
     this.pages3 = [
       { title: 'Issue', component: 'TrackPage', icon: 'bug' },
-      { title: 'Image', component: 'ImageSamplePage', icon: 'image' },
+      // { title: 'Image', component: 'ImageSamplePage', icon: 'image' },
+      // { title: 'Image Upload', component: 'ImageUploadPage', icon: 'camera'},
+      { title: 'Image Manager', component: 'ImageManagerPage', icon: 'camera'}
     ];
   }
 

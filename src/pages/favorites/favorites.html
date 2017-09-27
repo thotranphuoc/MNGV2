@@ -13,7 +13,7 @@
 
     <ion-item *ngFor="let shop of myFavoriteShops" (click)="go2Shop(shop)">
       <ion-thumbnail item-start *ngIf="shop.SHOP_IMAGES">
-        <img src="{{shop.SHOP_IMAGES[0]}}">
+        <img src="{{shop.SHOP_IMAGES[0]}}" onError="this.src='../../assets/imgs/imagenotavailable.png';">
       </ion-thumbnail>
       <h2>{{shop.SHOP_NAME}}</h2>
       <p>{{shop.SHOP_KIND}}</p>

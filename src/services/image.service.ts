@@ -158,6 +158,68 @@ export class ImageService {
             //     reject({err: 'null returned'})
             // }
         })
+
+
+    }
+
+    // VERIFIED: select files then return array of imageDataUrl
+    //<input type="file" (change)="resizeSelectedImages($event)" multiple id="inputFilea">
+    // remember to wait 1s to update array otherwise array = null
+    resizeImagesFromChoosenFilesReturnPromiseWithArrayOfImageDataUrlsSizeSetable(event, IMG_WIDTH_MAX, IMG_HEIGHT_MAX) {
+        return new Promise((resolve, reject) => {
+            let resizedDataURLs: string[] = [];
+            let seletectedFiles: any[] = event.target.files;
+            console.log(seletectedFiles);
+            console.log('number of files: ', seletectedFiles.length);
+            for (let index = 0; index < seletectedFiles.length; index++) {
+                if (index < seletectedFiles.length) {
+                    let selectedFile = seletectedFiles[index];
+                    console.log(selectedFile);
+                    this.convertFile2ImageElement(selectedFile)
+                        .then((el: HTMLImageElement) => {
+                            console.log(el);
+                            this.resizeFromImageElementReturnPromise(el, IMG_WIDTH_MAX, IMG_HEIGHT_MAX)
+                                .then((res) => {
+                                    console.log(res);
+                                    resizedDataURLs.push(res.imageUrl)
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                    reject(err);
+                                })
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            reject(err);
+                        })
+                }
+            }
+            resolve(resizedDataURLs);
+
+            // seletectedFiles.forEach((selectedFile)=>{
+            //     this.convertFile2ImageElement(selectedFile)
+            //     .then((el: HTMLImageElement)=>{
+            //         console.log(el);
+            //         this.resizeFromImageElementReturnPromise(el, IMG_WIDTH_MAX, IMG_HEIGHT_MAX)
+            //         .then((res)=>{
+            //             console.log('after resize:', res);
+            //             resizedDataURLs.push(res.imageUrl);
+            //         })
+            //         .catch((err)=>{
+            //             console.log(err);
+            //             reject(err);
+            //         })
+            //     })
+            //     .catch((err)=>{
+            //         console.log(err);
+            //         reject(err);
+            //     })
+            // })
+
+            // resolve(resizedDataURLs);
+        })
+
+
     }
 
 

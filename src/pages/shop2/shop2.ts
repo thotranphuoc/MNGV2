@@ -26,6 +26,7 @@ export class Shop2Page {
   isOrderUPDATE: boolean = false;
   COUNT: number = 0;
   TABLE: string;
+  n: number = 3;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -227,6 +228,17 @@ export class Shop2Page {
     } else {
       this.USER_ID = null;
       console.log('this user:', this.USER_ID);
+    }
+  }
+
+  doOptions(){
+    if(this.n>1){
+      console.log(this.n);
+      this.n--;
+    }else{
+      console.log(this.n)
+      this.n = 3;
+      
     }
   }
 

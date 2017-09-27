@@ -12,14 +12,14 @@
 
 <ion-content>
   <div *ngIf="toAddNew">
-    <img src="{{IMAGE.IMG_URL}}" alt="{{NOT_IMAGE}}">
+    <img src="{{IMAGE.IMG_URL}}" alt="{{NOT_IMAGE}}" onError="this.src='../../assets/imgs/imagenotavailable.png';">
     <div>
       URL:
       <input class="input" type="text" [(ngModel)]="IMAGE.IMG_URL" name="URL" text-wrap>
     </div>
     <div>
       NAME:
-      <input class="input" type="text" [(ngModel)]="IMAGE.IMG_NAME" name="NAME">
+      <input class="input" type="text" [(ngModel)]="IMAGE.IMG_KEYWORD" name="NAME">
     </div>
     <button ion-button block (click)="onCreate()">Create</button>
   </div>
@@ -28,8 +28,8 @@
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
   <hr>
   <ion-item *ngFor="let image of IMAGES; let i = index">
-    <img src="{{image.data.IMG_URL}}" alt=""  (click)="editImage(image, i)">
-    <p>{{image.data.IMG_NAME}}</p>
+    <img src="{{image.data.IMG_URL}}" alt=""  (click)="editImage(image, i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+    <p>{{image.data.IMG_KEYWORD}}</p>
 
     <div *ngIf="image.VISIBLE">
         <div>
@@ -38,7 +38,7 @@
         </div>
         <div>
           NAME:
-          <input class="input" type="text" [(ngModel)]="IMAGE.IMG_NAME" name="NAME">
+          <input class="input" type="text" [(ngModel)]="IMAGE.IMG_KEYWORD" name="IMG_KEYWORD">
         </div>
         <ion-grid>
           <ion-row>

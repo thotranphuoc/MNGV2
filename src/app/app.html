@@ -22,7 +22,7 @@
     </ion-list>
     <ion-item *ngIf="PROFILE">
       <ion-avatar item-start>
-        <img src="{{PROFILE.PROFILE_AVATAR_URL}}" alt="">
+        <img src="{{PROFILE.PROFILE_AVATAR_URL}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
       </ion-avatar>
       <h2>{{PROFILE.PROFILE_NAME}}</h2>
     </ion-item>

@@ -1,8 +1,10 @@
-
 <ion-header>
 
   <ion-navbar>
     <ion-title>ACCOUNT...</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="close()" color="danger">Cancel</button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -60,12 +62,12 @@
     <button ion-button block (click)="onSignUp(myForm1)" [disabled]="!myForm1.valid">Sign Up</button>
   </div>
   <div *ngIf="action==='reset-account'">
-  <form #myForm2 = "ngForm">
-    <ion-item>
-      <ion-label floating>Email to reset account:</ion-label>
-      <ion-input type="email" [(ngModel)]="resetAccount.email" name="email" required></ion-input>
-    </ion-item>
-  </form>
-  <button ion-button block (click)="onResetAccount(myForm2)" [disabled]="!myForm2.valid">Reset Account</button>
-</div>
+    <form #myForm2="ngForm">
+      <ion-item>
+        <ion-label floating>Email to reset account:</ion-label>
+        <ion-input type="email" [(ngModel)]="resetAccount.email" name="email" required></ion-input>
+      </ion-item>
+    </form>
+    <button ion-button block (click)="onResetAccount(myForm2)" [disabled]="!myForm2.valid">Reset Account</button>
+  </div>
 </ion-content>

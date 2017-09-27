@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { AppService } from './app.service';
 
 import * as firebase from 'firebase/app';
+import { LocalService } from './local.service';
 
 @Injectable()
 
 export class ShopService {
 
     constructor(
-        private appService: AppService
+        private appService: AppService,
+        private localService: LocalService
     ){
 
     }
@@ -66,6 +68,34 @@ export class ShopService {
                     console.log(err);
                     reject(err);
                 })
+        })
+    }
+
+    getShopsInDetail(SHOPID_LIST: any[]){
+        // let ShopSInDetailList = [];
+        this.localService.SHOPs_NEARBY_DETAIL = [];
+        SHOPID_LIST.forEach(SHOPID=>{
+            let db = firebase.database().ref('Shops/'+SHOPID);
+            db.once('value')
+            .then((data)=>{
+                console.log(data.val())
+                // ShopSInDetailList.push(data.val());
+                this.localService.SHOPs_NEARBY_DETAIL.push(data.val())
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        })
+    }
+
+    getShops(LAT: number, LNG: number){
+        this.getShopsNearBy(LAT, LNG)
+        .then((data: any)=>{
+            console.log(data);
+            this.getShopsInDetail(data.SHOP_IDs)
+        })
+        .catch((err)=>{ 
+            console.log(err);
         })
     }
 

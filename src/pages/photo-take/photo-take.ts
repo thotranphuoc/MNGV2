@@ -43,7 +43,7 @@ export class PhotoTakePage {
   }
 
   takePictureAndResizeByBrowser(event) {
-    this.imageService.resizeImagesFromChoosenFilesReturnPromiseWithArrayOfImageDataUrls(event)
+    this.imageService.resizeImagesFromChoosenFilesReturnPromiseWithArrayOfImageDataUrlsSizeSetable(event, 150, 150)
       .then((imgDataUrls: string[]) => {
         setTimeout(() => {
           console.log(imgDataUrls);

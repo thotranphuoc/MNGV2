@@ -84,4 +84,29 @@ page-shop2 {
         color: white;
         padding: 5px;
     }
+
+    
+    .item-ios ion-thumbnail img {
+        width: 56*1.3px;
+        height: 56px;
+      }
+
+      .item-md ion-thumbnail ion-img,
+      .item-md ion-thumbnail img {
+        width: 80*1.3px;
+        height: 80px;
+      }
+    .name_local1{
+        font-size: 1.2em;
+        color: black;
+    }
+
+    .name_en1{
+        font-size: 1em;
+        font-style: italic;
+    }
+
+    .price1{
+        font-size: 1em;
+    }
 }

@@ -481,15 +481,14 @@ export class CrudService {
        return  this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data('Images');
     }
 
+    // Read & result return async
+    getImagesAsync(){
+        return this.afService.getList('Images');
+    }
+
     // Update
-    updateImage(IMAGE, IMGID){
-        let IMG_ID = IMGID;
-        let DATA = {
-            IMG_URL: IMAGE.IMG_URL, 
-            IMG_NAME: IMAGE.IMG_NAME,
-            // IMG_CODE: IMAGE.IMG_CODE
-        }
-        return this.dbService.updateAnObjectAtNode('Images/'+IMG_ID, DATA)
+    updateImage(IMAGE, IMG_ID){
+        return this.dbService.updateAnObjectAtNode('Images/'+IMG_ID, IMAGE)
     }
 
     // Delete
