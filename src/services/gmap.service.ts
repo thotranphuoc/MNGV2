@@ -23,7 +23,7 @@ export class GmapService {
         private afService: AngularFireService,
         private popoverCtrl: PopoverController,
         private geolocation: Geolocation) { 
-            this.getUserCurrentPosition();
+            // this.getUserCurrentPosition();
         }
 
 
@@ -48,8 +48,9 @@ export class GmapService {
                         this.setUserCurrentPosition(position)
                         resolve(position);
                     })
-                    .catch((err) => {
+                    .catch((err:any) => {
                         console.log(err);
+                        this.appService.toastMsg(err.message, 3000);
                         if (this.afService.getAuth().auth.currentUser) {
                             this.dbService.getOneItemReturnPromise('UserPosition/' + this.afService.getAuth().auth.currentUser.uid + '/LAST_POSITION')
                                 .then((res: any) => {
@@ -59,11 +60,13 @@ export class GmapService {
                                 })
                                 .catch((err) => {
                                     console.log(err);
-                                    reject('Location not detected')
+                                    reject('Location not detected. Enable to use full features 1');
                                 })
                         } else {
                             let pos: iPosition = { lat: 10.778168043677463, lng: 106.69638633728027 };
-                            resolve(pos)
+                            this.setUserCurrentPosition(pos);
+                            resolve(pos);
+                            alert('Location not detected. Enable to use full features')
                         }
                     })
             }

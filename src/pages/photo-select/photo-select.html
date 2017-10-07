@@ -16,7 +16,12 @@
   
   
     <ion-item *ngFor="let image of images; let i = index">
-      <img src="{{image.IMG_URL}}" alt="" (click)="selectPhoto(image)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+      <div *ngIf="image.THUM_URL">
+          <img class="img" src="{{image.THUM_URL}}" alt="" (click)="selectPhoto(image)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+      </div>
+      <div *ngIf="!image.THUM_URL">
+          <img class="img" src="{{image.IMG_URL}}" alt="" (click)="selectPhoto(image)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+      </div>
       <p>{{image.IMG_KEYWORD}}</p>
     </ion-item>
   </ion-content>

@@ -11,12 +11,12 @@
       <div>
         <ion-slides pager>
           <ion-slide *ngFor="let ITEM_IMAGE of SHOP_ITEM.ITEM_IMAGES; let i = index">
-            <img src="{{ITEM_IMAGE}}" alt="" (click)="clickImage(ITEM_IMAGE, i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+            <img src="{{ITEM_IMAGE}}" alt="" (click)="clickImage()" onError="this.src='../../assets/imgs/imagenotavailable.png';">
           </ion-slide>
         </ion-slides>
       </div>
       <div padding *ngIf="!SHOP_ITEM.ITEM_IMAGES" text-center>
-        <ion-icon name="md-images" style="font-size: 5em"></ion-icon>
+        <ion-icon name="md-images" style="font-size: 5em" (click)="clickImage()"></ion-icon>
       </div>
     </ion-card>
     <form #myForm="ngForm" autocomplete="off" novalidate id="myForm">
@@ -65,6 +65,7 @@
         </ion-item>
       </ion-list>
       <button ion-button block (click)="update()" [disabled]="!myForm.valid">Update</button>
+      <button ion-button block (click)="deleteImages()">Delete Images</button>
     </form>
   </div>
 

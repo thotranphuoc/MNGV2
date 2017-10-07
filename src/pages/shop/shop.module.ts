@@ -9,8 +9,5 @@ import { ShopPage } from './shop';
   imports: [
     IonicPageModule.forChild(ShopPage),
   ],
-  exports: [
-    ShopPage
-  ]
 })
 export class ShopPageModule {}

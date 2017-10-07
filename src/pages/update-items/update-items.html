@@ -13,25 +13,28 @@
 
 <ion-content padding>
   <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(item, i)">
-      <ion-card *ngIf="!isHidden || item.ITEM_VISIBLE">
-          <div>
-            <img src="{{item.ITEM_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
-          </div>
-          <div class="info"></div>
-          <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
-          <div class="name_en">{{item.ITEM_NAME_EN}}</div>
-          <div class="price">{{item.ITEM_PRICE}} {{SHOP.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
-          <div class="item-visible">
-            <span *ngIf="item.ITEM_VISIBLE"><ion-icon name="eye"></ion-icon></span>
-            <span *ngIf="!item.ITEM_VISIBLE"><ion-icon name="eye-off" color="danger"></ion-icon></span>
-          </div>
-          <div class="item-onsale">
-            <span *ngIf="item.ITEM_ON_SALE"><ion-icon name="ios-basket" color="danger"></ion-icon></span>
-            <span *ngIf="!item.ITEM_ON_SALE"><ion-icon name="ios-basket-outline"></ion-icon></span>
-            <!-- <span *ngIf="!item.ITEM_VISIBLE"><ion-icon name="eye-off" color="danger"></ion-icon></span> -->
-          </div>
-          <!-- <div class="item-onsale">{{item.ITEM_ON_SALE}}</div>   -->
-        </ion-card>
+    <ion-card *ngIf="!isHidden || item.ITEM_VISIBLE">
+      <div *ngIf="item.ITEM_IMAGES">
+        <img src="{{item.ITEM_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+      </div>
+      <div *ngIf="!item.ITEM_IMAGES">
+        <img src="this.src='../../assets/imgs/imagenotavailable.png">
+      </div>
+      <div class="info"></div>
+      <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
+      <div class="name_en">{{item.ITEM_NAME_EN}}</div>
+      <div class="price">{{item.ITEM_PRICE}} {{SHOP.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
+      <div class="item-visible">
+        <span *ngIf="item.ITEM_VISIBLE"><ion-icon name="eye"></ion-icon></span>
+        <span *ngIf="!item.ITEM_VISIBLE"><ion-icon name="eye-off" color="danger"></ion-icon></span>
+      </div>
+      <div class="item-onsale">
+        <span *ngIf="item.ITEM_ON_SALE"><ion-icon name="ios-basket" color="danger"></ion-icon></span>
+        <span *ngIf="!item.ITEM_ON_SALE"><ion-icon name="ios-basket-outline"></ion-icon></span>
+        <!-- <span *ngIf="!item.ITEM_VISIBLE"><ion-icon name="eye-off" color="danger"></ion-icon></span> -->
+      </div>
+      <!-- <div class="item-onsale">{{item.ITEM_ON_SALE}}</div>   -->
+    </ion-card>
   </div>
 
 </ion-content>

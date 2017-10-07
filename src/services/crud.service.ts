@@ -350,7 +350,8 @@ export class CrudService {
                         let pro2 = this.dbService.insertElementIntoArray('Shop_Items/' + SHOP_ID, ITEM_ID);
 
                         //4. upload image
-                        let name = new Date().getTime().toString();
+                        // let name = new Date().getTime().toString();
+                        let name = ITEM_ID;
                         console.log(imagesData);
                         let pro3 = this.dbService.uploadBase64Images2FBReturnPromiseWithArrayOfURL('ItemImages/' + ITEM_ID, imagesData, name)
                             .then((urls) => {

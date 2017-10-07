@@ -53,8 +53,7 @@ export class OrderManagerPage {
         this.TABLES.push({ TABLE: table, reserved: false})
       })
     }
-    // this.SHOP_ID = this.navParams.get('SHOP_ID');
-    
+   
     this.loading = this.loadingCtrl.create({
       content: 'Please wait....',
       spinner: 'crescent'

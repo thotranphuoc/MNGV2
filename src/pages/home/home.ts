@@ -4,7 +4,7 @@ import { IonicPage, NavController, NavParams, ModalController, LoadingController
 import { DbService } from '../../services/db.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { iPosition } from '../../interfaces/position.interface';
-import { Geolocation } from '@ionic-native/geolocation';
+// import { Geolocation } from '@ionic-native/geolocation';
 import { GmapService } from '../../services/gmap.service';
 import { ShopService } from '../../services/shop.service';
 import { LocalService } from '../../services/local.service';
@@ -32,7 +32,7 @@ export class HomePage {
     private loadingCtrl: LoadingController,
     private dbService: DbService,
     private afAuth: AngularFireAuth,
-    private geolocation: Geolocation,
+    // private geolocation: Geolocation,
     private gmapService: GmapService,
     private shopService: ShopService,
     private localService: LocalService
@@ -42,37 +42,17 @@ export class HomePage {
       spinner: 'crescent'
     });
     
-    // this.test();
-    if (this.afAuth.auth.currentUser) {
-      this.USER_ID = this.afAuth.auth.currentUser.uid;
-    }
-    this.geolocation.getCurrentPosition()
-      .then((res) => {
-        console.log(res);
-        this.USER_LOCATION = {
-          lat: res.coords.latitude,
-          lng: res.coords.longitude
-        };
-        this.gmapService.setUserCurrentPosition(this.USER_LOCATION);
-        this.getShopsNearby(this.USER_LOCATION.lat, this.USER_LOCATION.lng);
-      })
-      .catch((err) => {
-        console.log(err);
-        if (this.USER_ID) {
-          let UID = this.USER_ID;
-          this.dbService.getOneItemReturnPromise('UserPosition/' + UID)
-            .then((res: any) => {
-              this.USER_LOCATION = res.LAST_POSITION;
-              this.USER_LAST_TIME = res.TIME;
-              console.log(res);
-              this.getShopsNearby(this.USER_LOCATION.lat, this.USER_LOCATION.lng);
-            })
-            .catch((err) => {
-              this.USER_LOCATION = { lat: 10.778168043677463, lng: 106.69638633728027 };
-              this.getShopsNearby(this.USER_LOCATION.lat, this.USER_LOCATION.lng);
-            })
-        }
-      })
+ 
+    this.startLoading();
+    this.gmapService.getUserCurrentPosition()
+    .then((pos: iPosition)=>{
+      this.USER_LOCATION = pos;
+      this.getShopsNearby(this.USER_LOCATION.lat, this.USER_LOCATION.lng);
+    })
+    .catch((err)=>{
+      console.log(err);
+      this.hideLoading();
+    })
   }
 
   ionViewDidLoad() {
@@ -92,7 +72,6 @@ export class HomePage {
   getShopsNearby(LAT: number, LNG: number) {
     
     if (!this.localService.SHOP_LOADED) {
-      this.startLoading();
       this.shopService.getShopsNearBy(LAT, LNG)
         .then((res: any) => {
           console.log(res);
@@ -106,10 +85,12 @@ export class HomePage {
         })
         .catch((err) => {
           console.log(err)
+          this.hideLoading();
+          this.localService.SHOP_LOADED = false;
         })
     }else{
       console.log('Shop list already loaded');
-      // this.hideLoading();
+      this.hideLoading();
     }
     // this.shopService.getShops(LAT, LNG);
   }

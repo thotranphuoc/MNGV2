@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, ViewController 
 // import { Geolocation } from '@ionic-native/geolocation';
 import { GmapService } from '../../services/gmap.service';
 import { iPosition } from '../../interfaces/position.interface';
-import { iShop } from '../../interfaces/shop.interface';
+// import { iShop } from '../../interfaces/shop.interface';
 declare var google: any;
 @IonicPage()
 @Component({
@@ -17,7 +17,7 @@ export class LocationPage {
   map: any;
   userMarker: any;
   CURRENT_LOCATION: iPosition = null;
-  SHOP: iShop;
+  // SHOP: iShop;
   NEW_SELECTED_LOCATION: iPosition = null;
   constructor(
     public navCtrl: NavController,
@@ -29,8 +29,7 @@ export class LocationPage {
   ) {
     this.data = this.navParams.data;
     console.log(this.data);
-    this.CURRENT_LOCATION = this.navParams.get('CURRENT_LOCATION');
-    this.SHOP = this.navParams.get('SHOP');
+    this.CURRENT_LOCATION = this.data.CURRENT_LOCATION;
     this.loading = this.loadingCtrl.create({
       content: 'Please wait....',
       spinner: 'crescent'

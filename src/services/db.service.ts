@@ -102,6 +102,15 @@ export class DbService {
         return storage.delete();
     }
 
+    // VERIFIED: Delete files from firebase storage with httpsURL
+    deleteFilesFromFireStorageWithHttpsURL(httpsURLs: string[]) {
+        let promises = [];
+        httpsURLs.forEach((httpsURL, index) => {
+            promises[index] = firebase.storage().refFromURL(httpsURL).delete();
+        });
+        return Promise.all(promises);
+    }
+
     // VERIFIED
     getListReturnPromise_ArrayOfData(dbURL) {
         return new Promise((resolve, reject) => {

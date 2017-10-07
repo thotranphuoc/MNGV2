@@ -1,4 +1,3 @@
-
 <ion-header>
 
   <ion-navbar>
@@ -12,12 +11,18 @@
   <ion-list>
 
     <ion-item *ngFor="let shop of myFavoriteShops" (click)="go2Shop(shop)">
-      <ion-thumbnail item-start *ngIf="shop.SHOP_IMAGES">
-        <img src="{{shop.SHOP_IMAGES[0]}}" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+      <ion-thumbnail item-start>
+        <!-- <img src="{{shop.SHOP_IMAGES[0]}}" onError="this.src='../../assets/imgs/imagenotavailable.png';"> -->
+        <div *ngIf="item.SHOP_IMAGES">
+          <img src="{{item.SHOP_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+        </div>
+        <div *ngIf="!item.SHOP_IMAGES">
+          <img src="this.src='../../assets/imgs/imagenotavailable.png">
+        </div>
       </ion-thumbnail>
       <h2>{{shop.SHOP_NAME}}</h2>
       <p>{{shop.SHOP_KIND}}</p>
-       <ion-note item-end>{{shop.distance.disStr}}</ion-note> 
+      <ion-note item-end>{{shop.distance.disStr}}</ion-note>
     </ion-item>
   </ion-list>
 

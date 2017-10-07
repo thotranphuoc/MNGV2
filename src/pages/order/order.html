@@ -13,14 +13,19 @@
 <ion-content>
 
   <div *ngIf="SHOPS.length>0">
-      <ion-item *ngFor="let SHOP of SHOPS"  (click)="go2Shop(SHOP)">
-          <ion-thumbnail item-start *ngIf="SHOP.SHOP_IMAGES">
-            <img src="{{SHOP.SHOP_IMAGES[0]}}" onError="this.src='../../assets/imgs/imagenotavailable.png';">
-          </ion-thumbnail>
-          <h2>{{SHOP.SHOP_NAME}}</h2>
-          <p>{{SHOP.SHOP_KIND}}</p>
-          <ion-note item-end>...</ion-note>
-        </ion-item>
+    <ion-item *ngFor="let SHOP of SHOPS" (click)="go2Shop(SHOP)">
+      <ion-thumbnail item-start *ngIf="SHOP.SHOP_IMAGES">
+        <div *ngIf="SHOP.SHOP_IMAGES">
+          <img src="{{SHOP.SHOP_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+        </div>
+        <div *ngIf="!SHOP.SHOP_IMAGES">
+          <img src="this.src='../../assets/imgs/imagenotavailable.png">
+        </div>
+      </ion-thumbnail>
+      <h2>{{SHOP.SHOP_NAME}}</h2>
+      <p>{{SHOP.SHOP_KIND}}</p>
+      <ion-note item-end>...</ion-note>
+    </ion-item>
   </div>
   <div *ngIf="!SHOPS.length>0">
     <p>You dont have any active ORDERS now</p>

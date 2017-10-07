@@ -15,6 +15,7 @@ declare var google: any;
   templateUrl: 'order-range-statistic.html',
 })
 export class OrderRangeStatisticPage {
+  data: any;
   selectedDate1: string = null;
   selectedDate2: string = null;
 
@@ -38,7 +39,12 @@ export class OrderRangeStatisticPage {
     // private gchartService: GchartService,
     private appService: AppService
   ) {
-    this.SHOP_ID = this.navParams.get('SHOP_ID');
+    this.data = this.navParams.data;
+    this.SHOP_ID = this.data.SHOP_ID;
+    if (typeof (this.SHOP_ID) === 'undefined') {
+      this.navCtrl.setRoot('HomePage')
+        .catch((err) => { console.log(err) });
+    }
     this.DATE = this.appService.getCurrentDate();
     this.SHOP_ITEMS = this.localService.SHOP_ITEMS;
     this.SHOP_ITEMS_ID = this.localService.SHOP_ITEMS_ID;
@@ -53,6 +59,7 @@ export class OrderRangeStatisticPage {
         .then(() => {
           // this.getDataThenDrawChart();
         })
+        .catch((err) => { console.log(err) });
     } else {
       // this.getDataThenDrawChart();
     }
@@ -73,7 +80,7 @@ export class OrderRangeStatisticPage {
     console.log(this.selectedDate1, this.selectedDate2);
     this.DateArray = this.appService.getDateArrayFromDate1toDate2(this.selectedDate1, this.selectedDate2);
     console.log(this.DateArray);
-    this.getDataThenDrawChart().then((res: any[])=>{
+    this.getDataThenDrawChart().then((res: any[]) => {
       console.log(res);
       this.getSUMofTheDays(res);
     })
@@ -93,12 +100,12 @@ export class OrderRangeStatisticPage {
     return Promise.all(promises);
   }
 
-  getSUMofTheDays(arr: any[]){
+  getSUMofTheDays(arr: any[]) {
     let dailyTotal: any[] = []
     this.TOTAL_OF_RANGE = 0;
-    arr.forEach((array, index)=>{
+    arr.forEach((array, index) => {
       this.TOTAL_OF_RANGE += array.TotalOfDATE;
-      dailyTotal.push([this.DateArray[index].substr(5,5), array.TotalOfDATE]);
+      dailyTotal.push([this.DateArray[index].substr(5, 5), array.TotalOfDATE]);
     })
     console.log(dailyTotal);
     this.drawDailySUM(dailyTotal);

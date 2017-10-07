@@ -52,17 +52,19 @@ export class ShopService {
             Promise.all([pro1, pro2])
                 .then(() => {
                     let final = this.appService.commonOf2Arrays(latArray, lngArray);
-                    console.log(final);
                     // this.localService.SHOPs_NEARBY = final;
                     let finalLOC = [];
-                    final.forEach(ID => {
+                    console.log(final);
+                    let finalz = Array.from(new Set(final));
+                    console.log(finalz);
+                    finalz.forEach(ID => {
                         let index = latArray.indexOf(ID);
                         finalLOC.push(itemArray[index]);
-                    })
+                    });
                     // this.localService.SHOPs_LOCATION = finalLOC;
                     console.log(finalLOC);
                     // this.localService.shopsLoaded = true;
-                    resolve({SHOP_IDs: final, SHOP_locations: finalLOC});
+                    resolve({SHOP_IDs: finalz, SHOP_locations: finalLOC});
                 })
                 .catch((err) => { 
                     console.log(err);
@@ -73,8 +75,9 @@ export class ShopService {
 
     getShopsInDetail(SHOPID_LIST: any[]){
         // let ShopSInDetailList = [];
+        let SHOP_LIST = Array.from(new Set(SHOPID_LIST));
         this.localService.SHOPs_NEARBY_DETAIL = [];
-        SHOPID_LIST.forEach(SHOPID=>{
+        SHOP_LIST.forEach(SHOPID=>{
             let db = firebase.database().ref('Shops/'+SHOPID);
             db.once('value')
             .then((data)=>{

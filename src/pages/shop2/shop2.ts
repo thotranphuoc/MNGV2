@@ -26,7 +26,7 @@ export class Shop2Page {
   isOrderUPDATE: boolean = false;
   COUNT: number = 0;
   TABLE: string;
-  n: number = 3;
+  n: number = 2;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,

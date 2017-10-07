@@ -1,35 +1,44 @@
-
 <ion-header>
 
   <ion-navbar>
-      <ion-buttons start>
-        <button ion-button (click)="close()">Close</button>
-      </ion-buttons>
-      <ion-buttons end>
-          <ion-searchbar  (ionInput)="getShops($event)"></ion-searchbar>
-      </ion-buttons>
+    <ion-buttons start>
+      <button ion-button (click)="close()">Close</button>
+    </ion-buttons>
+    <ion-buttons end>
+      <ion-searchbar (ionInput)="getShops($event)" placeholder="Search Shops"></ion-searchbar>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content >
-    <ion-list>
-        <ion-item-sliding *ngFor="let shop of shopList" >
-          <ion-item (click)="go2Shop(shop)" *ngIf="shop.distance !=='undefined'">
-            <ion-thumbnail item-start *ngIf="shop.SHOP_IMAGES">
-              <img src="{{shop.SHOP_IMAGES[0]}}" onError="this.src='../../assets/imgs/imagenotavailable.png';">
-            </ion-thumbnail>
-            <h2>{{shop.SHOP_NAME}}</h2>
-            <p>{{shop.SHOP_ADDRESS}}</p>
-            <span item-end><ion-note>{{shop.distance?.disStr}}</ion-note></span>
-          </ion-item>
-          <ion-item-options side="right">
-            <button ion-button color="primary" (click)="go2ShopDetailView(shop)">
-              <!-- <ion-icon name="mail"></ion-icon> -->
-              More ...
-            </button>
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
+<ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let shop of shopList">
+      <ion-item (click)="go2Shop(shop)" *ngIf="shop.distance !=='undefined'">
+        <ion-thumbnail item-start *ngIf="shop.SHOP_IMAGES">
+          <!-- <img src="{{shop.SHOP_IMAGES[0]}}" onError="this.src='../../assets/imgs/imagenotavailable.png';"> -->
+          <div *ngIf="shop.SHOP_IMAGES">
+            <img src="{{shop.SHOP_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+          </div>
+          <div *ngIf="!shop.SHOP_IMAGES">
+            <img src="this.src='../../assets/imgs/imagenotavailable.png">
+          </div>
+        </ion-thumbnail>
+        <h2>{{shop.SHOP_NAME}}</h2>
+        <p>{{shop.SHOP_ADDRESS}}</p>
+        <span item-end><ion-note>{{shop.distance?.disStr}}</ion-note></span>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="go2ShopDetailView(shop)">
+          <!-- <ion-icon name="mail"></ion-icon> -->
+          More ...
+        </button>
+        <button ion-button color="secondary" (click)="go2ShopDetailView(shop)">
+          <!-- <ion-icon name="mail"></ion-icon> -->
+          Share
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>

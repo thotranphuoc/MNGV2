@@ -69,4 +69,9 @@ export class SearchShopPage {
     })
   }
 
+  go2ShopDetailView(shop){
+    console.log('go2ShopDetailView', shop);
+    this.navCtrl.push('ShopDetailViewPage', { SHOP: shop});
+  }
+
 }

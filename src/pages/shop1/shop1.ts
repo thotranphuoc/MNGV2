@@ -15,7 +15,7 @@ export class Shop1Page {
   SHOP_ITEMS: any[] = [];
   SHOP_ITEMS_ID: any[] = [];
   USER_ID: string = null;
-  n: number = 3;
+  n: number = 2;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -28,7 +28,7 @@ export class Shop1Page {
       spinner: 'crescent'
     });
     this.SHOP = navParams.data.SHOP;
-    if (typeof(this.SHOP) === 'undefined') {
+    if (typeof (this.SHOP) === 'undefined') {
       this.navCtrl.setRoot('HomePage');
     }
 
@@ -36,9 +36,9 @@ export class Shop1Page {
     console.log(this.SHOP);
     this.startLoading();
 
-    if(this.afService.getAuth().auth.currentUser){
+    if (this.afService.getAuth().auth.currentUser) {
       this.USER_ID = this.afService.getAuth().auth.currentUser.uid;
-    }else{
+    } else {
       this.USER_ID = null;
     }
 
@@ -71,13 +71,13 @@ export class Shop1Page {
   }
 
   private hideLoading() {
-    this.loading.dismiss().catch((err) => { console.log(err)});
+    this.loading.dismiss().catch((err) => { console.log(err) });
   }
 
-  go2AddFavorite(fab: FabContainer){
+  go2AddFavorite(fab: FabContainer) {
     console.log('add favroite clicked');
     fab.close();
-    this.navCtrl.push('FavoriteAddPage', { SHOP_ITEMS: this.SHOP_ITEMS, SHOP_ITEMS_ID: this.SHOP_ITEMS_ID, SHOP: this.SHOP})
+    this.navCtrl.push('FavoriteAddPage', { SHOP_ITEMS: this.SHOP_ITEMS, SHOP_ITEMS_ID: this.SHOP_ITEMS_ID, SHOP: this.SHOP })
   }
 
   go2MenuItemAdd(fab: FabContainer) {
@@ -86,15 +86,29 @@ export class Shop1Page {
     this.navCtrl.push('MenuItemAddPage', { SHOP: this.SHOP });
   }
 
-  doOptions(){
-    if(this.n>1){
+  doOptions() {
+    if (this.n > 1) {
       console.log(this.n);
       this.n--;
-    }else{
+    } else {
       console.log(this.n)
       this.n = 3;
-      
+
     }
   }
+
+  // // For purpose to create THUM_URL only when only IMG_URL available
+  // updateDB() {
+  //   console.log(this.SHOP_ITEMS);
+  //   let IMG: string;
+  //   let IMG2: string;
+  //   let IMAGES = this.SHOP_ITEMS[0].ITEM_IMAGES;
+  //   this.SHOP_ITEMS.forEach((ITEM: any) => {
+  //     let URL = 'Items/' + ITEM.ITEM_ID + '/ITEM_IMAGES';
+  //     this.afService.updateObjectData(URL, IMAGES);
+
+  //   })
+
+  // }
 
 }

@@ -27,13 +27,19 @@ export class ListPage {
     this.data = this.navParams.data;
     this.shopList = this.data.shops;
     console.log(this.data);
-    if (typeof (this.shopList) != 'undefined') {
+    console.log(this.shopList);
+    if (typeof (this.shopList) !== 'undefined') {
       this.isBackable = true;
       this.addDistanceThenSorted();
     } else {
       this.isBackable = false;
-      this.shopList = this.localService.SHOPs_NEARBY_DETAIL;
-      this.addDistanceThenSorted();
+      if(this.localService.SHOPs_NEARBY_DETAIL.length>0){
+        console.log(this.localService.SHOPs_NEARBY_DETAIL)
+        this.shopList = Array.from(new Set(this.localService.SHOPs_NEARBY_DETAIL));
+        this.addDistanceThenSorted();
+      }else{
+        // this.navCtrl.setRoot('HomePage');
+      }
       
     }
   }

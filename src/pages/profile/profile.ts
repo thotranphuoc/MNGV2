@@ -43,8 +43,6 @@ export class ProfilePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    // private modalCtrl: ModalController,
-    // private afService: AngularFireService,
     private dbService: DbService,
     private appService: AppService,
     private imageService: ImageService,
@@ -52,7 +50,6 @@ export class ProfilePage {
     this.PROFILE = this.localService.PROFILE;
     this.data = this.navParams.data;
     console.log(this.data);
-    // let act = this.navParams.get('action');
     let act = this.data.action;
     if (typeof (act) != 'undefined') {
       this.action = act;

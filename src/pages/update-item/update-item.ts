@@ -39,7 +39,9 @@ export class UpdateItemPage {
       this.SHOP = this.data.SHOP;
       this.CATEGORIES = this.SHOP.SHOP_CATEGORIES;
       // console.log(this.data);
-      this.checkIfImageShare(this.SHOP_ITEM.ITEM_IMAGES[0]);
+      if (this.SHOP_ITEM.ITEM_IMAGES) {
+        this.checkIfImageShare(this.SHOP_ITEM.ITEM_IMAGES[0]);
+      }
       this.base64Images = this.SHOP_ITEM.ITEM_IMAGES;
     }
   }
@@ -48,8 +50,8 @@ export class UpdateItemPage {
     console.log('ionViewDidLoad UpdateItemPage');
   }
 
-  clickImage(image, i) {
-    console.log(image, i)
+  clickImage() {
+    // console.log(image, i)
     let actionSheet = this.actionSheetCtrl.create({
       buttons: [
         {
@@ -77,7 +79,7 @@ export class UpdateItemPage {
       ]
     });
     actionSheet.present()
-    .catch((err)=>{ console.log(err)})
+      .catch((err) => { console.log(err) })
   }
 
   takePhoto() {
@@ -96,8 +98,8 @@ export class UpdateItemPage {
 
     });
     photosModal.present()
-    .then((res)=>{ console.log(res)})
-    .catch((err)=>{ console.log(err)})
+      .then((res) => { console.log(res) })
+      .catch((err) => { console.log(err) })
   }
 
   selectPhoto() {
@@ -116,28 +118,50 @@ export class UpdateItemPage {
 
     });
     photosModal1.present()
-    .then((res)=>{ console.log(res)})
-    .catch((err)=>{ console.log(err)})
+      .then((res) => { console.log(res) })
+      .catch((err) => { console.log(err) })
   }
+
+  // NOTE
+  // Nếu có take photo -> willIMGBeUploaded = true,
+  // Nếu img url đang share -> chỉ update url, nếu img url không share, sẽ delete image cũ
 
   updatePhoto(PHOTOS: string[]) {
     console.log(this.willIMGBeUploaded, this.isIMGShared, PHOTOS);
     if (this.willIMGBeUploaded) {
-      let NAME = new Date().getTime().toString();
+      // let NAME = new Date().getTime().toString();
+      let NAME = this.SHOP_ITEM.ITEM_ID
+      console.log(PHOTOS);
       this.dbService.uploadBase64Images2FBReturnPromiseWithArrayOfURL('ItemImages/' + this.SHOP_ITEM.ITEM_ID, PHOTOS, NAME)
         .then((urls) => {
           // update ITEM_IMAGES then delete the old ITEM_IMAGE
-          this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', urls);
-          if (this.isIMGShared) {
+          this.SHOP_ITEM['IMAGES']= urls;
+          this.SHOP_ITEM['ITEM_IMG_SHARED']=false;
+          // this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', urls);
+          this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID , this.SHOP_ITEM).then((res)=>{
             this.SHOP_ITEM.ITEM_IMAGES = urls;
-          } else {
-            // delete exist images in firebase storage
-            this.dbService.deleteFileFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES[0])
-              .then((res) => {
-                this.SHOP_ITEM.ITEM_IMAGES = urls;
-              })
-              .catch((err) => { console.log(err) });
-          }
+            this.isIMGShared = false;
+          }).catch((err)=>{
+            console.log(err);
+          })
+          
+          // if (this.isIMGShared) {
+          //   this.SHOP_ITEM.ITEM_IMAGES = urls;
+          // } else {
+          //   // delete exist images in firebase storage
+          //   if(this.SHOP_ITEM.ITEM_IMAGES){
+          //     this.dbService.deleteFilesFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES)
+          //     .then((res) => {
+          //       this.SHOP_ITEM.ITEM_IMAGES = urls;
+          //     })
+          //     .catch((err) => { 
+          //       console.log(err); 
+          //       this.SHOP_ITEM.ITEM_IMAGES = urls;
+          //     });
+          //   }else{
+          //     this.SHOP_ITEM['ITEM_IMAGES'] = urls;
+          //   }
+          // }
         })
         .catch((err) => { console.log(err) });
     } else {
@@ -149,7 +173,7 @@ export class UpdateItemPage {
           .catch((err) => { console.log(err) })
       } else {
         // delete exist images in firebase storage
-        this.dbService.deleteFileFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES[0])
+        this.dbService.deleteFilesFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES)
           .then((res) => {
             this.SHOP_ITEM.ITEM_IMAGES = PHOTOS;
             // update ITEM_IMAGES then delete the old ITEM_IMAGE
@@ -157,7 +181,13 @@ export class UpdateItemPage {
               .then((res) => { console.log(res) })
               .catch((err) => { console.log(err) })
           })
-          .catch((err) => { console.log(err) });
+          .catch((err) => {
+            console.log(err);
+            this.SHOP_ITEM.ITEM_IMAGES = PHOTOS;
+            this.dbService.updateAnObjectAtNode('Items/' + this.SHOP_ITEM.ITEM_ID + '/ITEM_IMAGES', PHOTOS)
+              .then((res) => { console.log(res) })
+              .catch((err) => { console.log(err) })
+          });
       }
     }
   }
@@ -167,25 +197,32 @@ export class UpdateItemPage {
     this.crudService.updateItem(this.SHOP_ITEM);
   }
 
-  checkIfImageShare(IMG_URL) {
-    let searchStr = 'menugo'
-    let index = this.SHOP_ITEM.ITEM_IMAGES[0].toLocaleLowerCase().indexOf(searchStr);
+  checkIfImageShare(IMG_URL: string) {
+    let searchStr = 'Item';
+    let index = IMG_URL.indexOf(searchStr);
+    console.log(searchStr, IMG_URL, index);
     if (index >= 0) {
       this.isIMGShared = false;
+      console.log('isIMGShared = false');
     } else {
       this.isIMGShared = true;
+      console.log('isIMGShared = true')
     }
-    // let stringd = this.SHOP_ITEM.ITEM_IMAGES[0].substr(8, 15);
-    // console.log(stringd);
-    // if (stringd === 'firebasestorage') {
-    //   this.isIMGShared = false;
-    // } else {
-    //   this.isIMGShared = true;
-    // }
   }
 
-  setCategory(){
+  setCategory() {
     console.log('Set Category');
+  }
+
+  deleteImages() {
+    console.log(this.SHOP_ITEM.ITEM_IMAGES);
+    this.dbService.deleteFilesFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
 }

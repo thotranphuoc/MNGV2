@@ -17,6 +17,9 @@
   </div>
 
   <ion-item *ngFor="let SHOP of SHOPs" (click)="go2ShopBoard(SHOP)">
-    <div *ngIf="SHOP">{{SHOP.SHOP_NAME}}</div>
+    <div *ngIf="SHOP">
+        {{SHOP.SHOP_NAME}}
+      <p>{{SHOP.SHOP_ADDRESS}}</p>
+    </div>
   </ion-item>
 </ion-content>

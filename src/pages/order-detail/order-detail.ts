@@ -31,11 +31,6 @@ export class OrderDetailPage {
     }else{
       this.navCtrl.setRoot('HomePage');
     }
-    // this.ORDER = this.navParams.get('ORDER');
-    // console.log(this.ORDER);
-    // this.SHOP = this.navParams.get('SHOP');
-    // console.log(this.SHOP);
-    // this.SENDER = this.navParams.get('SENDER');
   }
 
   ionViewDidLoad() {

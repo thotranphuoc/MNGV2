@@ -106,6 +106,7 @@ export class ShopAddNewPage {
   }
 
   createShop() {
+    this.hasPosted = true;
     console.log(this.SHOP);
     console.log(this.base64Images);
     this.checkInfoFullFilled();
@@ -123,6 +124,8 @@ export class ShopAddNewPage {
           })
           .catch((err) => {
             console.log('error', err);
+            this.hasPosted = false;
+            alert(err);
           })
       } else {
         // user not signed in yet
@@ -130,6 +133,7 @@ export class ShopAddNewPage {
         this.alertMsgWithConfirmationToGoToPage();
       }
     } else {
+      this.hasPosted = false;
       this.appService.alertMsg('Error', 'info not full filled')
     }
   }

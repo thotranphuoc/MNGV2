@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams } from 'ionic-angular';
+import { IonicPage, NavParams, NavController } from 'ionic-angular';
 
 import { AppService } from '../../services/app.service';
 import { StatisticService } from '../../services/statistic.service';
@@ -17,6 +17,7 @@ declare var google: any;
   templateUrl: 'order-daily-statistic.html',
 })
 export class OrderDailyStatisticPage {
+  data: any;
   DATE: string = '2017/07/29';
   selectedDate: string = null;
   SHOP_ID: string = '-Kp98d8gamYNpWHiDAVf';
@@ -28,7 +29,7 @@ export class OrderDailyStatisticPage {
   // DATA2CHART: any[] = [];
   TOTAL_PRICE: number = 0;
   constructor(
-    // public navCtrl: NavController,
+    public navCtrl: NavController,
     public navParams: NavParams,
     private appService: AppService,
     // private dbService: DbService,
@@ -36,7 +37,12 @@ export class OrderDailyStatisticPage {
     private localService: LocalService,
     private gchartService: GchartService
   ) {
-    this.SHOP_ID = this.navParams.get('SHOP_ID');
+    this.data = this.navParams.data;
+    this.SHOP_ID = this.data.SHOP_ID;
+    if (typeof (this.SHOP_ID) === 'undefined') {
+      this.navCtrl.setRoot('HomePage')
+        .catch((err) => { console.log(err) });
+    }
     this.DATE = this.appService.getCurrentDate();
     this.SHOP_ITEMS = this.localService.SHOP_ITEMS;
     this.SHOP_ITEMS_ID = this.localService.SHOP_ITEMS_ID;
@@ -51,6 +57,7 @@ export class OrderDailyStatisticPage {
         .then(() => {
           this.getDataThenDrawChart();
         })
+        .catch((err) => { console.log(err) });
     } else {
       this.getDataThenDrawChart();
     }
@@ -67,12 +74,14 @@ export class OrderDailyStatisticPage {
   }
 
   getDataThenDrawChart() {
-    this.statService.getSUMofDATE(this.DATE, this.SHOP_ID, this.SHOP_ITEMS, this.SHOP_ITEMS_ID).then((res: any)=>{
-      console.log(res.TotalOfDATE, res.DATA4CHART);
-      this.TOTAL_PRICE = res.TotalOfDATE;
-      this.finalSUM = res.finalSUM;
-      this.drawPieBarChart(res.DATA4CHART);
-    })
+    this.statService.getSUMofDATE(this.DATE, this.SHOP_ID, this.SHOP_ITEMS, this.SHOP_ITEMS_ID)
+      .then((res: any) => {
+        console.log(res.TotalOfDATE, res.DATA4CHART);
+        this.TOTAL_PRICE = res.TotalOfDATE;
+        this.finalSUM = res.finalSUM;
+        this.drawPieBarChart(res.DATA4CHART);
+      })
+      .catch((err) => { console.log(err) });
   }
 
   selectDate() {
@@ -97,6 +106,7 @@ export class OrderDailyStatisticPage {
         chart1.draw(res.data, res.options);
         chart2.draw(res.data, res.options);
       })
+        .catch((err) => { console.log(err) });
     })
   }
 
@@ -111,4 +121,4 @@ EXPECTED OUTCOME:
 4. TotalPRICE of the day
 5. Array Data4Chart
 
-*/ 
+*/

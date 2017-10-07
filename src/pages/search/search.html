@@ -15,7 +15,7 @@
 
 
 <ion-content>
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-searchbar (ionInput)="getItems($event)" placeholder="Search Drinks and Foods"></ion-searchbar>
   <div *ngIf="n!==3">
     <ion-item *ngFor="let item of itemList; let i = index" (click)="go2Shop(item)">
       <h3 item-start>{{i}}</h3>
