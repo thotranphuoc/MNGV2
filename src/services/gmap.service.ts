@@ -262,7 +262,7 @@ export class GmapService {
     //   }
 
 
-    addMarkerToMapWithIDReturnPromiseWithMarker(map, position: iPosition, data) {
+    addMarkerToMapWithIDReturnPromiseWithMarker(map, position: iPosition, SHOP) {
         return new Promise((resolve, reject) => {
             let pos = new google.maps.LatLng(position.lat, position.lng);
             let marker = new google.maps.Marker({
@@ -271,9 +271,9 @@ export class GmapService {
             })
 
             marker.addListener('click', () => {
-                console.log(data);
+                console.log(SHOP);
                 // let popover = this.popoverCtrl.create('PopOverPage', data).present();
-                this.popoverCtrl.create('PopOverPage', data).present()
+                this.popoverCtrl.create('PopOverPage', {SHOP: SHOP}).present()
             })
         })
     }

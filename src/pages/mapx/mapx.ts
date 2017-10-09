@@ -1,39 +1,63 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ViewController } from 'ionic-angular';
 import { GmapService } from '../../services/gmap.service';
+
+import { DbService } from '../../services/db.service';
 import { iPosition } from '../../interfaces/position.interface';
+import { iShop } from '../../interfaces/shop.interface';
 declare var google: any;
-@IonicPage()
-@Component({
-  selector: 'page-location',
-  templateUrl: 'location.html',
+@IonicPage({
+  name: 'mapx-page',
+  segment: 'mapx/:id'
 })
-export class LocationPage {
+@Component({
+  selector: 'page-mapx',
+  templateUrl: 'mapx.html',
+})
+export class MapxPage {
   data: any;
-  loading: any;
   mapEl: any;
   map: any;
+  loading: any;
   userMarker: any;
   CURRENT_LOCATION: iPosition = null;
-  NEW_SELECTED_LOCATION: iPosition = null;
+  SHOP: iShop;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private loadingCtrl: LoadingController,
     private viewCtrl: ViewController,
     private gmapService: GmapService,
+    private dbService: DbService,
   ) {
-    this.data = this.navParams.data;
-    console.log(this.data);
-    this.CURRENT_LOCATION = this.data.CURRENT_LOCATION;
     this.loading = this.loadingCtrl.create({
       content: 'Please wait....',
       spinner: 'crescent'
     });
+    // this.startLoading();
+    let shopId = this.navParams.get('id');
+    console.log('id: ', shopId);
+    this.getShop(shopId);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LocationPage');
+  getShop(SHOP_ID) {
+    this.startLoading();
+    this.dbService.getOneItemReturnPromise('Shops/' + SHOP_ID)
+      .then((SHOP: iShop) => {
+        this.hideLoading();
+        this.SHOP = SHOP;
+        // this.go2Shop(SHOP);
+        this.CURRENT_LOCATION = this.SHOP.SHOP_LOCATION;
+        this.startLoadMap();
+      })
+      .catch((err) => {
+        console.log(err);
+        this.hideLoading();
+      })
+  }
+
+  startLoadMap() {
+    // console.log('ionViewDidLoad LocationPage');
     this.startLoading();
     setTimeout(() => {
       this.mapEl = document.getElementById('map');
@@ -60,7 +84,6 @@ export class LocationPage {
     }
   }
 
-
   showMap(position: iPosition, mapElement) {
     let latLng = new google.maps.LatLng(position.lat, position.lng);
     let mapOptions = {
@@ -75,50 +98,20 @@ export class LocationPage {
     console.log(mapElement, mapOptions);
     this.gmapService.initMap(mapElement, mapOptions)
       .then((map) => {
-        this.hideLoading();
+        // this.hideLoading();
         console.log(map);
         this.map = map;
         // when maps is loaded and become idle
         google.maps.event.addListener(this.map, 'idle', () => {
           console.log('map was loaded fully');
           this.hideLoading();
-          this.gmapService.addMarkerToMap(this.map, position).then((marker) => {
-            this.userMarker = marker;
-            this.NEW_SELECTED_LOCATION = position;
-          });
+          this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, this.CURRENT_LOCATION, this.SHOP)
+          .then((res)=>{ console.log(res) })
+          .catch((err)=> { console.log(err) });
+          console.log(this.SHOP);
         })
-
-        google.maps.event.addListener(this.map, 'click', (event) => {
-          this.userMarker.setMap(null);
-          let positionClick = { lat: event.latLng.lat(), lng: event.latLng.lng() }
-          console.log(positionClick);
-          this.userMarker = new google.maps.Marker({
-            position: positionClick,
-            map: this.map
-          })
-          this.NEW_SELECTED_LOCATION = positionClick;
-        })
-
       })
       .catch((err) => { console.log(err); })
-  }
-
-  setLocation() {
-    let NEW_LOCATION = {
-      lat: Number(this.NEW_SELECTED_LOCATION.lat.toFixed(5)),
-      lng: Number(this.NEW_SELECTED_LOCATION.lng.toFixed(5))
-    }
-    console.log(NEW_LOCATION);
-    // this.viewCtrl.dismiss({ NEW_LOCATION: this.NEW_SELECTED_LOCATION })
-    this.viewCtrl.dismiss({ NEW_LOCATION: NEW_LOCATION })
-      .then((res) => { console.log(res) })
-      .catch((err) => { console.log(err) });
-  }
-
-  cancelLocation() {
-    this.viewCtrl.dismiss({ NEW_LOCATION: this.CURRENT_LOCATION })
-      .then((res) => { console.log(res) })
-      .catch((err) => { console.log(err) });
   }
 
   private startLoading() {

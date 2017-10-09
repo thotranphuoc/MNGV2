@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-// import { AngularFireService } from '../../services/af.service';
-// import { DbService } from '../../services/db.service';
+import { ClipboardService } from '../../services/clipboard.service';
+import { AppService } from '../../services/app.service';
 import { GmapService } from '../../services/gmap.service';
 import { LocalService } from '../../services/local.service';
 import { iShop } from '../../interfaces/shop.interface';
@@ -23,6 +23,8 @@ export class ListPage {
     public navParams: NavParams,
     private localService: LocalService,
     private gmapService: GmapService,
+    private clipboardService: ClipboardService,
+    private appService: AppService
   ) {
     this.data = this.navParams.data;
     this.shopList = this.data.shops;
@@ -95,6 +97,25 @@ export class ListPage {
   go2ShopDetailView(shop){
     console.log('go2ShopDetailView', shop);
     this.navCtrl.push('ShopDetailViewPage', { SHOP: shop});
+  }
+
+   //click and paste shareable url
+   shareShop(SHOP: iShop){
+    let copiedString = 'menu2book.com/#/mapx/'+SHOP.SHOP_ID;
+    console.log(copiedString);
+    this.clipboardService.copy(copiedString)
+    .then((res)=>{
+      console.log(res);
+      // alert(copiedString + ' copied');
+      this.appService.toastMsgWithPosition('Copied !', 3000, 'middle');
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
+
+  shareShopOnMap(SHOP: iShop){
+    this.navCtrl.setRoot('MPage', { SHOP: SHOP});
   }
 
 }

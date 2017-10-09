@@ -29,10 +29,18 @@
         <span item-end><ion-note>{{shop.distance?.disStr}}</ion-note></span>
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="primary" (click)="go2ShopDetailView(shop)">
-          <!-- <ion-icon name="mail"></ion-icon> -->
-          More ...
-        </button>
+          <button ion-button color="danger" (click)="shareShopOnMap(shop)">
+              <!-- <ion-icon name="mail"></ion-icon> -->
+              Map
+            </button>
+            <button ion-button color="secondary" (click)="shareShop(shop)">
+              <!-- <ion-icon name="mail"></ion-icon> -->
+              Share
+            </button>
+            <button ion-button color="primary" (click)="go2ShopDetailView(shop)">
+              <!-- <ion-icon name="mail"></ion-icon> -->
+              More ...
+            </button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>

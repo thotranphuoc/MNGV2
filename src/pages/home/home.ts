@@ -99,11 +99,19 @@ export class HomePage {
     let modal = this.modalCtrl.create('SearchShopPage');
     modal.onDidDismiss((data)=>{
       console.log(data);
-      if(typeof(data) !== 'undefined'){
+      if( typeof(data.PAGE) !=='undefined'){
+        this.go2Page(data, data.PAGE);
+      }else if(typeof(data) !== 'undefined'){
         this.go2Shop(data.SHOP);
       }
     })
-    modal.present();
+    modal.present().catch((err)=>{ console.log(err)});
+  }
+
+  go2Page(data, PAGE){
+    this.navCtrl.setRoot(PAGE, data)
+    .then((res)=>{ console.log(res); })
+    .catch((err)=>{ console.log(err); })
   }
 
   go2Shop(shop: iShop) {

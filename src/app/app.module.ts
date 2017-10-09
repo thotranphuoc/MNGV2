@@ -19,6 +19,7 @@ import { AuthService } from '../services/auth.service';
 import { AppService } from '../services/app.service';
 import { ShopService } from '../services/shop.service';
 import { StatisticService } from '../services/statistic.service';
+import { ClipboardService } from '../services/clipboard.service';
 // setup angularfire2
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -66,6 +67,7 @@ export const firebaseConfig = {
     ShopService,
     StatisticService,
     CrudService,
+    ClipboardService,
     AngularFireAuth
   ]
 })

@@ -5,6 +5,8 @@ import { AngularFireDatabase,
   // FirebaseListObservable, 
   // FirebaseObjectObservable 
 } from 'angularfire2/database';
+import { ClipboardService } from '../../services/clipboard.service';
+import { AppService } from '../../services/app.service';
 import { iShop } from '../../interfaces/shop.interface';
 
 @IonicPage()
@@ -18,7 +20,9 @@ export class SearchShopPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     private viewCtrl: ViewController,
-    private afDB: AngularFireDatabase
+    private afDB: AngularFireDatabase,
+    private clipboardService: ClipboardService,
+    private appService: AppService
   ) {
   }
 
@@ -72,6 +76,32 @@ export class SearchShopPage {
   go2ShopDetailView(shop){
     console.log('go2ShopDetailView', shop);
     this.navCtrl.push('ShopDetailViewPage', { SHOP: shop});
+  }
+  
+  //click and paste shareable url
+  shareShop(SHOP: iShop){
+    let copiedString = 'menu2book.com/#/mapx/'+SHOP.SHOP_ID;
+    console.log(copiedString);
+    this.clipboardService.copy(copiedString)
+    .then((res)=>{
+      console.log(res);
+      // alert(copiedString + ' copied');
+      this.appService.toastMsgWithPosition('Copied !', 3000, 'middle');
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
+
+  shareShopOnMap(SHOP){
+    let copiedString = 'menu2book.com/#/shop/'+SHOP.SHOP_ID;
+    this.viewCtrl.dismiss({SHOP: SHOP, copiedStr: copiedString, PAGE: 'MPage' })
+    .then((res)=>{
+      console.log(res);
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
   }
 
 }

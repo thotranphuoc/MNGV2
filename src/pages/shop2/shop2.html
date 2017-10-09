@@ -2,13 +2,17 @@
 
   <ion-navbar>
     <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <div *ngIf="SHOP">
-      <ion-title><span (click)="doOptions()">{{SHOP.SHOP_NAME | uppercase}}</span></ion-title>
+      <ion-title>
+        <span (click)="doOptions()">{{SHOP.SHOP_NAME | uppercase}}</span>
+      </ion-title>
     </div>
     <ion-buttons end>
-      <button ion-button (click)="onCart()"><ion-icon class="icon-big" name="md-cart">{{COUNT}}</ion-icon></button>
+      <button ion-button (click)="onCart()">
+        <ion-icon class="icon-big" name="md-cart">{{COUNT}}</ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 
@@ -39,7 +43,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="n!==3">
+  <div *ngIf="n==2">
     <div *ngFor="let cat of SHOP?.SHOP_CATEGORIES">
       <div class="category">{{cat}}</div>
       <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(i)">
@@ -49,8 +53,8 @@
               <h3 item-start [style.color]="SHOP_ITEMS_INDEX[i].count > 0 ? 'red' : 'gray'">{{SHOP_ITEMS_INDEX[i].count}}</h3>
               <p class="name_local1">{{item.ITEM_NAME_LOCAL}}</p>
               <p class="name_en1">{{item.ITEM_NAME_EN}}</p>
-              <p class="price1">{{item.ITEM_PRICE}} {{SHOP.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</p>
-              <ion-thumbnail item-end *ngIf="n==2">
+              <p><span class="price1">{{item.ITEM_PRICE}}</span> <span class="currency">{{SHOP.SHOP_CURRENCY}}</span><span class="price1"> - {{item.ITEM_SIZE}}</span></p>
+              <ion-thumbnail item-end>
                 <div *ngIf="item.ITEM_IMAGES">
                   <img src="{{item.ITEM_IMAGES[1]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
                 </div>
@@ -64,13 +68,47 @@
       </div>
     </div>
   </div>
+  <div *ngIf="n==1">
+    <div *ngFor="let cat of SHOP?.SHOP_CATEGORIES">
+      <div class="category">{{cat}}</div>
+      <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(i)">
+        <div *ngIf="item.ITEM_CATEGORY===cat">
+          <div *ngIf="item.ITEM_VISIBLE">
+            <ion-item>
+              <h3 item-start [style.color]="SHOP_ITEMS_INDEX[i].count > 0 ? 'red' : 'gray'">{{SHOP_ITEMS_INDEX[i].count}}</h3>
+              <ion-grid>
+                <ion-row>
+                  <ion-col col-9>
+                    <p class="name_local1" text-wrap>{{item.ITEM_NAME_LOCAL}}</p>
+                    <p class="name_en1" text-wrap>{{item.ITEM_NAME_EN}}</p>
+                  </ion-col>
+                  <ion-col col-3>
+                    <p><span class="price1">{{item.ITEM_PRICE}}</span> <span class="currency">{{SHOP.SHOP_CURRENCY}}</span></p>
+                    <p class="price1">{{item.ITEM_SIZE}}</p>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <ion-fab left bottom *ngIf="USER_ID" #fab>
-    <button ion-fab color="danger" mini><ion-icon name="md-share"></ion-icon></button>
+    <button ion-fab color="danger" mini>
+      <ion-icon name="md-share"></ion-icon>
+    </button>
     <ion-fab-list side="top">
-      <button ion-fab><ion-icon name="logo-facebook" color="primary"></ion-icon></button>
-      <button ion-fab (click)="go2AddFavorite(fab)"><ion-icon name="heart"  color="danger"></ion-icon></button>
-      <button ion-fab (click)="go2MenuItemAdd(fab)"><ion-icon name="md-add" color="primary"></ion-icon></button>
+      <button ion-fab>
+        <ion-icon name="logo-facebook" color="primary"></ion-icon>
+      </button>
+      <button ion-fab (click)="go2AddFavorite(fab)">
+        <ion-icon name="heart" color="danger"></ion-icon>
+      </button>
+      <button ion-fab (click)="go2MenuItemAdd(fab)">
+        <ion-icon name="md-add" color="primary"></ion-icon>
+      </button>
     </ion-fab-list>
   </ion-fab>
 

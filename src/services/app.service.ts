@@ -42,6 +42,16 @@ export class AppService {
         toast.present();
     }
 
+    toastMsgWithPosition(msg: string, duration: number, position: string) {
+        const toast = this.toastCtrl.create({
+            message: msg,
+            duration: duration,
+            position: position,
+            showCloseButton: true
+        });
+        toast.present();
+    }
+
     convertToCurrency(number: string, seperatedSymbol: string): string {
         let parts = [];
         let len = number.length / 3;

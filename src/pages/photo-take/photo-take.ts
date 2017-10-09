@@ -45,18 +45,6 @@ export class PhotoTakePage {
     document.getElementById('inputFile').click();
   }
 
-  // takePictureAndResizeByBrowser(event) {
-  //   this.imageService.resizeImagesFromChoosenFilesReturnPromiseWithArrayOfImageDataUrlsSizeSetable(event, 150, 150)
-  //     .then((imgDataUrls: string[]) => {
-  //       setTimeout(() => {
-  //         console.log(imgDataUrls);
-  //         this.base64Images = imgDataUrls;
-  //         this.newPhoto = true;
-  //       }, 2000)
-  //     })
-  //     .catch((err) => console.log(err))
-  // }
-
   takePictureAndResizeByBrowser(event) {
     // this.base64ImagesThumbnail = [];
     this.base64Images = [];

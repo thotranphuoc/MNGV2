@@ -44,33 +44,10 @@ export class MapPage {
     private afDB: AngularFireDatabase
   ) {
     this.data = this.navParams.data;
-    this.USER_LOC = typeof (this.data.USER_LOCATION) === 'undefined' ? null : this.data.USER_LOCATION;
+    // this.USER_LOC = typeof (this.data.USER_LOCATION) === 'undefined' ? null : this.data.USER_LOCATION;
     // this.SHOPs_LOC = typeof(this.data.SHOPS_LOCATION) ==='undefined'? null : this.data.SHOPS_LOCATION;
     console.log(this.data, this.USER_LOC);
-    // if(this.SHOPs_LOC){
-
-    // }else{
-    //   this.afDB.list('ShopsLOCATION').forEach((shops_loc: any[])=>{
-    //     this.SHOPs_LOC = shops_loc;
-    //     console.log(this.SHOPs_LOC);
-    //   })
-    // }
-
-
-    // if (this.localService.shopsLoaded) {
-    //   this.SHOPs_NEARBY = this.localService.SHOPs_NEARBY;
-    //   this.SHOPs_LOC = this.localService.SHOPs_LOCATION;
-    // } else {
-    //   this.afDB.list('ShopsLOCATION')
-    //   // this.afDB.list('ShopsLOCATION')
-    //   .forEach((shops_loc: any[]) => {
-    //     this.localService.SHOPs_LOCATION = shops_loc;
-    //     this.SHOPs_LOC = shops_loc;
-    //     // this.shopsLoaded = true;
-    //     this.localService.shopsLoaded = true;
-    //     console.log(this.SHOPs_LOC);
-    //   })
-    // }
+    
 
     this.loading = this.loadingCtrl.create({
       content: 'Please wait....',
