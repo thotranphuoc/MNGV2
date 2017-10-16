@@ -45,27 +45,27 @@
       </ion-item>
       <ion-list>
         <ion-item>
-          <ion-icon name="ios-basket" item-start></ion-icon>
-          <ion-label>Item on Sale?</ion-label>
-          <ion-toggle [(ngModel)]="SHOP_ITEM.ITEM_ON_SALE" name="ITEM_ON_SALE"></ion-toggle>
-        </ion-item>
-        <ion-item>
           <ion-icon name="ios-eye" item-start></ion-icon>
           <ion-label>Item is Visible?</ion-label>
           <ion-toggle [(ngModel)]="SHOP_ITEM.ITEM_VISIBLE" name="ITEM_VISIBLE"></ion-toggle>
         </ion-item>
-
+        <ion-item>
+          <ion-icon name="ios-basket" item-start></ion-icon>
+          <ion-label>Item on Sale?</ion-label>
+          <ion-toggle color="secondary" [(ngModel)]="SHOP_ITEM.ITEM_ON_SALE" name="ITEM_ON_SALE"></ion-toggle>
+        </ion-item>
         <ion-item>
           <ion-label>Category:</ion-label>
           <ion-select [(ngModel)]="SHOP_ITEM.ITEM_CATEGORY" name="ITEM_CATEGORY" value="SHOP_ITEM.ITEM_CATEGORY">
-            <span *ngFor="let cat of CATEGORIES" >
-                <ion-option value="{{cat}}">{{cat}}</ion-option>
+            <span *ngFor="let cat of CATEGORIES">
+              <ion-option value="{{cat}}">{{cat}}</ion-option>
             </span>
           </ion-select>
         </ion-item>
       </ion-list>
       <button ion-button block (click)="update()" [disabled]="!myForm.valid">Update</button>
-      <button ion-button block (click)="deleteImages()">Delete Images</button>
+      <button ion-button block color="danger" (click)="cancel()">Cancel</button>
+      <!-- <button ion-button block (click)="deleteImages()">Delete Images</button> -->
     </form>
   </div>
 

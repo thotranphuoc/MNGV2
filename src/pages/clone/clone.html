@@ -1,0 +1,65 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Cloning</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <!-- <div>
+    <button ion-button clear (click)="getDestionationShop()">Dest Shop:
+      <span>{{DSHOP?.SHOP_NAME}}</span>
+    </button>
+  </div>
+  <div>
+    <button ion-button clear (click)="getSourceShop()">Source Shop:
+      <span>{{SSHOP?.SHOP_NAME}}</span>
+    </button>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let item of SITEMS; let i = index">
+      <p>{{item.ITEM_NAME_LOCAL}}</p>
+      <button color="danger" *ngIf="!CloneStatus[i]" ion-button clear item-end (click)="cloneItem(item, i)">Clone</button>
+      <button color="secondary" *ngIf="CloneStatus[i]" ion-button clear item-end>Done</button>
+    </ion-item>
+  </ion-list> -->
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button ion-button clear (click)="getSourceShop()">Src Shop:
+          
+        </button>
+        <p padding-left>{{SSHOP?.SHOP_NAME}}</p>
+        <p padding-left>{{SSHOP?.SHOP_ADDRESS}}</p>
+      </ion-col>
+      <ion-col>
+        <button ion-button clear (click)="getDestionationShop()">Dest Shop:
+          
+        </button>
+        <p padding-left>{{DSHOP?.SHOP_NAME}}</p>
+        <p padding-left>{{DSHOP?.SHOP_ADDRESS}}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item *ngFor="let item of SITEMS; let i = index">
+          <p>{{item.ITEM_NAME_LOCAL}}</p>
+          <button color="danger" *ngIf="!CloneStatus[i]" ion-button clear item-end (click)="cloneItem(item, i)">Clone</button>
+          <button color="secondary" *ngIf="CloneStatus[i]" ion-button clear item-end>Done</button>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item *ngFor="let item of DITEMS; let i = index">
+          <p>{{item.ITEM_NAME_LOCAL}}</p>
+          <!-- <button color="danger" *ngIf="!CloneStatus[i]" ion-button clear item-end (click)="cloneItem(item, i)">Clone</button>
+          <button color="secondary" *ngIf="CloneStatus[i]" ion-button clear item-end>Done</button> -->
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

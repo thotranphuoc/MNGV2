@@ -77,6 +77,10 @@ export class LocalService {
         ITEM_OTHER: null
     }
 
+    get_ITEM_DEFAULT(){
+        return this.ITEM_DEFAULT;
+    }
+
     ITEM: iItem = {
         ITEM_ID: null,
         ITEM_NAME_LOCAL: null,
@@ -90,7 +94,7 @@ export class LocalService {
         ITEM_NEW: true,
         ITEM_VISIBLE: true,
         ITEM_IMG_SHARED: false,
-        ITEM_CATEGORY: null,
+        ITEM_CATEGORY: 'Drinks',
         ITEM_OTHER: null
     }
 

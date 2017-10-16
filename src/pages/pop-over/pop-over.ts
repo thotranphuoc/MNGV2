@@ -12,11 +12,11 @@ export class PopOverPage {
   data: any;
   shop: iShop = null;
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     private app: App,
     private viewCtrl: ViewController) {
-      this.data = this.navParams.data;
+    this.data = this.navParams.data;
     this.shop = this.data.SHOP;
     console.log(this.shop);
   }
@@ -26,7 +26,7 @@ export class PopOverPage {
   }
 
   closePopover() {
-    this.viewCtrl.dismiss().catch((err) => { console.log(err)});
+    this.viewCtrl.dismiss().catch((err) => { console.log(err) });
   }
 
   go2Shop() {
@@ -41,29 +41,29 @@ export class PopOverPage {
 
   go2Shop1(shop: iShop) {
     console.log(shop.SHOP_OTHER);
-    if('SHOP_OTHER' in shop){
+    if ('SHOP_OTHER' in shop) {
       console.log(shop.SHOP_OTHER);
 
       // if isVERIFIED exist
-      if('isVERIFIED' in shop.SHOP_OTHER){
-        if(shop.SHOP_OTHER.isVERIFIED){
+      if ('isVERIFIED' in shop.SHOP_OTHER) {
+        if (shop.SHOP_OTHER.isVERIFIED) {
           console.log('isVERIFIED TRUE');
           // this.navCtrl.setRoot('ShopPage', { shop: shop });
-          this.app.getRootNavs()[0].setRoot('Shop2Page', {SHOP: shop});
-        }else{
+          this.app.getRootNavs()[0].setRoot('Shop2Page', { SHOP: shop });
+        } else {
           console.log('isVERIFIED FALSE');
           // this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
-          this.app.getRootNavs()[0].setRoot('Shop1Page', {SHOP: shop});
+          this.app.getRootNavs()[0].setRoot('Shop1Page', { SHOP: shop });
         }
-      }else{
+      } else {
         console.log('isVERIFIED not exist');
         // this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
-        this.app.getRootNavs()[0].setRoot('Shop1Page', {SHOP: shop});
+        this.app.getRootNavs()[0].setRoot('Shop1Page', { SHOP: shop });
       }
-    }else{
+    } else {
       console.log('no SHOP_OTHER');
       console.log(shop);
-      this.app.getRootNavs()[0].setRoot('Shop1Page', {SHOP: shop});
+      this.app.getRootNavs()[0].setRoot('Shop1Page', { SHOP: shop });
     }
   }
 

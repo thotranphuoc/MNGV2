@@ -111,6 +111,7 @@ export class MapPage {
         console.log(map);
         this.map = map;
         // when maps is loaded and become idle
+        this.gmapService.addBlueDotToMap(this.map, mapOptions.center);
         google.maps.event.addListener(this.map, 'idle', () => {
           console.log('map was loaded fully');
           this.hideLoading();

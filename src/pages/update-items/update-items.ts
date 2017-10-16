@@ -12,11 +12,13 @@ import { iProfile } from '../../interfaces/profile.interface';
   templateUrl: 'update-items.html',
 })
 export class UpdateItemsPage {
+  n: number = 1;
   data: any;
   SHOP: iShop = null;
   PROFILE: iProfile;
   SHOP_ITEMS: iItem[];
   isHidden: boolean = false;
+  SHOP_ITEM: iItem;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -36,6 +38,8 @@ export class UpdateItemsPage {
       .then((res: any)=>{
         console.log(res);
         this.SHOP_ITEMS = res.SHOP_ITEMS;
+        this.SHOP_ITEMS.map(item=> item['isItemUpdate']=false);
+        console.log(this.SHOP_ITEMS);
       })
       .catch((err)=>{
         console.log(err);
@@ -52,9 +56,39 @@ export class UpdateItemsPage {
     this.navCtrl.push('UpdateItemPage', {SHOP: this.SHOP, SHOP_ITEM: item});
   }
 
-  doHiding(){
-    this.isHidden = !this.isHidden;
-    console.log(this.isHidden);
+  // doHiding(){
+  //   this.isHidden = !this.isHidden;
+  //   console.log(this.isHidden);
+  // }
+
+  updateItem(item, i){
+    // // console.log(item);
+    // this.SHOP_ITEM = item;
+    // this.SHOP_ITEMS.map(item=>item['isItemUpdate']= false);
+    // item['isItemUpdate'] = true;
+    this.navCtrl.push('UpdateItemPage', {SHOP: this.SHOP, SHOP_ITEM: item});
   }
+
+  doUpdate(){
+    let ITEM_NAME_EN = document.getElementById('ITEM_NAME_EN')
+    console.log(ITEM_NAME_EN);
+  }
+
+  clickToggle(){
+    console.log('click toggle');
+  }
+
+  doOptions(){
+    if(this.n<2){
+      console.log(this.n);
+      this.n++;
+    }else{
+      console.log(this.n)
+      this.n = 1;
+      
+    }
+  }
+
+  
 
 }

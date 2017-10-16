@@ -22,9 +22,9 @@ export class GmapService {
         private appService: AppService,
         private afService: AngularFireService,
         private popoverCtrl: PopoverController,
-        private geolocation: Geolocation) { 
-            // this.getUserCurrentPosition();
-        }
+        private geolocation: Geolocation) {
+        // this.getUserCurrentPosition();
+    }
 
 
     setMarkers(markers) {
@@ -48,7 +48,7 @@ export class GmapService {
                         this.setUserCurrentPosition(position)
                         resolve(position);
                     })
-                    .catch((err:any) => {
+                    .catch((err: any) => {
                         console.log(err);
                         this.appService.toastMsg(err.message, 3000);
                         if (this.afService.getAuth().auth.currentUser) {
@@ -269,11 +269,11 @@ export class GmapService {
                 position: pos,
                 map: map
             })
-
+            
             marker.addListener('click', () => {
                 console.log(SHOP);
                 // let popover = this.popoverCtrl.create('PopOverPage', data).present();
-                this.popoverCtrl.create('PopOverPage', {SHOP: SHOP}).present()
+                this.popoverCtrl.create('PopOverPage', { SHOP: SHOP }).present()
             })
         })
     }
@@ -388,10 +388,16 @@ export class GmapService {
                 position: position,
                 map: map
             });
-
             resolve(marker);
-
         })
+    }
+
+    addBlueDotToMap(map: any, position: any){
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
+        });
     }
 
     // addMarkerToMapAddListenter(map: any, position: any) {

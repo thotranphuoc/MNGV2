@@ -94,6 +94,7 @@ export class MPage {
         google.maps.event.addListener(this.map, 'idle', () => {
           console.log('map was loaded fully');
           this.hideLoading();
+          this.gmapService.addBlueDotToMap(this.map, mapOptions.center);
           this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, this.CURRENT_LOCATION, this.SHOP)
           .then((res)=>{ console.log(res) })
           .catch((err)=> { console.log(err) });

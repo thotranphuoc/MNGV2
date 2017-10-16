@@ -82,6 +82,7 @@ export class LocationPage {
         google.maps.event.addListener(this.map, 'idle', () => {
           console.log('map was loaded fully');
           this.hideLoading();
+          this.gmapService.addBlueDotToMap(this.map, position);
           this.gmapService.addMarkerToMap(this.map, position).then((marker) => {
             this.userMarker = marker;
             this.NEW_SELECTED_LOCATION = position;

@@ -59,10 +59,10 @@
     </div>
   </ion-item> -->
 
-  <div *ngIf="base64Images">
+  <div *ngIf="base64Images" text-center>
     <img src="{{base64Images[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
   </div>
   <button ion-button block (click)="createItem()" [disabled]="hasPosted">Create</button>
 
-
+  
 </ion-content>

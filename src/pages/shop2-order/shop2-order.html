@@ -31,7 +31,7 @@
               <ion-col class="subtract" (click)="subtract(i)">
                 <ion-icon name="md-remove"></ion-icon>
               </ion-col>
-              <ion-col class="number">{{SHOP_ITEMS_INDEX[i].count}}</ion-col>
+              <ion-col class="number" (click)="editCount(i)">{{SHOP_ITEMS_INDEX[i].count}}</ion-col>
               <ion-col class="add" (click)="add(i)">
                 <ion-icon name="md-add"></ion-icon>
               </ion-col>

@@ -1,0 +1,156 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>+ Items
+      <span *ngIf="SHOP">for {{SHOP?.SHOP_NAME}}</span>
+    </ion-title>
+    <ion-buttons end>
+      <!-- <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar> -->
+      <button ion-button (click)="go2SearchShop()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    
+    <ion-grid class="list">
+      <div *ngFor="let item of ITEMS; let i = index">
+        <ion-row (click)="updateItem(item, i)">
+          <ion-col col-6 col-sm-3>
+            <p>{{item.ITEM_NAME_LOCAL}}</p>
+            <!-- <ion-input value="{{item.ITEM_NAME_LOCAL}}" placeholder="Local name"></ion-input> -->
+          </ion-col>
+          <ion-col col-6 col-sm-3>
+            <p>{{item.ITEM_NAME_EN}}</p>
+            <!-- <ion-input value="{{item.ITEM_NAME_EN}}" placeholder="English name"></ion-input> -->
+          </ion-col>
+          <ion-col>
+            <p>{{item.ITEM_PRICE}}</p>
+            <!-- <ion-input value="{{item.ITEM_PRICE}}"  placeholder="Price"></ion-input> -->
+          </ion-col>
+          <ion-col>
+            <p>{{item.ITEM_SIZE}}</p>
+            <!-- <ion-input value="{{item.ITEM_SIZE}}" placeholder="Size"></ion-input> -->
+          </ion-col>
+          <ion-col>
+            <p>{{item.ITEM_CATEGORY}}</p>
+            <!-- <ion-input value="{{item.ITEM_CATEGORY}}" placeholder="Category"></ion-input> -->
+          </ion-col>
+          <ion-col>
+            <!-- <button ion-button clear *ngIf="item.ITEM_VISIBLE">
+                  <ion-icon color="primary" name="ios-radio-button-on"></ion-icon>
+                </button>
+                <button ion-button clear *ngIf="!item.ITEM_VISIBLE">
+                  <ion-icon color="primary" name="ios-radio-button-off"></ion-icon>
+                </button> -->
+            <ion-toggle color="primary" checked="{{item.ITEM_VISIBLE}}" disabled></ion-toggle>
+          </ion-col>
+          <ion-col>
+            <!-- <button ion-button clear *ngIf="item.ITEM_ON_SALE">
+                  <ion-icon color="secondary" name="ios-radio-button-on"></ion-icon>
+                </button>
+                <button ion-button clear *ngIf="!item.ITEM_ON_SALE">
+                  <ion-icon color="secondary" name="ios-radio-button-off"></ion-icon>
+                </button> -->
+            <ion-toggle color="secondary" checked="{{item.ITEM_ON_SALE}}" disabled></ion-toggle>
+          </ion-col>
+          <ion-col>
+            <img src="{{item.ITEM_IMAGES[1]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-grid>
+    <hr>
+    <ion-grid class="show">
+      <ion-row>
+        <ion-col col-6 col-sm-3>
+          <!-- <p>{{item.ITEM_NAME_LOCAL}}</p> -->
+          <ion-input [(ngModel)]="ITEM.ITEM_NAME_LOCAL" name="ITEM_NAME_LOCAL" placeholder="Local name"></ion-input>
+        </ion-col>
+        <ion-col col-6 col-sm-3>
+          <!-- <p>{{item.ITEM_NAME_EN}}</p> -->
+          <ion-input [(ngModel)]="ITEM.ITEM_NAME_EN" name="ITEM_NAME_EN" placeholder="English name"></ion-input>
+          <!-- <ion-input value="{{item.ITEM_NAME_EN}}" placeholder="English name"></ion-input> -->
+        </ion-col>
+        <ion-col>
+          <!-- <p>{{item.ITEM_PRICE}}</p> -->
+          <ion-input [(ngModel)]="ITEM.ITEM_PRICE" name="ITEM_PRICE" placeholder="Price" type="number"></ion-input>
+          <!-- <ion-input value="{{item.ITEM_PRICE}}"  placeholder="Price"></ion-input> -->
+        </ion-col>
+        <ion-col>
+          <!-- <p>{{item.ITEM_SIZE}}</p> -->
+          <ion-input [(ngModel)]="ITEM.ITEM_SIZE" name="ITEM_SIZE" placeholder="Size"></ion-input>
+          <!-- <ion-input value="{{item.ITEM_SIZE}}" placeholder="Size"></ion-input> -->
+        </ion-col>
+        <ion-col>
+          <!-- <p>{{item.ITEM_CATEGORY}}</p> -->
+          <p (click)="selectCategory()">{{ITEM.ITEM_CATEGORY}}</p>
+          <!-- <button ion-button clear (click)="selectCategory()"><ion-input [(ngModel)]="ITEM.ITEM_CATEGORY" name="ITEM_CATEGORY" placeholder="Category"></ion-input></button> -->
+          <!-- <ion-input value="{{item.ITEM_CATEGORY}}" placeholder="Category"></ion-input> -->
+          <!-- <ion-item>
+                <ion-label>Category</ion-label>
+                <ion-select [(ngModel)]="ITEM.ITEM_CATEGORY">
+                  <ion-option value="nes">NES</ion-option>
+                  <ion-option value="n64">Nintendo64</ion-option>
+                  <ion-option value="ps">PlayStation</ion-option>
+                  <ion-option value="genesis">Sega Genesis</ion-option>
+                  <ion-option value="saturn">Sega Saturn</ion-option>
+                  <ion-option value="snes">SNES</ion-option>
+                </ion-select>
+              </ion-item> -->
+          <!-- <span>
+                <ion-select [(ngModel)]="ITEM.ITEM_CATEGORY" name="ITEM_CATEGORY" value="SHOP_ITEM.ITEM_CATEGORY">
+                  <span *ngFor="let cat of SHOP?.SHOP_CATEGORIES">
+                    <ion-option value="{{cat}}">{{cat}}</ion-option>
+                  </span>
+                </ion-select>
+              </span> -->
+        </ion-col>
+        <ion-col>
+          <!-- <button ion-button clear *ngIf="item.ITEM_VISIBLE">
+                <ion-icon color="primary" name="ios-radio-button-on"></ion-icon>
+              </button>
+              <button ion-button clear *ngIf="!item.ITEM_VISIBLE">
+                <ion-icon color="primary" name="ios-radio-button-off"></ion-icon>
+              </button> -->
+
+          <ion-toggle color="primary" [(ngModel)]="ITEM.ITEM_VISIBLE" name="ITEM_CATEGORY"></ion-toggle>
+        </ion-col>
+        <ion-col>
+          <!-- <button ion-button clear *ngIf="item.ITEM_ON_SALE">
+                <ion-icon color="secondary" name="ios-radio-button-on"></ion-icon>
+              </button>
+              <button ion-button clear *ngIf="!item.ITEM_ON_SALE">
+                <ion-icon color="secondary" name="ios-radio-button-off"></ion-icon>
+              </button> -->
+
+          <!-- <ion-toggle color="secondary" checked="{{item.ITEM_ON_SALE}}" disabled></ion-toggle> -->
+          <ion-toggle color="secondary" [(ngModel)]="ITEM.ITEM_ON_SALE" name="ITEM_ON_SALE"></ion-toggle>
+        </ion-col>
+        <ion-col>
+          <span (click)="selectPhoto()">
+            <img src="{{ITEM.ITEM_IMAGES[1]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+          </span>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button block color="danger" (click)="addOne()">Cancel</button>
+        </ion-col>
+        <ion-col>
+          <button *ngIf="!isItem2Update" ion-button block (click)="createItem()">Add New</button>
+          <button *ngIf="isItem2Update" ion-button block color="secondary" (click)="doUpdateItem()">Update</button>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+    <hr>
+
+</ion-content>

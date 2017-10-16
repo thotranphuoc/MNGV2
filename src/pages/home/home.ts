@@ -41,18 +41,18 @@ export class HomePage {
       content: 'Please wait....',
       spinner: 'crescent'
     });
-    
- 
+
+
     this.startLoading();
     this.gmapService.getUserCurrentPosition()
-    .then((pos: iPosition)=>{
-      this.USER_LOCATION = pos;
-      this.getShopsNearby(this.USER_LOCATION.lat, this.USER_LOCATION.lng);
-    })
-    .catch((err)=>{
-      console.log(err);
-      this.hideLoading();
-    })
+      .then((pos: iPosition) => {
+        this.USER_LOCATION = pos;
+        this.getShopsNearby(this.USER_LOCATION.lat, this.USER_LOCATION.lng);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.hideLoading();
+      })
   }
 
   ionViewDidLoad() {
@@ -70,7 +70,7 @@ export class HomePage {
   }
 
   getShopsNearby(LAT: number, LNG: number) {
-    
+
     if (!this.localService.SHOP_LOADED) {
       this.shopService.getShopsNearBy(LAT, LNG)
         .then((res: any) => {
@@ -88,7 +88,7 @@ export class HomePage {
           this.hideLoading();
           this.localService.SHOP_LOADED = false;
         })
-    }else{
+    } else {
       console.log('Shop list already loaded');
       this.hideLoading();
     }
@@ -97,48 +97,50 @@ export class HomePage {
 
   go2SearchShop() {
     let modal = this.modalCtrl.create('SearchShopPage');
-    modal.onDidDismiss((data)=>{
+    modal.onDidDismiss((data) => {
       console.log(data);
-      if( typeof(data.PAGE) !=='undefined'){
-        this.go2Page(data, data.PAGE);
-      }else if(typeof(data) !== 'undefined'){
-        this.go2Shop(data.SHOP);
+      if (typeof (data) !== 'undefined') {
+        if (typeof (data.PAGE) !== 'undefined') {
+          this.go2Page(data, data.PAGE);
+        } else {
+          this.go2Shop(data.SHOP);
+        }
       }
     })
-    modal.present().catch((err)=>{ console.log(err)});
+    modal.present().catch((err) => { console.log(err) });
   }
 
-  go2Page(data, PAGE){
+  go2Page(data, PAGE) {
     this.navCtrl.setRoot(PAGE, data)
-    .then((res)=>{ console.log(res); })
-    .catch((err)=>{ console.log(err); })
+      .then((res) => { console.log(res); })
+      .catch((err) => { console.log(err); })
   }
 
   go2Shop(shop: iShop) {
     console.log(shop.SHOP_OTHER);
-    if('SHOP_OTHER' in shop){
+    if ('SHOP_OTHER' in shop) {
       console.log(shop.SHOP_OTHER);
 
       // if isVERIFIED exist
-      if('isVERIFIED' in shop.SHOP_OTHER){
-        if(shop.SHOP_OTHER.isVERIFIED){
+      if ('isVERIFIED' in shop.SHOP_OTHER) {
+        if (shop.SHOP_OTHER.isVERIFIED) {
           console.log('isVERIFIED TRUE');
           this.navCtrl.setRoot('Shop2Page', { SHOP: shop });
-        }else{
+        } else {
           console.log('isVERIFIED FALSE');
           this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
         }
-      }else{
+      } else {
         console.log('isVERIFIED not exist');
         this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
       }
-    }else{
+    } else {
       console.log('no SHOP_OTHER')
       this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
     }
   }
 
-  go2ListPage(){
+  go2ListPage() {
     let data = {
       USER_LOCATION: this.USER_LOCATION,
       SHOPS_ID: this.SHOPS_ID,

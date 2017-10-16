@@ -195,6 +195,11 @@ export class UpdateItemPage {
   update() {
     console.log(this.SHOP_ITEM);
     this.crudService.updateItem(this.SHOP_ITEM);
+    this.navCtrl.pop();
+  }
+
+  cancel(){
+    this.navCtrl.pop();
   }
 
   checkIfImageShare(IMG_URL: string) {
@@ -214,15 +219,15 @@ export class UpdateItemPage {
     console.log('Set Category');
   }
 
-  deleteImages() {
-    console.log(this.SHOP_ITEM.ITEM_IMAGES);
-    this.dbService.deleteFilesFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }
+  // deleteImages() {
+  //   console.log(this.SHOP_ITEM.ITEM_IMAGES);
+  //   this.dbService.deleteFilesFromFireStorageWithHttpsURL(this.SHOP_ITEM.ITEM_IMAGES)
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  // }
 
 }

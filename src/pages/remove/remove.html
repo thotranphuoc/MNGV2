@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title color="danger">Remove Item</ion-title>
+
+    <ion-buttons end>
+      <button ion-button (click)="go2SearchShop()"><ion-icon name="search"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of ITEMS" (click)="deleteItem(item,i)">
+      {{item?.ITEM_NAME_LOCAL}} 
+      <!-- <button color="danger" *ngIf="!CloneStatus[i]" ion-button clear item-end (click)="cloneItem(item, i)">Clone</button> -->
+      <button color="danger" *ngIf="item.isDeleted" ion-button clear item-end>Deleted</button>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

@@ -93,9 +93,9 @@ export class SearchShopPage {
     })
   }
 
-  shareShopOnMap(SHOP){
+  showShopOnMap(SHOP){
     let copiedString = 'menu2book.com/#/shop/'+SHOP.SHOP_ID;
-    this.viewCtrl.dismiss({SHOP: SHOP, copiedStr: copiedString, PAGE: 'MPage' })
+    this.viewCtrl.dismiss({SHOP: SHOP, PAGE: 'MPage' })
     .then((res)=>{
       console.log(res);
     })

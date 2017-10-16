@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ModalController, AlertController } from 'ionic-angular';
 
 import { AngularFireService } from '../../services/af.service';
 import { AppService } from '../../services/app.service';
@@ -39,6 +39,7 @@ export class Shop2OrderPage {
     public navParams: NavParams,
     private viewCtrl: ViewController,
     private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
     private crudService: CrudService,
     private appService: AppService,
     private dbService: DbService,
@@ -289,6 +290,43 @@ export class Shop2OrderPage {
     console.log('editNote');
     this.isNoteEdited = true;
     this.NOTES = this.AsyncOrder.ORDER_NOTES;
+  }
+
+  editCount(i){
+    console.log(i);
+    let count = this.SHOP_ITEMS_INDEX[i].count;
+    console.log(count);
+    let alert = this.alertCtrl.create({
+      title: 'Edit',
+      inputs: [
+        {
+          name: 'number',
+          placeholder: count
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log('Saved clicked');
+            console.log(data, data.number);
+            if(!isNaN(data.number)){
+              this.SHOP_ITEMS_INDEX[i].count = Number(data.number);
+              this.checkOrderIfUpdated();
+            }else{
+              this.appService.alertMsg('Error', 'Please enter a number');
+            }
+          }
+        }
+      ]
+    })
+    alert.present();
   }
 
 }

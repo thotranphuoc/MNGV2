@@ -3,38 +3,99 @@
   <ion-navbar>
     <ion-title>Update Items</ion-title>
     <ion-buttons end>
-      <span *ngIf="isHidden"><button ion-button (click)="doHiding()">Show</button></span>
-      <span *ngIf="!isHidden"><button ion-button (click)="doHiding()">Hide</button></span>
-    </ion-buttons>
+        <span *ngIf="n==1"><button ion-button (click)="doOptions()"><ion-icon name="ios-list-box"></ion-icon></button></span>
+        <span *ngIf="n==2"><button ion-button (click)="doOptions()"><ion-icon name="md-apps"></ion-icon></button></span>
+      </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(item, i)">
-    <ion-card *ngIf="!isHidden || item.ITEM_VISIBLE">
-      <div *ngIf="item.ITEM_IMAGES">
-        <img src="{{item.ITEM_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
-      </div>
-      <div *ngIf="!item.ITEM_IMAGES">
-        <img src="this.src='../../assets/imgs/imagenotavailable.png">
-      </div>
-      <div class="info"></div>
-      <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
-      <div class="name_en">{{item.ITEM_NAME_EN}}</div>
-      <div class="price">{{item.ITEM_PRICE}} {{SHOP.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
-      <div class="item-visible">
-        <span *ngIf="item.ITEM_VISIBLE"><ion-icon name="eye"></ion-icon></span>
-        <span *ngIf="!item.ITEM_VISIBLE"><ion-icon name="eye-off" color="danger"></ion-icon></span>
-      </div>
-      <div class="item-onsale">
-        <span *ngIf="item.ITEM_ON_SALE"><ion-icon name="ios-basket" color="danger"></ion-icon></span>
-        <span *ngIf="!item.ITEM_ON_SALE"><ion-icon name="ios-basket-outline"></ion-icon></span>
-        <!-- <span *ngIf="!item.ITEM_VISIBLE"><ion-icon name="eye-off" color="danger"></ion-icon></span> -->
-      </div>
-      <!-- <div class="item-onsale">{{item.ITEM_ON_SALE}}</div>   -->
-    </ion-card>
+<ion-content>
+  <div *ngIf="n==2">
+      <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(item, i)">
+          <ion-card *ngIf="!isHidden || item.ITEM_VISIBLE">
+            <div *ngIf="item.ITEM_IMAGES">
+              <img src="{{item.ITEM_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+            </div>
+            <div *ngIf="!item.ITEM_IMAGES">
+              <img src="this.src='../../assets/imgs/imagenotavailable.png">
+            </div>
+            <div class="info"></div>
+            <div class="name_local">{{item.ITEM_NAME_LOCAL}}</div>
+            <div class="name_en">{{item.ITEM_NAME_EN}}</div>
+            <div class="price">{{item.ITEM_PRICE}} {{SHOP.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
+            <div class="item-visible">
+              <span *ngIf="item.ITEM_VISIBLE">
+                <ion-icon name="eye"></ion-icon>
+              </span>
+              <span *ngIf="!item.ITEM_VISIBLE">
+                <ion-icon name="eye-off" color="danger"></ion-icon>
+              </span>
+            </div>
+            <div class="item-onsale">
+              <span *ngIf="item.ITEM_ON_SALE">
+                <ion-icon name="ios-basket" color="danger"></ion-icon>
+              </span>
+              <span *ngIf="!item.ITEM_ON_SALE">
+                <ion-icon name="ios-basket-outline"></ion-icon>
+              </span>
+              <!-- <span *ngIf="!item.ITEM_VISIBLE"><ion-icon name="eye-off" color="danger"></ion-icon></span> -->
+            </div>
+            <!-- <div class="item-onsale">{{item.ITEM_ON_SALE}}</div>   -->
+          </ion-card>
+        </div>
   </div>
+
+  <div *ngIf="n ==1">
+    <ion-grid>
+      <div *ngFor="let item of SHOP_ITEMS; let i = index">
+        <ion-row (click)="updateItem(item, i)">
+          <ion-col col-6 col-sm-3>
+            <p>{{item.ITEM_NAME_LOCAL}}</p>
+            <!-- <ion-input value="{{item.ITEM_NAME_LOCAL}}" disabled></ion-input> -->
+          </ion-col>
+          <ion-col col-6 col-sm-3>
+            <p>{{item.ITEM_NAME_EN}}</p>
+            <!-- <ion-input value="{{item.ITEM_NAME_EN}}" disabled></ion-input> -->
+          </ion-col>
+          <ion-col>
+            <p>{{item.ITEM_PRICE}}</p>
+            <!-- <ion-input value="{{item.ITEM_PRICE}}" disabled></ion-input> -->
+          </ion-col>
+          <ion-col>
+            <p>{{item.ITEM_SIZE}}</p>
+            <!-- <ion-input value="{{item.ITEM_SIZE}}" disabled></ion-input> -->
+          </ion-col>
+          <ion-col>
+            <p>{{item.ITEM_CATEGORY}}</p>
+            <!-- <ion-input value="{{item.ITEM_CATEGORY}}" disabled></ion-input> -->
+          </ion-col>
+          <ion-col>
+            <button ion-button clear *ngIf="item.ITEM_VISIBLE">
+              <ion-icon color="primary" name="ios-radio-button-on"></ion-icon>
+            </button>
+            <button ion-button clear *ngIf="!item.ITEM_VISIBLE">
+              <ion-icon color="primary" name="ios-radio-button-off"></ion-icon>
+            </button>
+            <!-- <ion-toggle color="primary" checked="{{item.ITEM_VISIBLE}}" disabled></ion-toggle> -->
+          </ion-col>
+          <ion-col>
+            <button ion-button clear *ngIf="item.ITEM_ON_SALE">
+              <ion-icon color="secondary" name="ios-radio-button-on"></ion-icon>
+            </button>
+            <button ion-button clear *ngIf="!item.ITEM_ON_SALE">
+              <ion-icon color="secondary" name="ios-radio-button-off"></ion-icon>
+            </button>
+            <!-- <ion-toggle color="secondary" checked="{{item.ITEM_ON_SALE}}" disabled></ion-toggle> -->
+          </ion-col>
+          <ion-col>
+            <img src="{{item.ITEM_IMAGES[1]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-grid>
+  </div>
+
 
 </ion-content>

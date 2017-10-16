@@ -114,7 +114,7 @@ export class ListPage {
     })
   }
 
-  shareShopOnMap(SHOP: iShop){
+  showShopOnMap(SHOP: iShop){
     this.navCtrl.setRoot('MPage', { SHOP: SHOP});
   }
 

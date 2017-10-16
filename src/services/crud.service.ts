@@ -329,9 +329,10 @@ export class CrudService {
 
                         //3. update shop's item_ID
                         let pro2 = this.dbService.insertElementIntoArray('Shop_Items/' + SHOP_ID, ITEM_ID);
-                        Promise.all([pro1, pro2]).then(() => {
-                            resolve();
-                        })
+                        Promise.all([pro1, pro2])
+                            .then(() => {
+                                resolve();
+                            })
                             .catch((err) => { reject(err) });
                     })
                     .catch((err) => { reject(err) })
@@ -381,7 +382,68 @@ export class CrudService {
     }
 
     deleteItem(ITEM: iItem) {
+        // delete Shop_Items/SHOP_ID/ITEM_ID
+        this.dbService.removeElementFromArray('Shop_Items/'+ ITEM.ITEM_SHOP_ID,ITEM.ITEM_ID)
+        .then((res)=>{
+            console.log(res);
+            console.log('Item ID', ITEM.ITEM_ID, ' just remove from shop');
+        })
+        .catch((err)=>{ console.log( err)});
+        // Delete Items/ITEM_ID
+        this.dbService.updateAnObjectAtNode('Items/'+ITEM.ITEM_ID, null)
+        .then((res)=>{ 
+            console.log( res);
+            console.log('Item was deleted');
+        })
+        .catch((err)=>{ console.log( err )});
+        // Delete storage if have images
+        let index1 = ITEM.ITEM_IMAGES[0].indexOf('ItemImages');
+        console.log(index1);
+        // if(index1<0){
+        //     this.dbService.deleteFilesFromFireStorageWithHttpsURL(ITEM.ITEM_IMAGES)
+        //     .then((res)=>{
+        //         console.log(res);
+        //         console.log('Images deleted from storage');
+        //     })
+        //     .catch((err)=>{
+        //         console.log(err);
+        //     })
+        // }
 
+
+    }
+
+    cloneItem(ITEM: iItem, SourceShopID, DestShopID) {
+        return new Promise((resolve, reject) => {
+            console.log('start cloning..');
+            ITEM['ITEM_SHOP_ID'] = DestShopID;
+            this.dbService.insertOneNewItemReturnPromise(ITEM, 'Items/')
+                .then((res: any) => {
+                    console.log(res);
+                    let KEY = res.key;
+                    // update item with new key
+                    let pro1 = this.dbService.updateAnObjectAtNode('Items/' + KEY + '/ITEM_ID', KEY)
+                        .then((res) => {
+                            console.log('update item with new key... done')
+                        })
+                    // insert key to Shop_Items/
+                    let pro2 = this.dbService.insertElementIntoArray('Shop_Items/' + DestShopID, KEY)
+                        .then((res) => {
+                            console.log('insert key to Shop_Items... done');
+                        })
+                    Promise.all([pro1, pro2]).then((res) => {
+                        console.log(res);
+                        resolve({ result: 'cloning successful' });
+                    })
+                        .catch((err) => {
+                            console.log(err);
+                            reject(err);
+                        })
+                })
+                .catch((err) => {
+                    reject(err);
+                })
+        })
     }
 
 
@@ -473,23 +535,23 @@ export class CrudService {
 
     // SAMPLE-IMAGE 
     // Create
-    createImage(IMAGE){
+    createImage(IMAGE) {
         return this.dbService.insertOneNewItemReturnPromise(IMAGE, 'Images/')
     }
 
     // Read
-    getImages(){
-       return  this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data('Images');
+    getImages() {
+        return this.dbService.getListReturnPromise_ArrayOfObjectWithKey_Data('Images');
     }
 
     // Read & result return async
-    getImagesAsync(){
+    getImagesAsync() {
         return this.afService.getList('Images');
     }
 
     // Update
-    updateImage(IMAGE, IMG_ID){
-        return this.dbService.updateAnObjectAtNode('Images/'+IMG_ID, IMAGE)
+    updateImage(IMAGE, IMG_ID) {
+        return this.dbService.updateAnObjectAtNode('Images/' + IMG_ID, IMAGE)
     }
 
     // Delete

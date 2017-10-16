@@ -286,17 +286,22 @@ export class UpdateShopPage {
   }
 
   addNewCategory(cat: string) {
-    if(this.SHOP.SHOP_CATEGORIES){
-      let index = this.SHOP.SHOP_CATEGORIES.map(cat => cat.toLocaleLowerCase()).indexOf(cat.toLocaleLowerCase())
-      // let index = this.TABLES.indexOf(table);
-      if (index < 0) {
-        this.SHOP.SHOP_CATEGORIES.push(cat);
-      } else {
-        alert(cat + ' already exists');
+    let length = cat.trim().length;
+    if(length>0){
+      if(this.SHOP.SHOP_CATEGORIES){
+        let index = this.SHOP.SHOP_CATEGORIES.map(cat => cat.toLocaleLowerCase()).indexOf(cat.toLocaleLowerCase())
+        // let index = this.TABLES.indexOf(table);
+        if (index < 0) {
+          this.SHOP.SHOP_CATEGORIES.push(cat);
+        } else {
+          alert(cat + ' already exists');
+        }
+      }else{
+        this.SHOP['SHOP_CATEGORIES'] = [cat];
+        console.log(this.SHOP);
       }
     }else{
-      this.SHOP['SHOP_CATEGORIES'] = [cat];
-      console.log(this.SHOP);
+      this.appService.alertError('Error','Cannot be empty');
     }
   }
 

@@ -38,7 +38,8 @@ export class MyApp {
       { title: 'Setting', component: 'SettingPage', icon:'cog' },
       { title: 'Search', component: 'SearchPage', icon:'search' },
       { title: 'New Shop', component: 'ShopAddNewPage', icon: 'add'},
-      { title: 'About', component: 'AboutPage', icon:'information-circle' }
+      { title: 'About', component: 'AboutPage', icon:'information-circle' },
+      
     ];
 
     this.pages1 = [
@@ -51,9 +52,12 @@ export class MyApp {
 
     this.pages3 = [
       { title: 'Issue', component: 'TrackPage', icon: 'bug' },
+      { title: 'Add Items', component: 'AddItemsPage', icon:'information-circle' },
       // { title: 'Image', component: 'ImageSamplePage', icon: 'image' },
       // { title: 'Image Upload', component: 'ImageUploadPage', icon: 'camera'},
-      { title: 'Image Manager', component: 'ImageManagerPage', icon: 'camera'}
+      { title: 'Image Manager', component: 'ImageManagerPage', icon: 'camera'},
+      { title: 'Clone', component: 'ClonePage', icon: 'md-copy'},
+      { title: 'Remove', component: 'RemovePage', icon: 'md-delete'}
     ];
   }
 

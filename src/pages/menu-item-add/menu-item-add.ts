@@ -26,6 +26,7 @@ export class MenuItemAddPage {
   action: string = 'add-new';
   hasPosted: boolean = false;
   isInfoFullFilled: boolean = false;
+  isDesktop: boolean = true;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
