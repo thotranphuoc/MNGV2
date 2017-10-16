@@ -4,7 +4,8 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{SHOP?.SHOP_NAME}}</ion-title>
+    <ion-title *ngIf="SHOPS?.length==1">{{SHOPS[0]?.SHOP_NAME}}</ion-title>
+    <ion-title *ngIf="SHOPS?.length!==1">RESULTS</ion-title>
   </ion-navbar>
 
 </ion-header>

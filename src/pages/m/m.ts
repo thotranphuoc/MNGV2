@@ -22,6 +22,7 @@ export class MPage {
   userMarker: any;
   CURRENT_LOCATION: iPosition = null;
   SHOP: iShop;
+  SHOPS: iShop[] = [];
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -36,12 +37,18 @@ export class MPage {
     });
     // this.startLoading();
     this.data = this.navParams.data;
-    if(typeof(this.data.SHOP) !== 'undefined'){
+    if (typeof (this.data.SHOPS) !== 'undefined') {
       this.SHOP = this.data.SHOP;
-      this.CURRENT_LOCATION = this.SHOP.SHOP_LOCATION;
-      console.log(this.SHOP, this.data);
-      this.startLoadMap();
-    }else{
+      this.SHOPS = this.data.SHOPS;
+      // this.CURRENT_LOCATION = this.SHOP.SHOP_LOCATION;
+      this.gmapService.getUserCurrentPosition()
+      .then((pos: iPosition)=>{
+        this.CURRENT_LOCATION = pos;
+        console.log(this.SHOPS, this.data);
+        this.startLoadMap();
+      })
+      
+    } else {
       this.navCtrl.setRoot('HomePage');
     }
   }
@@ -95,9 +102,11 @@ export class MPage {
           console.log('map was loaded fully');
           this.hideLoading();
           this.gmapService.addBlueDotToMap(this.map, mapOptions.center);
-          this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, this.CURRENT_LOCATION, this.SHOP)
-          .then((res)=>{ console.log(res) })
-          .catch((err)=> { console.log(err) });
+          this.SHOPS.forEach((SHOP: iShop) => {
+            this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, SHOP.SHOP_LOCATION, SHOP)
+              .then((res) => { console.log(res) })
+              .catch((err) => { console.log(err) });
+          })
           console.log(this.SHOP);
         })
       })

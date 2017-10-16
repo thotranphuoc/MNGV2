@@ -136,11 +136,11 @@ export class MapPage {
 
   }
 
-  checkAndLoadMarker(shops: any[]) {
-    if (shops.length > 0) {
-      console.log(shops);
+  checkAndLoadMarker(shops_loc: any[]) {
+    if (shops_loc.length > 0) {
+      console.log(shops_loc);
       this.insideMapShops = [];
-      shops.forEach(shop => {
+      shops_loc.forEach(shop => {
         let POS: iPosition = { lat: shop.lat, lng: shop.lng }
         console.log(POS);
         if (this.gmapService.isPositionInsideMap(POS, this.map)) {
@@ -183,15 +183,36 @@ export class MapPage {
   //   this.navCtrl.push('ShopAddNewPage');
   // }
 
+  // go2SearchShop() {
+  //   let modal = this.modalCtrl.create('SearchShopPage');
+  //   modal.onDidDismiss((data)=>{
+  //     console.log(data);
+  //     if(typeof(data) !== 'undefined'){
+  //       this.go2Shop(data.SHOP);
+  //     }
+  //   })
+  //   modal.present();
+  // }
+
   go2SearchShop() {
     let modal = this.modalCtrl.create('SearchShopPage');
-    modal.onDidDismiss((data)=>{
+    modal.onDidDismiss((data) => {
       console.log(data);
-      if(typeof(data) !== 'undefined'){
-        this.go2Shop(data.SHOP);
+      if (typeof (data) !== 'undefined') {
+        if (typeof (data.PAGE) !== 'undefined') {
+          this.go2Page(data, data.PAGE);
+        } else {
+          this.go2Shop(data.SHOP);
+        }
       }
     })
-    modal.present();
+    modal.present().catch((err) => { console.log(err) });
+  }
+
+  go2Page(data, PAGE) {
+    this.navCtrl.setRoot(PAGE, data)
+      .then((res) => { console.log(res); })
+      .catch((err) => { console.log(err); })
   }
 
   go2Shop(shop: iShop) {

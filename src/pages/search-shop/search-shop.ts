@@ -57,6 +57,9 @@ export class SearchShopPage {
     this.afDB.list('Shops/').forEach((shops: iShop[]) => {
       this.shopList = shops.filter(shop => shop.SHOP_NAME.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase()) >= 0);
       console.log(this.shopList);
+      // if(this.shopList.length>0){
+      //   this.shopsR
+      // }
     })
     .then(()=>{
       console.log(this.shopList);
@@ -95,7 +98,18 @@ export class SearchShopPage {
 
   showShopOnMap(SHOP){
     let copiedString = 'menu2book.com/#/shop/'+SHOP.SHOP_ID;
-    this.viewCtrl.dismiss({SHOP: SHOP, PAGE: 'MPage' })
+    this.viewCtrl.dismiss({SHOPS: [SHOP], PAGE: 'MPage' })
+    .then((res)=>{
+      console.log(res);
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
+
+  showResultOnMap(){
+    console.log('showResultOnMap ...');
+    this.viewCtrl.dismiss({SHOPS: this.shopList, PAGE: 'MPage' })
     .then((res)=>{
       console.log(res);
     })
