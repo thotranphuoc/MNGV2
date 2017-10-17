@@ -22,17 +22,20 @@
           </ion-row>
         </div>
         <ion-row *ngFor="let item of SHOP_ITEMS; let i = index" class="row_main">
-          <ion-col *ngIf="SHOP_ITEMS_INDEX[i].count>0">
+          <!-- <ion-col *ngIf="SHOP_ITEMS_INDEX[i].count>0"> -->
+          <ion-col *ngIf="item.count>0">
             <ion-row class="name_local">{{item.ITEM_NAME_LOCAL}}</ion-row>
             <ion-row class="name_en">{{item.ITEM_NAME_EN}}</ion-row>
           </ion-col>
-          <ion-col class="adjust" *ngIf="SHOP_ITEMS_INDEX[i].count>0">
+          <!-- <ion-col class="adjust" *ngIf="SHOP_ITEMS_INDEX[i].count>0"> -->
+          <ion-col class="adjust" *ngIf="item.count>0">
             <ion-row>
-              <ion-col class="subtract" (click)="subtract(i)">
+              <ion-col class="subtract" (click)="subtract(item, i)">
                 <ion-icon name="md-remove"></ion-icon>
               </ion-col>
-              <ion-col class="number" (click)="editCount(i)">{{SHOP_ITEMS_INDEX[i].count}}</ion-col>
-              <ion-col class="add" (click)="add(i)">
+              <!-- <ion-col class="number" (click)="editCount(item,i)">{{SHOP_ITEMS_INDEX[i].count}}</ion-col> -->
+              <ion-col class="number" (click)="editCount(item,i)">{{item.count}}</ion-col>
+              <ion-col class="add" (click)="add(item, i)">
                 <ion-icon name="md-add"></ion-icon>
               </ion-col>
             </ion-row>

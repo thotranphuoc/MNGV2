@@ -17,6 +17,7 @@ export class GmapService {
     //   userLatLng: any;
     currentUserPosition: iPosition = null;
     markers: any[] = [];
+    bluecirle: string = '../assets/imgs/bluecircle.png';
     constructor(
         private dbService: DbService,
         private appService: AppService,
@@ -396,7 +397,7 @@ export class GmapService {
         var marker = new google.maps.Marker({
             position: position,
             map: map,
-            icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
+            icon: this.bluecirle
         });
     }
 

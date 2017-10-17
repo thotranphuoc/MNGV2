@@ -20,7 +20,7 @@ export class MapxPage {
   map: any;
   loading: any;
   userMarker: any;
-  CURRENT_LOCATION: iPosition = null;
+  // CURRENT_LOCATION: iPosition = null;
   SHOP: iShop;
   constructor(
     public navCtrl: NavController,
@@ -47,7 +47,7 @@ export class MapxPage {
         this.hideLoading();
         this.SHOP = SHOP;
         // this.go2Shop(SHOP);
-        this.CURRENT_LOCATION = this.SHOP.SHOP_LOCATION;
+        // this.CURRENT_LOCATION = this.SHOP.SHOP_LOCATION;
         this.startLoadMap();
       })
       .catch((err) => {
@@ -67,10 +67,10 @@ export class MapxPage {
 
   initMap(mapElement) {
     console.log('start initMap()')
-    if (this.CURRENT_LOCATION) {
+    if (this.SHOP.SHOP_LOCATION) {
       console.log('user location set');
-      console.log(this.CURRENT_LOCATION)
-      this.showMap(this.CURRENT_LOCATION, mapElement);
+      console.log(this.SHOP.SHOP_LOCATION)
+      this.showMap(this.SHOP.SHOP_LOCATION, mapElement);
     } else {
       console.log('user location not set yet');
       this.gmapService.getUserCurrentPosition()
@@ -104,11 +104,17 @@ export class MapxPage {
         // when maps is loaded and become idle
         google.maps.event.addListener(this.map, 'idle', () => {
           console.log('map was loaded fully');
-          this.gmapService.addBlueDotToMap(this.map, mapOptions.center);
+
           this.hideLoading();
-          this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, this.CURRENT_LOCATION, this.SHOP)
-          .then((res)=>{ console.log(res) })
-          .catch((err)=> { console.log(err) });
+          this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, this.SHOP.SHOP_LOCATION, this.SHOP)
+            .then((res) => { console.log(res) })
+            .catch((err) => { console.log(err) });
+          this.gmapService.getUserCurrentPosition()
+            .then((pos) => {
+              console.log(pos);
+              this.gmapService.addBlueDotToMap(this.map, pos);
+            })
+            .catch((err) => { console.log(err) });
           console.log(this.SHOP);
         })
       })

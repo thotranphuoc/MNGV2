@@ -19,9 +19,9 @@ export class Shop2OrderPage {
   USER_ID: string;
   ORDER: iOrder;
   SHOP: any;
-  SHOP_ITEMS: iItem[] = [];
+  SHOP_ITEMS: any[] = [];
   SHOP_ITEMS_ID: string[] = [];
-  SHOP_ITEMS_INDEX: any[] = [];
+  // SHOP_ITEMS_INDEX: any[] = [];
   isOrderNEW: boolean = true;
   isOrderUPDATE: boolean = false;
   data: any;
@@ -49,7 +49,7 @@ export class Shop2OrderPage {
     this.SHOP = this.data.SHOP;
     this.SHOP_ITEMS = this.data.SHOP_ITEMS
     this.SHOP_ITEMS_ID = this.data.SHOP_ITEMS_ID;
-    this.SHOP_ITEMS_INDEX = this.data.SHOP_ITEMS_INDEX;
+    // this.SHOP_ITEMS_INDEX = this.data.SHOP_ITEMS_INDEX;
     this.isOrderNEW = this.data.isOrderNEW;
     this.isOrderUPDATE = this.data.isOrderUPDATE;
     this.ORDER = this.data.ORDER;
@@ -61,10 +61,12 @@ export class Shop2OrderPage {
     this.syncOrderStatus()
   }
 
+  // for view bill purpose
   calTotal() {
     this.TOTAL = 0;
-    this.SHOP_ITEMS.forEach((element, index) => {
-      this.TOTAL += element.ITEM_PRICE * this.SHOP_ITEMS_INDEX[index].count
+    this.SHOP_ITEMS.forEach((ITEM, index) => {
+      // this.TOTAL += element.ITEM_PRICE * this.SHOP_ITEMS_INDEX[index].count;
+      this.TOTAL += ITEM.ITEM_PRICE * ITEM.count
     });
   }
 
@@ -73,20 +75,25 @@ export class Shop2OrderPage {
     console.log('ionViewDidLoad Shop2OrderPage');
   }
 
-  subtract(i: number) {
+  subtract(item, i: number) {
     
-    if (this.SHOP_ITEMS_INDEX[i].count>0) {
-      this.SHOP_ITEMS_INDEX[i].count--;
+    // if (this.SHOP_ITEMS_INDEX[i].count>0) {
+    //   this.SHOP_ITEMS_INDEX[i].count--;
+    //   this.COUNT--;
+    // }
+
+    if (item.count>0) {
+      item.count--;
       this.COUNT--;
     }
     // this.checkItemNEWorUPDATE()
     this.checkOrderIfUpdated();
   }
 
-  add(i: number) {
+  add(item, i: number) {
     this.COUNT++
     // this.itemIndex[i].count++;
-    this.SHOP_ITEMS_INDEX[i].count++;
+    item.count++;
     // this.checkItemNEWorUPDATE();
 
     this.checkOrderIfUpdated();
@@ -94,9 +101,10 @@ export class Shop2OrderPage {
 
   createORDER() {
     let ORDER_LIST: iOrderList[] = [];
-    this.SHOP_ITEMS_INDEX.forEach((element, index: number, array) => {
-      if (element.count > 0) {
-        ORDER_LIST.push({ item: this.SHOP_ITEMS[index].ITEM_ID, amount: element.count });
+    // this.SHOP_ITEMS_INDEX.forEach((element, index: number, array) => {
+    this.SHOP_ITEMS.forEach((ITEM, index: number, array) => {
+      if (ITEM.count > 0) {
+        ORDER_LIST.push({ item: ITEM.ITEM_ID, amount: ITEM.count });
       }
     });
     console.log(ORDER_LIST);
@@ -148,9 +156,10 @@ export class Shop2OrderPage {
   updateOrder() {
     console.log(this.ORDER);
     let ORDER_LIST: iOrderList[] = [];
-    this.SHOP_ITEMS_INDEX.forEach((element, index: number, array) => {
-      if (element.count > 0) {
-        ORDER_LIST.push({ item: this.SHOP_ITEMS[index].ITEM_ID, amount: element.count });
+    // this.SHOP_ITEMS_INDEX.forEach((element, index: number, array) => {
+    this.SHOP_ITEMS.forEach((ITEM, index: number, array) => {
+      if (ITEM.count > 0) {
+        ORDER_LIST.push({ item: ITEM.ITEM_ID, amount: ITEM.count });
       }
     });
     console.log(ORDER_LIST);
@@ -169,7 +178,7 @@ export class Shop2OrderPage {
     let data = {
       SHOP_ITEMS: this.SHOP_ITEMS,
       SHOP_ITEMS_ID: this.SHOP_ITEMS_ID,
-      SHOP_ITEMS_INDEX: this.SHOP_ITEMS_INDEX,
+      // SHOP_ITEMS_INDEX: this.SHOP_ITEMS_INDEX,
       isOrderNEW: this.isOrderNEW,
       isOrderUPDATE: this.isOrderUPDATE,
       ORDER: this.ORDER,
@@ -191,7 +200,8 @@ export class Shop2OrderPage {
           ORDER_LIST.forEach(order => {
             let index = this.SHOP_ITEMS_ID.indexOf(order.item);
             if (index >= 0) {
-              this.SHOP_ITEMS_INDEX[index].count = order.amount;
+              // this.SHOP_ITEMS_INDEX[index].count = order.amount;
+              this.SHOP_ITEMS[index].count = order.amount;
               this.COUNT += order.amount;
             }
           });
@@ -207,7 +217,10 @@ export class Shop2OrderPage {
 
   checkOrderIfUpdated() {
     let count: number = 0;
-    this.SHOP_ITEMS_INDEX.forEach(item => {
+    // this.SHOP_ITEMS_INDEX.forEach(item => {
+    //   count += item.count;
+    // })
+    this.SHOP_ITEMS.forEach(item => {
       count += item.count;
     })
     if (count > 0 && !this.isOrderNEW) {
@@ -257,8 +270,12 @@ export class Shop2OrderPage {
             this.COUNT = 0;
             this.ORDER.ORDER_LIST.forEach(order => {
               let index = this.SHOP_ITEMS_ID.indexOf(order.item);
+              // if (index >= 0) {
+              //   this.SHOP_ITEMS_INDEX[index].count = order.amount;
+              //   this.COUNT += order.amount;
+              // }
               if (index >= 0) {
-                this.SHOP_ITEMS_INDEX[index].count = order.amount;
+                this.SHOP_ITEMS[index].count = order.amount;
                 this.COUNT += order.amount;
               }
             });
@@ -292,9 +309,10 @@ export class Shop2OrderPage {
     this.NOTES = this.AsyncOrder.ORDER_NOTES;
   }
 
-  editCount(i){
-    console.log(i);
-    let count = this.SHOP_ITEMS_INDEX[i].count;
+  editCount(item, i){
+    console.log(item, i);
+    // let count = this.SHOP_ITEMS_INDEX[i].count;
+    let count = item.count;
     console.log(count);
     let alert = this.alertCtrl.create({
       title: 'Edit',
@@ -317,7 +335,9 @@ export class Shop2OrderPage {
             console.log('Saved clicked');
             console.log(data, data.number);
             if(!isNaN(data.number)){
-              this.SHOP_ITEMS_INDEX[i].count = Number(data.number);
+              // this.SHOP_ITEMS_INDEX[i].count = Number(data.number);
+              item.count = Number(data.number);
+              this.COUNT = this.COUNT + item.count - count;
               this.checkOrderIfUpdated();
             }else{
               this.appService.alertMsg('Error', 'Please enter a number');

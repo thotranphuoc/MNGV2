@@ -15,6 +15,9 @@
 
 
 <ion-content>
+  <div>
+      <ion-searchbar (ionInput)="getItems($event)" placeholder="Search Drinks & Food"></ion-searchbar>
+  </div>
   <div *ngIf="n==3">
     <div *ngFor="let cat of SHOP?.SHOP_CATEGORIES">
       <div class="category">{{cat}}</div>

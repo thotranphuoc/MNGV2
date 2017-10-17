@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, FabContainer } from 'ionic-angular';
 import { iShop } from '../../interfaces/shop.interface';
+import { iItem } from '../../interfaces/item.interface';
 import { LocalService } from '../../services/local.service';
 import { AngularFireService } from '../../services/af.service';
 
@@ -13,6 +14,7 @@ export class Shop1Page {
   loading: any;
   SHOP: iShop = null;
   SHOP_ITEMS: any[] = [];
+  SHOP_ITEMS_BK: any[] = [];
   SHOP_ITEMS_ID: any[] = [];
   USER_ID: string = null;
   n: number = 2;
@@ -45,7 +47,9 @@ export class Shop1Page {
     if (typeof (this.SHOP) !== 'undefined') {
       this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.SHOP.SHOP_ID).then((res: any) => {
         this.SHOP_ITEMS = res.SHOP_ITEMS;
+        this.SHOP_ITEMS_BK = res.SHOP_ITEMS;
         this.SHOP_ITEMS_ID = res.SHOP_ITEMS_ID;
+
         this.hideLoading();
       })
         .catch((err) => {
@@ -96,6 +100,29 @@ export class Shop1Page {
 
     }
   }
+
+  getItems(event){
+    this.SHOP_ITEMS = this.SHOP_ITEMS_BK;
+    console.log(event.srcElement.value);
+    if(typeof(event.srcElement.value) !=='undefined'){
+      let srcStr = event.srcElement.value.trim();
+      if(srcStr){
+        this.searchString(srcStr);
+      }else{
+        console.log('no string')
+        // this.shopList = [];
+      }
+    }else{
+      this.SHOP_ITEMS = this.SHOP_ITEMS_BK;
+    }
+  }
+
+  searchString(searchStr: string){
+    console.log(searchStr);
+    this.SHOP_ITEMS = this.SHOP_ITEMS.filter((SHOP_ITEM: iItem) => SHOP_ITEM.ITEM_NAME_EN.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase())>=0 || SHOP_ITEM.ITEM_NAME_LOCAL.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase())>=0)
+  }
+
+
 
   // // For purpose to create THUM_URL only when only IMG_URL available
   // updateDB() {

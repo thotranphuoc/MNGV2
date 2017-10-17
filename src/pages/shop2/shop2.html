@@ -20,10 +20,13 @@
 
 
 <ion-content>
+  <div>
+    <ion-searchbar (ionInput)="getItems($event)" placeholder="Search Drinks & Food"></ion-searchbar>
+  </div>
   <div *ngIf="n==3">
     <div *ngFor="let cat of SHOP?.SHOP_CATEGORIES">
       <div class="category">{{cat}}</div>
-      <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(i)">
+      <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(item,i)">
         <div *ngIf="item.ITEM_CATEGORY===cat">
           <ion-card *ngIf="item.ITEM_VISIBLE">
             <div class="div-img" *ngIf="item.ITEM_IMAGES">
@@ -37,7 +40,8 @@
             <div class="name_en">{{item.ITEM_NAME_EN}}</div>
             <div class="price">{{item.ITEM_PRICE}} {{SHOP.SHOP_CURRENCY}} - {{item.ITEM_SIZE}}</div>
             <div class="count"></div>
-            <div class="number">{{SHOP_ITEMS_INDEX[i].count}}</div>
+            <!-- <div class="number">{{SHOP_ITEMS_INDEX[i].count}}</div> -->
+            <div class="number">{{item.count}}</div>
           </ion-card>
         </div>
       </div>
@@ -46,14 +50,19 @@
   <div *ngIf="n==2">
     <div *ngFor="let cat of SHOP?.SHOP_CATEGORIES">
       <div class="category">{{cat}}</div>
-      <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(i)">
+      <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(item, i)">
         <div *ngIf="item.ITEM_CATEGORY===cat">
           <div *ngIf="item.ITEM_VISIBLE">
             <ion-item>
-              <h3 item-start [style.color]="SHOP_ITEMS_INDEX[i].count > 0 ? 'red' : 'gray'">{{SHOP_ITEMS_INDEX[i].count}}</h3>
+              <!-- <h3 item-start [style.color]="SHOP_ITEMS_INDEX[i].count > 0 ? 'red' : 'gray'">{{SHOP_ITEMS_INDEX[i].count}}</h3> -->
+              <h3 item-start [style.color]="item.count > 0 ? 'red' : 'gray'">{{item.count}}</h3>
               <p class="name_local1">{{item.ITEM_NAME_LOCAL}}</p>
               <p class="name_en1">{{item.ITEM_NAME_EN}}</p>
-              <p><span class="price1">{{item.ITEM_PRICE}}</span> <span class="currency">{{SHOP.SHOP_CURRENCY}}</span><span class="price1"> - {{item.ITEM_SIZE}}</span></p>
+              <p>
+                <span class="price1">{{item.ITEM_PRICE}}</span>
+                <span class="currency">{{SHOP.SHOP_CURRENCY}}</span>
+                <span class="price1"> - {{item.ITEM_SIZE}}</span>
+              </p>
               <ion-thumbnail item-end>
                 <div *ngIf="item.ITEM_IMAGES">
                   <img src="{{item.ITEM_IMAGES[1]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
@@ -71,11 +80,12 @@
   <div *ngIf="n==1">
     <div *ngFor="let cat of SHOP?.SHOP_CATEGORIES">
       <div class="category">{{cat}}</div>
-      <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(i)">
+      <div *ngFor="let item of SHOP_ITEMS; let i = index" (click)="selectITEM(item, i)">
         <div *ngIf="item.ITEM_CATEGORY===cat">
           <div *ngIf="item.ITEM_VISIBLE">
             <ion-item>
-              <h3 item-start [style.color]="SHOP_ITEMS_INDEX[i].count > 0 ? 'red' : 'gray'">{{SHOP_ITEMS_INDEX[i].count}}</h3>
+              <!-- <h3 item-start [style.color]="SHOP_ITEMS_INDEX[i].count > 0 ? 'red' : 'gray'">{{SHOP_ITEMS_INDEX[i].count}}</h3> -->
+              <h3 item-start [style.color]="item.count > 0 ? 'red' : 'gray'">{{item.count}}</h3>
               <ion-grid>
                 <ion-row>
                   <ion-col col-9>
@@ -83,7 +93,10 @@
                     <p class="name_en1" text-wrap>{{item.ITEM_NAME_EN}}</p>
                   </ion-col>
                   <ion-col col-3>
-                    <p><span class="price1">{{item.ITEM_PRICE}}</span> <span class="currency">{{SHOP.SHOP_CURRENCY}}</span></p>
+                    <p>
+                      <span class="price1">{{item.ITEM_PRICE}}</span>
+                      <span class="currency">{{SHOP.SHOP_CURRENCY}}</span>
+                    </p>
                     <p class="price1">{{item.ITEM_SIZE}}</p>
                   </ion-col>
                 </ion-row>

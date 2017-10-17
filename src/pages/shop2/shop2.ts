@@ -7,6 +7,7 @@ import { DbService } from '../../services/db.service';
 
 import { iOrder } from '../../interfaces/order.interface';
 import { iShop } from '../../interfaces/shop.interface';
+import { iItem } from '../../interfaces/item.interface';
 
 @IonicPage()
 @Component({
@@ -19,8 +20,11 @@ export class Shop2Page {
   SHOP: iShop = null;
   ORDER: iOrder = null;
   SHOP_ITEMS: any[] = [];
+  SHOP_ITEMS_BK: any[] = [];
   SHOP_ITEMS_ID: any[] = [];
-  SHOP_ITEMS_INDEX: any[] = [];
+  // SHOP_ITEMS_ID_BK: any[] = [];
+  // SHOP_ITEMS_INDEX: any[] = [];
+  // SHOP_ITEMS_INDEX_BK: any[] = [];
   USER_ID: string = null;
   isOrderNEW: boolean = true;
   isOrderUPDATE: boolean = false;
@@ -57,12 +61,18 @@ export class Shop2Page {
       this.localService.getSHOP_ITEMSnSHOP_ITEMS_ID(this.SHOP.SHOP_ID)
         .then((res: any) => {
           this.SHOP_ITEMS = res.SHOP_ITEMS;
+          this.SHOP_ITEMS.map(item => item['count']=0);
+          this.SHOP_ITEMS_BK = res.SHOP_ITEMS;
+          // this.SHOP_ITEMS_BK.map(item => item['isFiltered']=false);
           this.SHOP_ITEMS_ID = res.SHOP_ITEMS_ID;
-          this.SHOP_ITEMS_INDEX = [];
+          // this.SHOP_ITEMS_ID_BK = res.SHOP_ITEMS_ID;
+          // this.SHOP_ITEMS_INDEX = [];
+          // this.SHOP_ITEMS_INDEX_BK = [];
           let l = this.SHOP_ITEMS_ID.length
-          for (let index = 0; index < l; index++) {
-            this.SHOP_ITEMS_INDEX.push({ count: 0 });
-          }
+          // for (let index = 0; index < l; index++) {
+          //   // this.SHOP_ITEMS_INDEX.push({ count: 0 });
+          //   // this.SHOP_ITEMS_INDEX_BK.push({ count: 0 });
+          // }
           this.hideLoading();
           this.getActiveOrder();
           console.log(res);
@@ -104,9 +114,16 @@ export class Shop2Page {
     this.navCtrl.push('MenuItemAddPage', { SHOP: this.SHOP });
   }
 
-  selectITEM(i) {
-    console.log(i);
-    this.SHOP_ITEMS_INDEX[i].count++;
+  selectITEM(item, i) {
+    console.log(item, i);
+    let index = this.SHOP_ITEMS_ID.indexOf(item.ITEM_ID);
+    console.log(index);
+
+    // let index_bk = this.SHOP_ITEMS_ID_BK.indexOf(item.ITEM_ID);
+    // console.log(index_bk);
+
+    // this.SHOP_ITEMS_INDEX[index].count++;
+    item.count++;
     this.checkOrderIfUpdated();
     this.COUNT++;
   }
@@ -158,7 +175,7 @@ export class Shop2Page {
       SHOP: this.SHOP,
       SHOP_ITEMS: this.SHOP_ITEMS,
       SHOP_ITEMS_ID: this.SHOP_ITEMS_ID,
-      SHOP_ITEMS_INDEX: this.SHOP_ITEMS_INDEX,
+      // SHOP_ITEMS_INDEX: this.SHOP_ITEMS_INDEX,
       isOrderNEW: this.isOrderNEW,
       isOrderUPDATE: this.isOrderUPDATE,
       ORDER: this.ORDER,
@@ -170,7 +187,7 @@ export class Shop2Page {
     orderModal.onDidDismiss(data => {
       console.log('onDidDismiss');
       console.log(data);
-      this.SHOP_ITEMS_INDEX = data.SHOP_ITEMS_INDEX;
+      // this.SHOP_ITEMS_INDEX = data.SHOP_ITEMS_INDEX;
       this.isOrderNEW = data.isOrderNEW;
       this.isOrderUPDATE = data.isOrderUPDATE;
       this.ORDER = data.ORDER;
@@ -182,7 +199,10 @@ export class Shop2Page {
 
   checkOrderIfUpdated() {
     let count: number = 0;
-    this.SHOP_ITEMS_INDEX.forEach(item => {
+    // this.SHOP_ITEMS_INDEX.forEach(item => {
+    //   count += item.count;
+    // })
+    this.SHOP_ITEMS.forEach(item => {
       count += item.count;
     })
     if (count > 0 && !this.isOrderNEW) {
@@ -206,7 +226,8 @@ export class Shop2Page {
             this.ORDER.ORDER_LIST.forEach(order => {
               let index = this.SHOP_ITEMS_ID.indexOf(order.item);
               if (index >= 0) {
-                this.SHOP_ITEMS_INDEX[index].count = order.amount;
+                // this.SHOP_ITEMS_INDEX[index].count = order.amount;
+                this.SHOP_ITEMS[index].count = order.amount;
                 this.COUNT += order.amount;
               }
             });
@@ -240,6 +261,32 @@ export class Shop2Page {
       this.n = 3;
       
     }
+  }
+
+  getItems(event){
+    this.SHOP_ITEMS = this.SHOP_ITEMS_BK;
+    console.log(event.srcElement.value);
+    if(typeof(event.srcElement.value) !=='undefined'){
+      let srcStr = event.srcElement.value.trim();
+      if(srcStr){
+        this.searchString(srcStr);
+      }else{
+        console.log('no string')
+        // this.shopList = [];
+      }
+    }else{
+      this.SHOP_ITEMS = this.SHOP_ITEMS_BK;
+    }
+  }
+
+  searchString(searchStr: string){
+    console.log(searchStr);
+    this.SHOP_ITEMS = this.SHOP_ITEMS.filter((SHOP_ITEM: iItem) => SHOP_ITEM.ITEM_NAME_EN.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase())>=0 || SHOP_ITEM.ITEM_NAME_LOCAL.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase())>=0);
+    this.SHOP_ITEMS.map(item => item.isFiltered = false);
+    this.SHOP_ITEMS.forEach(ITEM =>{
+      let index = this.SHOP_ITEMS_ID.indexOf(ITEM.ITEM_ID);
+      
+    })
   }
 
 
