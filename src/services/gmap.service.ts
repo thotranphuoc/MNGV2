@@ -25,9 +25,64 @@ export class GmapService {
         private popoverCtrl: PopoverController,
         private geolocation: Geolocation) {
         // this.getUserCurrentPosition();
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
     }
 
+    drawDirection(map, DEPARTURE, DESTINATION) {
+        return new Promise((resolve, reject)=>{
+            let directionsService = new google.maps.DirectionsService;
+            let directionsDisplay = new google.maps.DirectionsRenderer;
+            directionsDisplay.setMap(map);
+    
+            directionsService.route({
+                origin: DEPARTURE,
+                destination: DESTINATION,
+                travelMode: 'DRIVING'
+            }, (response, status) => {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                    console.log(directionsDisplay.getDirections());
+                    let DISTANCE = this.calcDistance(directionsDisplay.getDirections());
+                    resolve({DISTANCE: DISTANCE, RESULT: 'OK'});
+                } else {
+                    alert('Direction request failed due to' + status);
+                    reject({ RESULT: 'Failed', ERROR: status});
+                }
+            })
+        })
+        // this.calculateAndDisplayRoute(directionsService, directionsDisplay, DEPARTURE, DESTINATION){
+            
+        // }
+    }
 
+    calculateAndDisplayRoute(directionsService, directionsDisplay, DEPARTURE, DESTINATION) {
+        directionsService.route({
+            origin: DEPARTURE,
+            destination: DESTINATION,
+            travelMode: 'DRIVING'
+        }, (response, status) => {
+            if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+                console.log(directionsDisplay.getDirections());
+                this.calcDistance(directionsDisplay.getDirections());
+            } else {
+                alert('Direction request failed due to' + status);
+            }
+        })
+    }
+
+    calcDistance(result) {
+        var total = 0;
+        var myRoute = result.routes[0];
+        for (var index = 0; index < myRoute.legs.length; index++) {
+            total += myRoute.legs[index].distance.value;
+        }
+        total = total / 1000;
+        console.log('Distance in km :', total);
+        return total;
+    }
+    
     setMarkers(markers) {
         this.markers = markers;
     }
@@ -270,7 +325,7 @@ export class GmapService {
                 position: pos,
                 map: map
             })
-            
+
             marker.addListener('click', () => {
                 console.log(SHOP);
                 // let popover = this.popoverCtrl.create('PopOverPage', data).present();
@@ -393,7 +448,7 @@ export class GmapService {
         })
     }
 
-    addBlueDotToMap(map: any, position: any){
+    addBlueDotToMap(map: any, position: any) {
         var marker = new google.maps.Marker({
             position: position,
             map: map,

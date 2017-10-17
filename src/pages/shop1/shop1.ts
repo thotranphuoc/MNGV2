@@ -49,7 +49,6 @@ export class Shop1Page {
         this.SHOP_ITEMS = res.SHOP_ITEMS;
         this.SHOP_ITEMS_BK = res.SHOP_ITEMS;
         this.SHOP_ITEMS_ID = res.SHOP_ITEMS_ID;
-
         this.hideLoading();
       })
         .catch((err) => {

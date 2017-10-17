@@ -16,6 +16,8 @@ import { iShop } from '../../interfaces/shop.interface';
 })
 export class SearchShopPage {
   shopList: iShop[] = [];
+  srcStr: string = '';
+  showReportForm: boolean = false;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -40,9 +42,9 @@ export class SearchShopPage {
   getShops(event){
     console.log(event.srcElement.value);
     if (typeof (event.srcElement.value) != 'undefined') {
-      let srcStr = event.srcElement.value.trim();
-      if (srcStr) {
-        this.searchString(srcStr);
+      this.srcStr = event.srcElement.value.trim();
+      if (this.srcStr) {
+        this.searchString(this.srcStr);
       } else {
         console.log('no string')
         this.shopList = [];
@@ -116,6 +118,11 @@ export class SearchShopPage {
     .catch((err)=>{
       console.log(err);
     })
+  }
+
+  reportMissing(){
+    console.log('Shop missing:', this.srcStr);
+    this.showReportForm = true;
   }
 
 }

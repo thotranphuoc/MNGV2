@@ -46,4 +46,11 @@
     </ion-item-sliding>
   </ion-list>
   <button *ngIf="shopList.length>0" ion-button block clear (click)="showResultOnMap()">Show Result on Map</button>
+  <div *ngIf="shopList.length==0 &&  srcStr.length >0">
+      <button ion-button block clear color="danger" (click)="reportMissing()">Report Missing</button>
+      <div *ngIf="showReportForm">
+        REPORT FORM HERE
+      </div>
+  </div>
+  
 </ion-content>

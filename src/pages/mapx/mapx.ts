@@ -18,6 +18,9 @@ export class MapxPage {
   data: any;
   mapEl: any;
   map: any;
+  directionsService: any;
+  directionsDisplay: any;
+  DISTANCE: number = 0;
   loading: any;
   userMarker: any;
   // CURRENT_LOCATION: iPosition = null;
@@ -106,19 +109,51 @@ export class MapxPage {
           console.log('map was loaded fully');
 
           this.hideLoading();
-          this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, this.SHOP.SHOP_LOCATION, this.SHOP)
-            .then((res) => { console.log(res) })
-            .catch((err) => { console.log(err) });
+
           this.gmapService.getUserCurrentPosition()
             .then((pos) => {
               console.log(pos);
+              this.gmapService.drawDirection(this.map, pos, mapOptions.center)
+              .then((res: any)=>{
+                console.log(res);
+                this.DISTANCE = res.DISTANCE;
+              })
+              .catch((err)=>{ console.log(err); });
               this.gmapService.addBlueDotToMap(this.map, pos);
+              // this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, this.SHOP.SHOP_LOCATION, this.SHOP)
+              //   .then((res) => { console.log(res) })
+              //   .catch((err) => { console.log(err) });
             })
             .catch((err) => { console.log(err) });
           console.log(this.SHOP);
         })
       })
       .catch((err) => { console.log(err); })
+  }
+
+  go2Shop() {
+    let shop = this.SHOP;
+    console.log(shop.SHOP_OTHER);
+    if('SHOP_OTHER' in shop){
+      console.log(shop.SHOP_OTHER);
+
+      // if isVERIFIED exist
+      if('isVERIFIED' in shop.SHOP_OTHER){
+        if(shop.SHOP_OTHER.isVERIFIED){
+          console.log('isVERIFIED TRUE');
+          this.navCtrl.setRoot('Shop2Page', { SHOP: shop });
+        }else{
+          console.log('isVERIFIED FALSE');
+          this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
+        }
+      }else{
+        console.log('isVERIFIED not exist');
+        this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
+      }
+    }else{
+      console.log('no SHOP_OTHER')
+      this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
+    }
   }
 
   private startLoading() {
