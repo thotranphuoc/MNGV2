@@ -1,0 +1,24 @@
+<ion-header>
+  
+    <ion-navbar>
+      <ion-buttons start>
+        <button ion-button (click)="close()">Close</button>
+      </ion-buttons>
+      <ion-buttons end>
+        <ion-searchbar (ionInput)="getItems($event)" placeholder="Search Items"></ion-searchbar>
+      </ion-buttons>
+    </ion-navbar>
+  
+  </ion-header>
+
+
+<ion-content>
+  <ion-item *ngFor="let item of itemList; let i = index" (click)="selectItem(item)">
+    <h3 item-start>{{i}}</h3>
+    <p>{{item.ITEM_NAME_LOCAL}}</p>
+    <p>{{item.ITEM_NAME_EN}}</p>
+    <ion-thumbnail item-end>
+      <img src="{{item.ITEM_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+    </ion-thumbnail>
+  </ion-item>
+</ion-content>

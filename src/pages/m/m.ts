@@ -83,7 +83,8 @@ export class MPage {
   showMap(position: iPosition, mapElement) {
     let latLng = new google.maps.LatLng(position.lat, position.lng);
     let mapOptions = {
-      center: latLng,
+      // center: latLng,
+      center: this.SHOPS[0].SHOP_LOCATION,
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: false,
@@ -101,7 +102,7 @@ export class MPage {
         google.maps.event.addListener(this.map, 'idle', () => {
           console.log('map was loaded fully');
           this.hideLoading();
-          this.gmapService.addBlueDotToMap(this.map, mapOptions.center);
+          this.gmapService.addBlueDotToMap(this.map, this.CURRENT_LOCATION);
           this.SHOPS.forEach((SHOP: iShop) => {
             this.gmapService.addMarkerToMapWithIDReturnPromiseWithMarker(this.map, SHOP.SHOP_LOCATION, SHOP)
               .then((res) => { console.log(res) })

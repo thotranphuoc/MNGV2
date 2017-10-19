@@ -1,9 +1,15 @@
 page-menu-item-add {
-    ion-icon{
-        font-size: 2.5em;
+    // ion-icon{
+    //     font-size: 1em;
+    // }
+
+    ion-col div ion-icon{
+        font-size: 3em;
     }
 
     ion-input.ng-invalid { 
         border-bottom: 2px solid red;
     }
+
+    
 }

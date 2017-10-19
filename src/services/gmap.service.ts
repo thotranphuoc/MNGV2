@@ -32,7 +32,10 @@ export class GmapService {
     drawDirection(map, DEPARTURE, DESTINATION) {
         return new Promise((resolve, reject)=>{
             let directionsService = new google.maps.DirectionsService;
-            let directionsDisplay = new google.maps.DirectionsRenderer;
+            let directionsDisplay = new google.maps.DirectionsRenderer({
+                preserveViewport: true
+            })
+            // directionsDisplay.preserveViewport = fales;
             directionsDisplay.setMap(map);
     
             directionsService.route({

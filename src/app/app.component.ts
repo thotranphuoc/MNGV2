@@ -40,6 +40,7 @@ export class MyApp {
       { title: 'New Shop', component: 'ShopAddNewPage', icon: 'add'},
       { title: 'About', component: 'AboutPage', icon:'information-circle' },
       
+      
     ];
 
     this.pages1 = [
@@ -57,7 +58,8 @@ export class MyApp {
       // { title: 'Image Upload', component: 'ImageUploadPage', icon: 'camera'},
       { title: 'Image Manager', component: 'ImageManagerPage', icon: 'camera'},
       { title: 'Clone', component: 'ClonePage', icon: 'md-copy'},
-      { title: 'Remove', component: 'RemovePage', icon: 'md-delete'}
+      { title: 'Remove', component: 'RemovePage', icon: 'ios-remove-circle'},
+      { title: 'Test', component: 'TestPage', icon:'information-circle' },
     ];
   }
 

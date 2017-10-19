@@ -121,6 +121,7 @@ export class ShopAddNewPage {
             console.log('success', res);
             this.SHOP = this.localService.SHOP_DEFAULT;
             this.appService.toastMsg('Success!', 5000);
+            this.navCtrl.setRoot('HomePage');
           })
           .catch((err) => {
             console.log('error', err);
@@ -254,6 +255,11 @@ export class ShopAddNewPage {
     this.isKindSet = true;
     this.SHOP.SHOP_KIND = KIND;
     console.log(KIND);
+  }
+
+  
+  reset(){
+    this.SHOP = this.localService.SHOP_DEFAULT;
   }
 
 }

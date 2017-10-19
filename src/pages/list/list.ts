@@ -115,7 +115,7 @@ export class ListPage {
   }
 
   showShopOnMap(SHOP: iShop){
-    this.navCtrl.setRoot('MPage', { SHOP: SHOP});
+    this.navCtrl.setRoot('MPage', { SHOPS: [SHOP]});
   }
 
 }

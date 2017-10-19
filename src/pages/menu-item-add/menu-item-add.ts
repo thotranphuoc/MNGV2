@@ -208,5 +208,37 @@ export class MenuItemAddPage {
     this.hasPosted = false;
   }
 
+  // getItems(event){
+  //   if(typeof(event.srcElement.value) !=='undefined'){
+  //     let srcStr = event.srcElement.value.trim();
+  //     if(srcStr){
+  //       this.searchString(srcStr);
+  //     }else{
+  //       console.log('no string')
+  //       // this.shopList = [];
+  //     }
+  //   }else{
+  //     // this.SHOP_ITEMS = this.SHOP_ITEMS_BK;
+  //   }
+  // }
+
+  // searchString(searchStr: string){
+  //   console.log(searchStr);
+  //   // this.SHOP_ITEMS = this.SHOP_ITEMS.filter((SHOP_ITEM: iItem) => SHOP_ITEM.ITEM_NAME_EN.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase())>=0 || SHOP_ITEM.ITEM_NAME_LOCAL.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase())>=0)
+  // }
+
+  go2Search(){
+    let itemModal = this.modalCtrl.create('SearchItemPage');
+    itemModal.onDidDismiss((data)=>{
+      console.log(data);
+      if(typeof(data) !=='undefined'){
+        this.item = data.ITEM;
+        this.base64Images = this.item.ITEM_IMAGES;
+        this.item.ITEM_IMG_SHARED = true;
+      }
+    });
+    itemModal.present();
+  }
+
 
 }
