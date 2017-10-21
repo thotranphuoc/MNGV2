@@ -19,16 +19,9 @@ export class ImageUploadPage {
   ACTION: string = 'New Image';
   IMAGE: iImage = null;
   isNEW: boolean = false;
-  isNEW2Update: boolean = false;
-  KEY: string = null;
-
-  // base64Images: string[] = [];
-  // base64ImagesThumbnail: string[] = [];
-  imageURL: any = null;
-  thumbnailURL: any = null;
-
-  // newPhoto: boolean = false;
-  // image = { IMG_KEYWORD: null }
+  // isNEW2Update: boolean = false;
+  isUpdatedDone: boolean = true;
+  IMG_KEY: string = null;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -41,16 +34,13 @@ export class ImageUploadPage {
     this.data = this.navParams.data;
     this.ACTION = this.data.ACTION;
     this.IMAGE = typeof (this.data.IMAGE) === 'undefined' ? null : this.data.IMAGE;
-    this.KEY = typeof (this.data.KEY) === 'undefined' ? null : this.data.KEY;
-    if (!this.IMAGE || !this.KEY) {
+    this.IMG_KEY = typeof (this.data.KEY) === 'undefined' ? null : this.data.KEY;
+
+    if (!this.IMAGE || !this.IMG_KEY) {
       this.IMAGE = this.localService.IMAGE_DEFAULT;
       this.isNEW = true;
     }
-    // this.base64Images = this.data.PHOTOS;
-    console.log(this.data, this.ACTION, this.IMAGE, this.KEY);
-    // if (typeof (this.base64Images) === 'undefined') {
-    //   this.base64Images = [];
-    // }
+    console.log(this.data, this.ACTION, this.IMAGE, this.IMG_KEY);
   }
 
   ionViewDidLoad() {
@@ -67,14 +57,11 @@ export class ImageUploadPage {
   }
 
   takePictureAndResizeByBrowser(event) {
-    // this.base64ImagesThumbnail = [];
-    // this.base64Images = [];
     // FOR THUMBNAIL
     let pro1 = this.imageService.resizeImagesFromChoosenFilesReturnPromiseWithArrayOfImageDataUrlsSizeSetable(event, 150, 150)
       .then((imgDataUrls: string[]) => {
         setTimeout(() => {
           console.log(imgDataUrls);
-          // this.base64ImagesThumbnail = imgDataUrls;
           this.IMAGE.THUM_URL = imgDataUrls[0];
         }, 2000)
       })
@@ -85,109 +72,120 @@ export class ImageUploadPage {
       .then((imgDataUrls: string[]) => {
         setTimeout(() => {
           console.log(imgDataUrls);
-          // this.base64Images = imgDataUrls;
           this.IMAGE.IMG_URL = imgDataUrls[0];
         }, 2000)
       })
       .catch((err) => console.log(err))
-    Promise.all([pro1, pro2]).then(() => {
-      this.isNEW2Update = true;
+    Promise.all([pro1, pro2]).then((res) => {
+      // this.isNEW2Update = true;
+      console.log(res);
     })
       .catch((err) => {
         console.log(err);
-        this.isNEW2Update = false;
+        // this.isNEW2Update = false;
       })
   }
-
 
   doCancel() {
     this.dismiss(true, this.IMAGE);
   }
 
-  startUploadUpdate() {
-    console.log(this.IMAGE);
-    if (!this.IMAGE.IMG_KEYWORD || !this.IMAGE.IMG_URL || !this.IMAGE.THUM_URL) {
-      console.log('Info missing');
-      alert('Information missing');
-    } else {
-      console.log('full filled');
-      let pre = this.IMAGE.IMG_URL.substr(0, 4);
-      if (pre === 'data') {
-        console.log('new image to upload');
-        this.uploadImage(this.KEY);
-      }
-    }
-  }
-
+  // ADD NEW
   startUploadNew() {
     if (!this.IMAGE.IMG_KEYWORD || !this.IMAGE.IMG_URL || !this.IMAGE.THUM_URL) {
       console.log('Info missing');
       alert('Information missing');
     } else {
+      this.isUpdatedDone = false;
       console.log('full filled');
       this.createImage();
     }
   }
 
   createImage() {
-    console.log(this.imageURL, this.thumbnailURL);
+    console.log(this.IMAGE.IMG_URL, this.IMAGE.THUM_URL);
     let IMAGE = {
-      IMG_URL: this.imageURL,
-      THUM_URL: this.thumbnailURL,
+      IMG_URL: this.IMAGE.IMG_URL,
+      THUM_URL: this.IMAGE.THUM_URL,
       IMG_KEYWORD: this.IMAGE.IMG_KEYWORD
+    };
+    if (!IMAGE.IMG_KEYWORD || !IMAGE.IMG_URL || !IMAGE.THUM_URL) {
+      console.log('Info missing');
+      alert('Information missing');
+    } else {
+      this.crudService.createImage(IMAGE)
+        .then((res) => {
+          console.log(res);
+          let IMG_KEY = res.key;
+          this.uploadImage(IMG_KEY)
+            .then((res1) => {
+              console.log(res1);
+              this.updateDB(IMG_KEY);
+            })
+            .catch((err1) => { console.log(err1) });
+        })
+        .catch((err) => { console.log(err); });
     }
-    this.crudService.createImage(IMAGE)
-      .then((res) => {
-        console.log(res);
-        let KEY = res.key;
-        // alert('database update done');
-        this.uploadImage(KEY);
-      })
-      .catch((err) => { console.log(err); });
   }
 
-  uploadImage(KEY) {
+  // UPDATE EXISTING
+  startUploadUpdate() {
+    console.log(this.IMAGE);
+    if (!this.IMAGE.IMG_KEYWORD || !this.IMAGE.IMG_URL || !this.IMAGE.THUM_URL) {
+      console.log('Info missing');
+      alert('Information missing');
+    } else {
+      this.isUpdatedDone = false;
+      console.log('full filled');
+      let pre = this.IMAGE.IMG_URL.substr(0, 4);
+
+      // if IMAGE.IMG_URL is new captured like: data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD…pCig0R47SRkAEfkdc1
+      if (pre === 'data') {
+        console.log('new image to upload');
+        this.uploadImage(this.IMG_KEY)
+          .then((res1) => {
+            console.log(res1);
+            this.updateDB(this.IMG_KEY);
+          })
+      } else {
+        this.updateDB(this.IMG_KEY);
+      }
+    }
+  }
+
+  uploadImage(IMG_KEY) {
     let PATH = 'SharedImages';
-    // let IMAGE = this.base64Images[0];
     let IMAGE = this.IMAGE.IMG_URL;
     let PATH_THUM = 'ThumbImages'
-    // let THUMBNAIL = this.base64ImagesThumbnail[0];
     let THUMBNAIL = this.IMAGE.THUM_URL;
-    // let NAME = Date.now().toString();
-    let pro1 = this.dbService.uploadBase64Image2FBReturnPromiseWithURL(PATH, IMAGE, KEY)
+    let pro1 = this.dbService.uploadBase64Image2FBReturnPromiseWithURL(PATH, IMAGE, IMG_KEY)
       .then((res: any) => {
         console.log(res);
-        this.imageURL = res;
+        this.IMAGE.IMG_URL = res;
       })
       .catch((err) => { console.log(err); });
-    let pro2 = this.dbService.uploadBase64Image2FBReturnPromiseWithURL(PATH_THUM, THUMBNAIL, KEY)
-      .then((res1) => {
+    let pro2 = this.dbService.uploadBase64Image2FBReturnPromiseWithURL(PATH_THUM, THUMBNAIL, IMG_KEY)
+      .then((res1: any) => {
         console.log(res1);
-        this.thumbnailURL = res1;
+        this.IMAGE.THUM_URL = res1;
       })
       .catch((err) => { console.log(err); });
 
     return Promise.all([pro1, pro2])
-      .then((res) => {
-        console.log('images uploaded successfully');
-        this.updateDB(KEY);
-      })
-      .catch((err) => {
-        console.log('Something went wrong', err);
-      })
   }
 
-  updateDB(KEY) {
-    // start update database
-    console.log(this.imageURL, this.thumbnailURL);
+  updateDB(IMG_KEY) {
+    console.log(this.IMAGE.IMG_URL, this.IMAGE.THUM_URL);
     let IMAGE = {
-      IMG_URL: this.imageURL,
-      THUM_URL: this.thumbnailURL,
+      IMG_URL: this.IMAGE.IMG_URL,
+      THUM_URL: this.IMAGE.THUM_URL,
       IMG_KEYWORD: this.IMAGE.IMG_KEYWORD
     }
-    this.crudService.updateImage(IMAGE, KEY)
+    this.crudService.updateImage(IMAGE, IMG_KEY)
       .then((res) => {
+        this.isUpdatedDone = true;
         console.log(res);
+        this.navCtrl.pop();
         this.dismiss(false, IMAGE);
         alert('database update done');
 
@@ -200,12 +198,5 @@ export class ImageUploadPage {
       .then((res) => { console.log(res) })
       .catch((err) => { console.log(err) })
   }
-
-
 }
 
-// export interface iImage {
-//   IMG_URL: string,
-//   THUM_URL: string,
-//   IMG_KEYWORD: string
-// }

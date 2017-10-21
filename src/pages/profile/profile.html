@@ -7,47 +7,43 @@
 </ion-header>
 
 
-<ion-content padding>
-  <form #myForm="ngForm">
+<ion-content>
+  <div>
     <div>
-      <div>
-        <ion-item *ngIf="!hasNewAvatar">
-          <ion-avatar (click)="selectPhotoByBrowser()">
-            <img src="{{PROFILE.PROFILE_AVATAR_URL}}" alt="" class="img" onError="this.src='../../assets/imgs/imagenotavailable.png';">
-          </ion-avatar>
-        </ion-item>
-        <ion-item *ngIf="hasNewAvatar">
-          <ion-avatar (click)="selectPhotoByBrowser()">
-            <img src="{{base64Images[0]}}" alt="" class="img" onError="this.src='../../assets/imgs/imagenotavailable.png';">
-          </ion-avatar>
-        </ion-item>
-      </div>
+      <ion-item *ngIf="!hasNewAvatar">
+        <ion-avatar (click)="takePhoto()">
+          <img src="{{PROFILE.PROFILE_AVATAR_URL}}" alt="" class="img" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+        </ion-avatar>
+      </ion-item>
+      <ion-item *ngIf="hasNewAvatar">
+        <ion-avatar (click)="takePhoto()">
+          <img src="{{base64Images[0]}}" alt="" class="img" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+        </ion-avatar>
+      </ion-item>
     </div>
+  </div>
+  <form #myForm="ngForm">
     <ion-item>
-      <ion-label fixed>Name</ion-label>
-      <ion-input type="text" [(ngModel)]="PROFILE.PROFILE_NAME" name="PROFILE_NAME" required></ion-input>
+      <ion-icon name="logo-angular" item-left></ion-icon>
+      <ion-input required [(ngModel)]="PROFILE.PROFILE_NAME" name="PROFILE_NAME" type="text" id="name" placeholder="Name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Email</ion-label>
-      <ion-input type="email" [(ngModel)]="PROFILE.PROFILE_EMAIL" name="PROFILE_EMAIL" required></ion-input>
+      <ion-icon name="md-mail" item-left></ion-icon>
+      <ion-input required [(ngModel)]="PROFILE.PROFILE_EMAIL" name="PROFILE_EMAIL" type="text" id="name" placeholder="Email"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Birthday</ion-label>
-      <ion-input type="date" [(ngModel)]="PROFILE.PROFILE_BIRTHDAY" name="PROFILE_BIRTHDAY" required></ion-input>
+      <ion-icon name="ios-calendar" item-left></ion-icon>
+      <ion-input required [(ngModel)]="PROFILE.PROFILE_BIRTHDAY" name="PROFILE_BIRTHDAY" type="date" id="name" placeholder="Birthday"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Telephone</ion-label>
-      <ion-input type="text" [(ngModel)]="PROFILE.PROFILE_TEL" name="PROFILE_TEL" required></ion-input>
+      <ion-icon name="md-call" item-left></ion-icon>
+      <ion-input required [(ngModel)]="PROFILE.PROFILE_TEL" name="PROFILE_TEL" type="text" id="name" placeholder="Telephone"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Address</ion-label>
-      <ion-input type="text" [(ngModel)]="PROFILE.PROFILE_ADDRESS" name="PROFILE_ADDRESS" required></ion-input>
+      <ion-icon name="md-home" item-left></ion-icon>
+      <ion-input required [(ngModel)]="PROFILE.PROFILE_ADDRESS" name="PROFILE_ADDRESS" type="text" id="name" placeholder="Name"></ion-input>
     </ion-item>
 
   </form>
-  <button ion-button block (click)="onUpdateProfile(myForm)">Update</button>
-
-  <!--for photo by browser-->
-  <input type="file" (change)="takePictureAndResizeByBrowser($event)" id="inputFile" hidden accept="image/*">
-
+  <button ion-button block (click)="onUpdateProfile(myForm)" [disabled]="!myForm.valid">Update</button>
 </ion-content>

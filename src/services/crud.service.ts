@@ -11,6 +11,7 @@ import { iOrder } from '../interfaces/order.interface';
 import { iItem } from '../interfaces/item.interface';
 import { iProfile } from '../interfaces/profile.interface';
 import { iShop } from '../interfaces/shop.interface';
+import { iImage } from '../interfaces/image.interface';
 
 @Injectable()
 
@@ -29,7 +30,8 @@ export class CrudService {
     // 1. Create account
     accountSignUp(EMAIL: string, PASSWORD: string) {
         return new Promise((resolve, reject) => {
-            this.authService.signUp(EMAIL, PASSWORD).then((res) => {
+            this.authService.signUp(EMAIL, PASSWORD)
+            .then((res) => {
                 // update to DB Accounts
                 let USER_ID = res.uid;
                 let PROFILE: iProfile = {
@@ -54,6 +56,9 @@ export class CrudService {
                     .catch((err) => {
                         reject(err);
                     })
+            })
+            .catch((err)=>{
+                this.appService.alertError('Failed', err.message);
             })
         })
     }
@@ -219,9 +224,15 @@ export class CrudService {
             //         reject(err);
             //     })
         })
-
-
     }
+
+    // PROFILE - CREATE - READ - UPDATE - DELETE
+
+    createProfile(PROFILE: iProfile){
+        return this.dbService.updateAnObjectAtNode('UserProfiles/'+PROFILE.PROFILE_UID, PROFILE)
+    }
+
+
 
     //----- SHOP CREATE - READ - UPDATE - DELETE -----
     createNewShop(SHOP: iShop, images: string[]) {
@@ -535,7 +546,7 @@ export class CrudService {
 
     // SAMPLE-IMAGE 
     // Create
-    createImage(IMAGE) {
+    createImage(IMAGE: iImage) {
         return this.dbService.insertOneNewItemReturnPromise(IMAGE, 'Images/')
     }
 
@@ -550,7 +561,7 @@ export class CrudService {
     }
 
     // Update
-    updateImage(IMAGE, IMG_ID) {
+    updateImage(IMAGE: iImage, IMG_ID) {
         return this.dbService.updateAnObjectAtNode('Images/' + IMG_ID, IMAGE)
     }
 

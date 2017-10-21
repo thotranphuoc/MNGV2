@@ -93,8 +93,8 @@ export class AccountPage {
         this.navCtrl.push('HomePage');
       })
       .catch((err) => {
-        console.log('account registered failed');
-        this.appService.alertMsg('Fail', 'account created fail');
+        console.log('Wrong email');
+        this.appService.alertMsg('Fail', this.resetAccount.email+' not registered yet');
       })
   }
 

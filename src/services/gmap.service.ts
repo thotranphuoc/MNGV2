@@ -333,6 +333,10 @@ export class GmapService {
                 console.log(SHOP);
                 // let popover = this.popoverCtrl.create('PopOverPage', data).present();
                 this.popoverCtrl.create('PopOverPage', { SHOP: SHOP }).present()
+                .then((res)=>{ console.log(res); })
+                .catch((err)=>{
+                    console.log(err);
+                })
             })
         })
     }

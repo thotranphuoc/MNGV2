@@ -87,7 +87,7 @@ export class SearchShopPage {
 
   //click and paste shareable url
   shareShop(SHOP: iShop) {
-    let copiedString = 'menu2book.com/#/mapx/' + SHOP.SHOP_ID;
+    let copiedString = 'menu2book.com/#/m/' + SHOP.SHOP_ID;
     console.log(copiedString);
     this.clipboardService.copy(copiedString)
       .then((res) => {
@@ -102,7 +102,7 @@ export class SearchShopPage {
 
   showShopOnMap(SHOP) {
     let copiedString = 'menu2book.com/#/shop/' + SHOP.SHOP_ID;
-    this.viewCtrl.dismiss({ SHOPS: [SHOP], PAGE: 'MPage' })
+    this.viewCtrl.dismiss({ SHOPS: [SHOP], PAGE: 'MapxPage' })
       .then((res) => {
         console.log(res);
       })
@@ -113,7 +113,7 @@ export class SearchShopPage {
 
   showResultOnMap() {
     console.log('showResultOnMap ...');
-    this.viewCtrl.dismiss({ SHOPS: this.shopList, PAGE: 'MPage' })
+    this.viewCtrl.dismiss({ SHOPS: this.shopList, PAGE: 'MapxPage' })
       .then((res) => {
         console.log(res);
       })

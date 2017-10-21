@@ -4,7 +4,8 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{SHOP?.SHOP_NAME}}</ion-title>
+    <ion-title *ngIf="SHOPS?.length==1">{{SHOPS[0]?.SHOP_NAME}}</ion-title>
+    <ion-title *ngIf="SHOPS?.length!==1">RESULTS</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -12,17 +13,4 @@
 
 <ion-content>
   <div #map id="map"></div>
-  <div class="distanceInfo">
-    <ion-grid>
-      <ion-row>
-        <ion-col col-7>
-          {{DISTANCE}} KM away...
-        </ion-col>
-        <ion-col>
-          <p (click)="go2Shop()" class="go">GO THERE</p>
-          <!-- <button ion-button clear block (click)="go2Shop()" no-padding>Go</button> -->
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
 </ion-content>

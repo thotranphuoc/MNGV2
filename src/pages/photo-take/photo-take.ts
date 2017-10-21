@@ -15,8 +15,6 @@ export class PhotoTakePage {
   data: any;
   base64Images: string[] = [];
   newPhoto: boolean = false;
-  THUM_URL_DATA: string;
-  IMG_URL_DATA: string;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -54,7 +52,6 @@ export class PhotoTakePage {
       setTimeout(() => {
         console.log(imgDataUrls);
         // this.base64Images = imgDataUrls;
-        this.IMG_URL_DATA = imgDataUrls[0];
         this.base64Images.push(imgDataUrls[0]);
       }, 2000)
     })
@@ -65,7 +62,6 @@ export class PhotoTakePage {
         setTimeout(() => {
           console.log(imgDataUrls);
           // this.base64ImagesThumbnail = imgDataUrls;
-          this.THUM_URL_DATA = imgDataUrls[0];
           this.base64Images.push(imgDataUrls[0]);
         }, 2000)
       })

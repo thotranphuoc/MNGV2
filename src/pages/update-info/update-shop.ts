@@ -19,6 +19,7 @@ export class UpdateShopPage {
   SHOP: iShop = null;
   PROFILE: iProfile;
   base64Images: any[];
+  hasNewImages: boolean = false;
   // TABLES: string[] = [];
   isInfoFullFilled: boolean = true;
   ERROR: string;
@@ -81,29 +82,25 @@ export class UpdateShopPage {
   }
 
   takePhotos() {
-    this.selectPhotosByBrowser();
-  }
+    console.log('take Photo');
+    let photosModal = this.modalCtrl.create('PhotoTakePage', { PHOTOS: this.base64Images });
+    photosModal.onDidDismiss((data) => {
+      console.log(data);
+      this.base64Images = [data.PHOTOS[0]];
+      this.hasNewImages = true;
+      let NAME = new Date().getTime().toString();
+      this.dbService.uploadBase64Images2FBReturnPromiseWithArrayOfURL('ShopImages/' + this.SHOP.SHOP_ID, this.base64Images, NAME)
+        .then((urls) => {
+          // add this.SHOP.SHOP_IMAGES then update to db
+          this.SHOP.SHOP_IMAGES = this.SHOP.SHOP_IMAGES.concat(urls);
+          this.dbService.updateAnObjectAtNode('Shops/' + this.SHOP.SHOP_ID + '/SHOP_IMAGES', this.SHOP.SHOP_IMAGES)
+        })
+        .catch((err) => { console.log(err); });
 
-  selectPhotosByBrowser() {
-    document.getElementById('inputFile').click();
-  }
-
-  takePictureAndResizeByBrowser(event) {
-    this.imageService.resizeImagesFromChoosenFilesReturnPromiseWithArrayOfImageDataUrls(event)
-      .then((imgDataUrls: string[]) => {
-        setTimeout(() => {
-          console.log(imgDataUrls);
-          this.base64Images = imgDataUrls;
-          let NAME = new Date().getTime().toString();
-          this.dbService.uploadBase64Images2FBReturnPromiseWithArrayOfURL('ShopImages/' + this.SHOP.SHOP_ID, this.base64Images, NAME)
-            .then((urls) => {
-              // add this.SHOP.SHOP_IMAGES then update to db
-              this.SHOP.SHOP_IMAGES = this.SHOP.SHOP_IMAGES.concat(urls);
-              this.dbService.updateAnObjectAtNode('Shops/' + this.SHOP.SHOP_ID + '/SHOP_IMAGES', this.SHOP.SHOP_IMAGES)
-            })
-            .catch((err) => { console.log(err); });
-        }, 1000);
-      })
+    });
+    photosModal.present()
+      .then((res) => { console.log(res) })
+      .catch((err) => { console.log(err) })
   }
 
   removePhoto(image, i) {
@@ -287,8 +284,8 @@ export class UpdateShopPage {
 
   addNewCategory(cat: string) {
     let length = cat.trim().length;
-    if(length>0){
-      if(this.SHOP.SHOP_CATEGORIES){
+    if (length > 0) {
+      if (this.SHOP.SHOP_CATEGORIES) {
         let index = this.SHOP.SHOP_CATEGORIES.map(cat => cat.toLocaleLowerCase()).indexOf(cat.toLocaleLowerCase())
         // let index = this.TABLES.indexOf(table);
         if (index < 0) {
@@ -296,12 +293,12 @@ export class UpdateShopPage {
         } else {
           alert(cat + ' already exists');
         }
-      }else{
+      } else {
         this.SHOP['SHOP_CATEGORIES'] = [cat];
         console.log(this.SHOP);
       }
-    }else{
-      this.appService.alertError('Error','Cannot be empty');
+    } else {
+      this.appService.alertError('Error', 'Cannot be empty');
     }
   }
 
@@ -350,6 +347,4 @@ export class UpdateShopPage {
     }
     console.log(this.isInfoFullFilled, '<--isInfoFullfilled?');
   }
-
-
 }

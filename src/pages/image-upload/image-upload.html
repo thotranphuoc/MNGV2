@@ -1,50 +1,10 @@
 <ion-header>
 
   <ion-navbar>
-    <!-- <ion-buttons start>
-          <button ion-button (click)="setPhotos()">Close</button>
-        </ion-buttons> -->
     <ion-title>{{ACTION | uppercase}}</ion-title>
   </ion-navbar>
 
 </ion-header>
-
-
-<!-- <ion-content padding>
-
-  <ion-item>
-    <div text-center>
-      <ion-icon name="ios-camera-outline" (click)="takePhoto()"></ion-icon>
-    </div>
-  </ion-item>
-  <p>Image: width-max: 750, height-max: 750</p>
-  <div *ngIf="base64Images">
-    <div *ngFor="let base64Image of base64Images; let i = index" text-center>
-      <img src="{{base64Image}}" alt="" (click)="selectPhoto(i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
-    </div>
-  </div>
-  <p>Thumbnail: width-max: 150, height-max: 150</p>
-  <div *ngIf="base64ImagesThumbnail">
-    <div *ngFor="let base64Image of base64ImagesThumbnail; let i = index" text-center>
-      <img src="{{base64Image}}" alt="" (click)="selectPhoto(i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
-    </div>
-  </div>
-  <p>Key words:</p>
-  <ion-input type="text" [(ngModel)]="image.KEYWORDS" name="KEYWORDS" placeholder="Enter some keyworks for seaching purpose"></ion-input>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <button ion-button block color="danger" (click)="doCancel()">Cancel</button>
-      </ion-col>
-      <ion-col>
-        <button ion-button block color="secondary" (click)="startUpload()">Upload</button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <input type="file" (change)="takePictureAndResizeByBrowser($event)" hidden accept="image/*" id="inputFile">
-</ion-content> -->
-
 <ion-content padding>
 
   <ion-item>
@@ -54,19 +14,11 @@
   </ion-item>
   <p>WxH: 750x750</p>
   <div *ngIf="IMAGE">
-    <!-- <div *ngFor="let base64Image of base64Images; let i = index" text-center>
-        <img src="{{base64Image}}" alt="" (click)="selectPhoto(i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
-      </div> -->
     <div>
       <img src="{{IMAGE.IMG_URL}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
     </div>
   </div>
   <p>WxH: 150x150</p>
-  <!-- <div *ngIf="base64ImagesThumbnail">
-      <div *ngFor="let base64Image of base64ImagesThumbnail; let i = index" text-center>
-        <img src="{{base64Image}}" alt="" (click)="selectPhoto(i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
-      </div>
-    </div> -->
   <div *ngIf="IMAGE">
     <img src="{{IMAGE.THUM_URL}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';">
   </div>
@@ -80,7 +32,7 @@
         <button ion-button block color="danger" (click)="doCancel()">Cancel</button>
       </ion-col>
       <ion-col>
-        <button ion-button block color="secondary" (click)="startUploadNew()">OK</button>
+        <button ion-button block color="secondary" (click)="startUploadNew()" [disabled]="!isUpdatedDone">OK</button>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="!isNEW">
@@ -88,7 +40,7 @@
         <button ion-button block color="danger" (click)="doCancel()">Cancel</button>
       </ion-col>
       <ion-col>
-        <button ion-button block color="secondary" (click)="startUploadUpdate()" [disabled]="!isNEW2Update">Update</button>
+        <button ion-button block color="secondary" (click)="startUploadUpdate()" [disabled]="!isUpdatedDone">Update</button>
       </ion-col>
     </ion-row>
   </ion-grid>

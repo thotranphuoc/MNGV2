@@ -101,7 +101,7 @@ export class ListPage {
 
    //click and paste shareable url
    shareShop(SHOP: iShop){
-    let copiedString = 'menu2book.com/#/mapx/'+SHOP.SHOP_ID;
+    let copiedString = 'menu2book.com/#/m/'+SHOP.SHOP_ID;
     console.log(copiedString);
     this.clipboardService.copy(copiedString)
     .then((res)=>{
@@ -115,7 +115,7 @@ export class ListPage {
   }
 
   showShopOnMap(SHOP: iShop){
-    this.navCtrl.setRoot('MPage', { SHOPS: [SHOP]});
+    this.navCtrl.setRoot('MapxPage', { SHOPS: [SHOP]});
   }
 
 }
