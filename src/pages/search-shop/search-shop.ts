@@ -8,6 +8,7 @@ import {
 } from 'angularfire2/database';
 import { ClipboardService } from '../../services/clipboard.service';
 import { AppService } from '../../services/app.service';
+import { GmapService } from '../../services/gmap.service';
 import { iShop } from '../../interfaces/shop.interface';
 
 @IonicPage()
@@ -16,7 +17,7 @@ import { iShop } from '../../interfaces/shop.interface';
   templateUrl: 'search-shop.html',
 })
 export class SearchShopPage {
-  shopList: iShop[] = [];
+  shopList: any[] = [];
   srcStr: string = '';
   showReportForm: boolean = false;
   constructor(
@@ -25,9 +26,10 @@ export class SearchShopPage {
     private viewCtrl: ViewController,
     private afDB: AngularFireDatabase,
     private clipboardService: ClipboardService,
-    private appService: AppService
+    private appService: AppService,
+    private gmapService: GmapService
   ) {
-    
+
   }
 
   ionViewDidLoad() {
@@ -61,9 +63,12 @@ export class SearchShopPage {
     this.afDB.list('Shops/').forEach((shops: iShop[]) => {
       this.shopList = shops.filter(shop => shop.SHOP_NAME.toLocaleLowerCase().indexOf(searchStr.toLocaleLowerCase()) >= 0);
       console.log(this.shopList);
-      // if(this.shopList.length>0){
-      //   this.shopsR
-      // }
+      this.shopList.map((shop=> shop['distance']= this.gmapService.getDistanceFromCurrent(shop.SHOP_LOCATION.lat, shop.SHOP_LOCATION.lng)));
+      this.shopList.sort((a, b) => {
+        let ax = a.distance.distance;
+        let bx = b.distance.distance;
+        return ax - bx;
+      })
     })
       .then(() => {
         console.log(this.shopList);
