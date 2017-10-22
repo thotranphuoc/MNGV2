@@ -14,5 +14,12 @@
 
 
 <ion-content padding>
+  <ion-item *ngFor="let SHOP of SHOPS | async" (click)="uploadImage(SHOP)">
+    <p>{{SHOP?.SHOP_NAME}}</p>
+    <p>{{SHOP.SHOP_ADDRESS}}</p>
+    <div>
+        <img *ngIf="SHOP.SHOP_IMAGES !=null" src="{{SHOP.SHOP_IMAGES[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png'" >
+    </div>
+  </ion-item>
 
 </ion-content>

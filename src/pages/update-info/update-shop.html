@@ -10,15 +10,19 @@
 <ion-content padding>
   <div *ngIf="SHOP">
     <ion-card>
-      <div>
+      <!-- <div>
         <ion-slides pager>
           <ion-slide *ngFor="let SHOP_IMAGE of SHOP.SHOP_IMAGES; let i = index">
             <img src="{{SHOP_IMAGE}}" alt="" (click)="clickImage(SHOP_IMAGE, i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
           </ion-slide>
         </ion-slides>
+      </div> -->
+      <div>
+        <!-- <img src="{{SHOP.SHOP_IMAGES[0]}}" alt="" (click)="clickImage(SHOP_IMAGE, i)" onError="this.src='../../assets/imgs/imagenotavailable.png';"> -->
+        <img *ngIf="SHOP.SHOP_IMAGES !=null"  src="{{SHOP.SHOP_IMAGES[0]}}" alt="" (click)="takePhotos()" onError="this.src='../../assets/imgs/imagenotavailable.png';">
       </div>
       <div padding *ngIf="!SHOP.SHOP_IMAGES" text-center>
-        <ion-icon name="md-images" style="font-size: 5em"></ion-icon>
+        <ion-icon name="md-images" style="font-size: 5em" (click)="takePhotos()"></ion-icon>
       </div>
     </ion-card>
 

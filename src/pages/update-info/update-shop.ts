@@ -52,50 +52,56 @@ export class UpdateShopPage {
     console.log('ionViewDidLoad UpdateInfoPage');
   }
 
-  clickImage(image, i) {
-    console.log(image, i)
-    let actionSheet = this.actionSheetCtrl.create({
-      buttons: [
-        {
-          text: 'Delete this photo',
-          role: 'destructive',
-          handler: () => {
-            console.log('Delete clicked');
-            this.removePhoto(image, i);
-          }
-        }, {
-          text: 'Add new photos',
-          handler: () => {
-            console.log('Add new clicked');
-            this.takePhotos();
-          }
-        }, {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    actionSheet.present();
-  }
+  // clickImage(image, i) {
+  //   console.log(image, i)
+  //   let actionSheet = this.actionSheetCtrl.create({
+  //     buttons: [
+  //       {
+  //         text: 'Delete this photo',
+  //         role: 'destructive',
+  //         handler: () => {
+  //           console.log('Delete clicked');
+  //           this.removePhoto(image, i);
+  //         }
+  //       }, {
+  //         text: 'Add new photos',
+  //         handler: () => {
+  //           console.log('Add new clicked');
+  //           this.takePhotos();
+  //         }
+  //       }, {
+  //         text: 'Cancel',
+  //         role: 'cancel',
+  //         handler: () => {
+  //           console.log('Cancel clicked');
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   actionSheet.present();
+  // }
 
   takePhotos() {
     console.log('take Photo');
     let photosModal = this.modalCtrl.create('PhotoTakePage', { PHOTOS: this.base64Images });
     photosModal.onDidDismiss((data) => {
       console.log(data);
-      this.base64Images = [data.PHOTOS[0]];
-      this.hasNewImages = true;
-      let NAME = new Date().getTime().toString();
-      this.dbService.uploadBase64Images2FBReturnPromiseWithArrayOfURL('ShopImages/' + this.SHOP.SHOP_ID, this.base64Images, NAME)
-        .then((urls) => {
-          // add this.SHOP.SHOP_IMAGES then update to db
-          this.SHOP.SHOP_IMAGES = this.SHOP.SHOP_IMAGES.concat(urls);
-          this.dbService.updateAnObjectAtNode('Shops/' + this.SHOP.SHOP_ID + '/SHOP_IMAGES', this.SHOP.SHOP_IMAGES)
-        })
-        .catch((err) => { console.log(err); });
+      if (!data.isCancel) {
+        // this.base64Images = [data.PHOTOS[0]];
+        this.base64Images = data.PHOTOS;
+        this.hasNewImages = true;
+        // let NAME = new Date().getTime().toString();
+        let NAME = this.SHOP.SHOP_ID;
+        this.dbService.uploadBase64Images2FBReturnPromiseWithArrayOfURL('ShopImages/' + this.SHOP.SHOP_ID, this.base64Images, NAME)
+          .then((urls) => {
+            // add this.SHOP.SHOP_IMAGES then update to db
+            this.SHOP.SHOP_IMAGES = urls;
+            this.dbService.updateAnObjectAtNode('Shops/' + this.SHOP.SHOP_ID + '/SHOP_IMAGES', this.SHOP.SHOP_IMAGES)
+          })
+          .catch((err) => { console.log(err); });
+      } else {
+        console.log('cancel: do nothing');
+      }
 
     });
     photosModal.present()
@@ -103,20 +109,20 @@ export class UpdateShopPage {
       .catch((err) => { console.log(err) })
   }
 
-  removePhoto(image, i) {
-    this.SHOP.SHOP_IMAGES.splice(i, 1);
-    // update db. Remember to delete removed image from firebase storage
-    this.dbService.deleteFileFromFireStorageWithHttpsURL(image)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err))
-    this.dbService.updateAnObjectAtNode('Shops/' + this.SHOP.SHOP_ID + '/SHOP_IMAGES', this.SHOP.SHOP_IMAGES)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err))
-  }
+  // removePhoto(image, i) {
+  //   this.SHOP.SHOP_IMAGES.splice(i, 1);
+  //   // update db. Remember to delete removed image from firebase storage
+  //   this.dbService.deleteFileFromFireStorageWithHttpsURL(image)
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => console.log(err))
+  //   this.dbService.updateAnObjectAtNode('Shops/' + this.SHOP.SHOP_ID + '/SHOP_IMAGES', this.SHOP.SHOP_IMAGES)
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => console.log(err))
+  // }
 
   update() {
     this.checkInfoFullFilled();

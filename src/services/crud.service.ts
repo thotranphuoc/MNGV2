@@ -248,7 +248,7 @@ export class CrudService {
                         .then(() => { '2. Update SHOP_ID' });
 
                     // 3. upload images
-                    let name = new Date().getTime().toString();
+                    let name = SHOP_ID;
                     let pro2 = this.dbService.uploadBase64Images2FBReturnPromiseWithArrayOfURL('ShopImages/' + SHOP_ID, images, name)
                         .then((urls) => {
                             console.log('3. upload images');
@@ -278,7 +278,7 @@ export class CrudService {
 
                     Promise.all([pro1, pro2, pro3, pro4, pro5])
                         .then(() => {
-                            resolve({ message: 'add new shop successfull' });
+                            resolve({ message: 'add new shop successfull', SHOP_ID: SHOP_ID });
                         })
                         .catch((err) => {
                             reject(err);

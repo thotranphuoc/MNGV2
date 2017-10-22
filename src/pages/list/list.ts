@@ -27,26 +27,34 @@ export class ListPage {
     private appService: AppService
   ) {
     this.data = this.navParams.data;
-    this.shopList = this.data.shops;
+    // this.shopList = this.data.SHOPS;
     console.log(this.data);
-    console.log(this.shopList);
-    if (typeof (this.shopList) !== 'undefined') {
+    // console.log(this.shopList);
+    if (typeof (this.data.SHOPS) !== 'undefined') {
+      this.isBackable = false;
+      this.shopList = this.data.SHOPS;
+      this.addDistanceThenSorted();
+    } else if (typeof (this.data.shops) !== 'undefined') {
+      console.log(this.data.shops);
+      this.shopList = this.data.shops;
       this.isBackable = true;
       this.addDistanceThenSorted();
     } else {
       this.isBackable = false;
-      if(this.localService.SHOPs_NEARBY_DETAIL.length>0){
+      if (this.localService.SHOPs_NEARBY_DETAIL.length > 0) {
         console.log(this.localService.SHOPs_NEARBY_DETAIL)
         this.shopList = Array.from(new Set(this.localService.SHOPs_NEARBY_DETAIL));
         this.addDistanceThenSorted();
-      }else{
-        // this.navCtrl.setRoot('HomePage');
+      } else {
+        this.navCtrl.setRoot('HomePage');
       }
-      
+
     }
   }
 
-  addDistanceThenSorted(){
+
+
+  addDistanceThenSorted() {
     this.shopList.forEach((shop: iShop) => {
       shop['distance'] = this.gmapService.getDistanceFromCurrent(shop.SHOP_LOCATION.lat, shop.SHOP_LOCATION.lng);
     })
@@ -64,23 +72,23 @@ export class ListPage {
 
   go2Shop(shop: iShop) {
     console.log(shop.SHOP_OTHER);
-    if('SHOP_OTHER' in shop){
+    if ('SHOP_OTHER' in shop) {
       console.log(shop.SHOP_OTHER);
 
       // if isVERIFIED exist
-      if('isVERIFIED' in shop.SHOP_OTHER){
-        if(shop.SHOP_OTHER.isVERIFIED){
+      if ('isVERIFIED' in shop.SHOP_OTHER) {
+        if (shop.SHOP_OTHER.isVERIFIED) {
           console.log('isVERIFIED TRUE');
           this.navCtrl.setRoot('Shop2Page', { SHOP: shop });
-        }else{
+        } else {
           console.log('isVERIFIED FALSE');
           this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
         }
-      }else{
+      } else {
         console.log('isVERIFIED not exist');
         this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
       }
-    }else{
+    } else {
       console.log('no SHOP_OTHER')
       this.navCtrl.setRoot('Shop1Page', { SHOP: shop });
     }
@@ -94,28 +102,28 @@ export class ListPage {
     }
   }
 
-  go2ShopDetailView(shop){
+  go2ShopDetailView(shop) {
     console.log('go2ShopDetailView', shop);
-    this.navCtrl.push('ShopDetailViewPage', { SHOP: shop});
+    this.navCtrl.push('ShopDetailViewPage', { SHOP: shop });
   }
 
-   //click and paste shareable url
-   shareShop(SHOP: iShop){
-    let copiedString = 'menu2book.com/#/m/'+SHOP.SHOP_ID;
+  //click and paste shareable url
+  shareShop(SHOP: iShop) {
+    let copiedString = 'menu2book.com/#/m/' + SHOP.SHOP_ID;
     console.log(copiedString);
     this.clipboardService.copy(copiedString)
-    .then((res)=>{
-      console.log(res);
-      // alert(copiedString + ' copied');
-      this.appService.toastMsgWithPosition('Copied !', 3000, 'middle');
-    })
-    .catch((err)=>{
-      console.log(err);
-    })
+      .then((res) => {
+        console.log(res);
+        // alert(copiedString + ' copied');
+        this.appService.toastMsgWithPosition('Copied !', 3000, 'middle');
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
-  showShopOnMap(SHOP: iShop){
-    this.navCtrl.setRoot('MapxPage', { SHOPS: [SHOP]});
+  showShopOnMap(SHOP: iShop) {
+    this.navCtrl.setRoot('MapxPage', { SHOPS: [SHOP] });
   }
 
 }

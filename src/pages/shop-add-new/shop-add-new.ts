@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, 
+import {
+  IonicPage, NavController, NavParams, ModalController,
   // ViewController, 
-  ActionSheetController, AlertController } from 'ionic-angular';
+  ActionSheetController, AlertController
+} from 'ionic-angular';
 
 import { iShop } from '../../interfaces/shop.interface';
 import { LocalService } from '../../services/local.service';
@@ -54,7 +56,18 @@ export class ShopAddNewPage {
 
   takePhotos() {
     console.log('takePhotos');
-    this.selectPhotosByBrowser();
+    // this.selectPhotosByBrowser();
+    let photosModal = this.modalCtrl.create('PhotoTakePage', { PHOTOS: this.base64Images });
+    photosModal.onDidDismiss((data) => {
+      console.log(data);
+      // this.base64Images = data.PHOTOS;
+      // this.hasNewAvatar = true;
+      this.base64Images = typeof (data) !== 'undefined' ? data.PHOTOS: this.base64Images;
+    });
+    photosModal.present()
+      .then((res) => { console.log(res) })
+      .catch((err) => { console.log(err) })
+
   }
 
   selectPhotosByBrowser() {
@@ -72,38 +85,38 @@ export class ShopAddNewPage {
       })
   }
 
-  clickImage(image, i) {
-    console.log(image, i)
-    let actionSheet = this.actionSheetCtrl.create({
-      buttons: [
-        {
-          text: 'Delete this photo',
-          role: 'destructive',
-          handler: () => {
-            console.log('Delete clicked');
-            this.removePhoto(image, i);
-          }
-        }, {
-          text: 'Add new photos',
-          handler: () => {
-            console.log('Add new clicked');
-            this.takePhotos();
-          }
-        }, {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    actionSheet.present();
-  }
+  // clickImage(image, i) {
+  //   console.log(image, i)
+  //   let actionSheet = this.actionSheetCtrl.create({
+  //     buttons: [
+  //       {
+  //         text: 'Delete this photo',
+  //         role: 'destructive',
+  //         handler: () => {
+  //           console.log('Delete clicked');
+  //           this.removePhoto(image, i);
+  //         }
+  //       }, {
+  //         text: 'Add new photos',
+  //         handler: () => {
+  //           console.log('Add new clicked');
+  //           this.takePhotos();
+  //         }
+  //       }, {
+  //         text: 'Cancel',
+  //         role: 'cancel',
+  //         handler: () => {
+  //           console.log('Cancel clicked');
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   actionSheet.present();
+  // }
 
-  removePhoto(image, i) {
-    this.base64Images.splice(i, 1);
-  }
+  // removePhoto(image, i) {
+  //   this.base64Images.splice(i, 2);
+  // }
 
   createShop() {
     this.hasPosted = true;
@@ -201,7 +214,7 @@ export class ShopAddNewPage {
     }).present();
   }
 
-  selectKind(){
+  selectKind() {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Select one',
       buttons: [
@@ -239,7 +252,7 @@ export class ShopAddNewPage {
             console.log('Other clicked');
             this.setKind('Other');
           }
-        },{
+        }, {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
@@ -251,14 +264,14 @@ export class ShopAddNewPage {
     actionSheet.present();
   }
 
-  setKind(KIND){
+  setKind(KIND) {
     this.isKindSet = true;
     this.SHOP.SHOP_KIND = KIND;
     console.log(KIND);
   }
 
-  
-  reset(){
+
+  reset() {
     this.SHOP = this.localService.SHOP_DEFAULT;
   }
 

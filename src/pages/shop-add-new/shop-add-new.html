@@ -11,16 +11,28 @@
 
 <ion-content>
   <ion-card>
-    <div>
+    <!-- <div text-center>
       <ion-slides pager>
-        <ion-slide *ngFor="let SHOP_IMAGE of base64Images; let i = index">
-          <img src="{{SHOP_IMAGE}}" alt="" (click)="clickImage(SHOP_IMAGE, i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+        <div  *ngFor="let SHOP_IMAGE of base64Images; let i = index">
+          <ion-slide *ngIf="i%2==0">
+          <div>
+            <img src="{{SHOP_IMAGE}}" alt="" (click)="clickImage(SHOP_IMAGE, i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+          </div>
+        </ion-slide>
+        </div>
+        <ion-slide *ngFor="let SHOP_IMAGE of base64Images; let i = index"  *ngIf="i%2 ==0">
+          <div>
+            <img src="{{SHOP_IMAGE}}" alt="" (click)="clickImage(SHOP_IMAGE, i)" onError="this.src='../../assets/imgs/imagenotavailable.png';">
+          </div>
         </ion-slide>
       </ion-slides>
+    </div> -->
+    <div padding text-center>
+      <img src="{{base64Images[0]}}" alt="" onError="this.src='../../assets/imgs/imagenotavailable.png';" (click)="takePhotos()">
     </div>
-    <div padding *ngIf="!base64Images[0]" text-center (click)="takePhotos()">
+    <!-- <div padding *ngIf="!base64Images[0]" text-center (click)="takePhotos()">
       <ion-icon name="ios-camera-outline" style="font-size: 5em"></ion-icon>
-    </div>
+    </div> -->
   </ion-card>
   <form #myForm="ngForm" autocomplete="off" novalidate id="myForm">
     <ion-item>
@@ -52,8 +64,8 @@
       <p>Latitute: <span *ngIf="SHOP.SHOP_LOCATION">{{SHOP.SHOP_LOCATION.lat}}</span></p>
       <p>Longitute: <span *ngIf="SHOP.SHOP_LOCATION">{{SHOP.SHOP_LOCATION.lng}}</span></p>
     </ion-item>
-    <button ion-button block (click)="createShop()" [disabled]="hasPosted">Create</button>
+    <button ion-button block (click)="createShop()" [disabled]="!myForm.valid" *ngIf="!hasPosted">Create</button>
   </form>
-  <input type="file" (change)="takePictureAndResizeByBrowser($event)" hidden accept="image/*" id="inputFile" multiple>
+  <!-- <input type="file" (change)="takePictureAndResizeByBrowser($event)" hidden accept="image/*" id="inputFile" multiple> -->
 
 </ion-content>

@@ -15,7 +15,7 @@ import { iImage } from '../interfaces/image.interface';
 
 export class LocalService {
     SHOPs_LOCATION: any[] = [];
-    SHOPs_NEARBY: any[] = [];
+    SHOPs_ID_NEARBY: any[] = [];
     SHOP_LOADED: boolean = false;
     SHOPs_NEARBY_DETAIL: any[] = []
     SHOP_DEFAULT: iShop = {

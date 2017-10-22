@@ -47,6 +47,7 @@ export class HomePage {
     this.gmapService.getUserCurrentPosition()
       .then((pos: iPosition) => {
         this.USER_LOCATION = pos;
+        console.log('current location:', this.USER_LOCATION);
         this.getShopsNearby(this.USER_LOCATION.lat, this.USER_LOCATION.lng);
       })
       .catch((err) => {
@@ -70,7 +71,6 @@ export class HomePage {
   }
 
   getShopsNearby(LAT: number, LNG: number) {
-
     if (!this.localService.SHOP_LOADED) {
       this.shopService.getShopsNearBy(LAT, LNG)
         .then((res: any) => {
@@ -78,9 +78,9 @@ export class HomePage {
           this.SHOPS_ID = res.SHOP_IDs;
           this.SHOPS_LOCATION = res.SHOP_locations;
           this.localService.SHOPs_LOCATION = res.SHOP_locations;
-          this.localService.SHOPs_NEARBY = res.SHOP_IDs;
+          this.localService.SHOPs_ID_NEARBY = res.SHOP_IDs;
           this.localService.SHOP_LOADED = true;
-          this.shopService.getShopsInDetail(res.SHOP_IDs);
+          this.shopService.getShopsInDetail(this.SHOPS_ID);
           this.hideLoading();
         })
         .catch((err) => {
@@ -144,7 +144,8 @@ export class HomePage {
     let data = {
       USER_LOCATION: this.USER_LOCATION,
       SHOPS_ID: this.SHOPS_ID,
-      SHOPS_LOCATION: this.SHOPS_LOCATION
+      SHOPS_LOCATION: this.SHOPS_LOCATION,
+      SHOPS: this.localService.SHOPs_NEARBY_DETAIL
     }
     this.navCtrl.setRoot('ListPage', data);
   }
